@@ -1,8 +1,11 @@
+@import "./styles/variables.scss";
+
 html,
 body {
   display: block;
   font-size: 14px;
   // font-weight: $weight-normal;
+  padding: 0;
   margin: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -11,18 +14,17 @@ body {
   //   "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
   //   sans-serif;
   min-height: 100vh;
+
+  height: inherit;
+	background-color: #e0e1e9;
 }
 
-html {
-  background: #9999;
-}
-
-body {
-  max-width: 370px;
-  margin: 0 auto;
-  background: white;
-  color: black;
-}
+// body {
+//   max-width: 480px;
+//   margin: 0 auto;
+//   background: white;
+//   color: black;
+// }
 
 a {
   color: inherit;
@@ -32,3 +34,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+// TODO ::: data-nextjs-scroll-focus-boundary 조사 필요
+// @layer base {
+//   [data-nextjs-scroll-focus-boundary] {
+//     display: contents;
+//   }
+// }
