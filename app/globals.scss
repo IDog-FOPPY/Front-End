@@ -52,3 +52,7 @@ a {
     display: contents;
   }
 }
+
+l::-webkit-scrollbar{
+  display: none; 
+}
