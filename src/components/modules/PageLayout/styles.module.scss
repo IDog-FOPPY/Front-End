@@ -1,4 +1,5 @@
 @import "./styles/variables.scss";
+@import "./styles/mixin.scss";
 
 .root {
   position: relative;
@@ -10,9 +11,20 @@
   flex-shrink: 0;
   flex-direction: column;
   align-items: center;
-  max-width: $body-max-width;
-  padding: 0 20px;
+  // padding: 0 16px;
   margin: 0 auto;
   background-color: $white;
   min-height: 100vh;
+
+  @include mobile {
+    padding: 0 30px;
+  }
+
+  @include laptop {
+   padding: 0 136px;
+  }
+
+  @include desktop {
+    padding: 0 360px;
+  }
 }
