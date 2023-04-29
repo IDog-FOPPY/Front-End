@@ -34,7 +34,12 @@ body {
   min-height: 100vh;
 
   height: inherit;
-	background-color: #e0e1e9;
+	background-color: white;
+}
+
+body {
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 a {
