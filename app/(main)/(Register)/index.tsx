@@ -3,6 +3,7 @@ import Typo from '@components/core/Typo';
 import Paw from '@assets/svg/paw.svg';
 import dog1 from '@assets/png/main/dog1.png';
 import dog2 from '@assets/png/main/dog2.png';
+import ArrowRight from '@assets/svg/arrow-right.svg';
 
 const DogList: Dog[] = [
   { img: dog1.src, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
@@ -149,12 +150,13 @@ export default function Register() {
           <Typo variant="t3" color="black" style={{ display: 'inline' }} className={styles.title}>
             <>
               내{' '}
-              <Typo variant="t3" color="#0074DD" style={{ display: 'inline' }}>
+              <Typo variant="t3" bold color="#0074DD" style={{ display: 'inline' }}>
                 반려견
               </Typo>
               을 등록할게요
             </>
           </Typo>
+          <ArrowRight />
         </div>
       </div>
 

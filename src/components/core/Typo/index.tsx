@@ -28,8 +28,8 @@ const MobileMapping = {
   't1': { fontSize: '18px', linHeight: '28px' },
   't2': { fontSize: '16px', linHeight: '26px' },
   't3': { fontSize: '14px', linHeight: '22px' },
-  'caption': { fontSize: '8px', linHeight: '10px' },
-  'footnote': { fontSize: '6px', linHeight: '10px' },
+  'caption': { fontSize: '12px', linHeight: '14px' },
+  'footnote': { fontSize: '8px', linHeight: '12px' },
   // 'footnote' : '6px',
 }
 

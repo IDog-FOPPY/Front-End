@@ -6,13 +6,16 @@ import { useDevice } from 'src/logics/hooks/useDevice';
 // import ArrowRight from '@assets/svg/arrow-right-long.svg';
 import styles from './styles.module.scss';
 
+
 export default function HeroBanner() {
   const device = useDevice();
   const reported = 0;
   const finded = 0;
 
   return (
+
     <div className={styles.heroBannerContainer} style={{ backgroundImage: `url(${bgImg.src})` }}>
+
       <div>
         <Typo variant={device === 'mobile' ? "h6" : "h2"} bold color="white">
           <>
@@ -29,6 +32,7 @@ export default function HeroBanner() {
         </Typo>
         {/* <ArrowRight /> */}
       </div>
+
 
       <div>
         <Typo variant='t3' color="#5B5B5B">
@@ -51,5 +55,6 @@ export default function HeroBanner() {
         </Typo>
       </div>
     </div>
+
   )
 }
