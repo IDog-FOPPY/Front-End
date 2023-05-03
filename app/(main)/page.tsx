@@ -6,7 +6,7 @@ export default function MainPage() {
   return (
     <>
       <HeroBanner />
-      {/* <Register /> */}
+      <Register />
       <Lost />
     </>
   )

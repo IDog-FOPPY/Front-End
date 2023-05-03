@@ -31,8 +31,8 @@ const DogCard = (props: DogCardProps) => {
   const renderReported = () => {
     if (dog.reported === true)
       return (
-        <div className={styles.reported}>
-          <Typo variant="footnote" color="white">
+        <div >
+          <Typo variant="footnote" color="white" className={styles.reported} >
             실종신고
           </Typo>
         </div>
@@ -42,12 +42,12 @@ const DogCard = (props: DogCardProps) => {
 
   const renderNeutered = () => {
     if (dog.neutered === true) return (
-      <Typo variant="footnote" color="#0074DD">
+      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >
         중성화 O
       </Typo>
     )
     else return (
-      <Typo variant="footnote" color="#0074DD">
+      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >
         중성화 X
       </Typo>
     )
@@ -89,7 +89,7 @@ const DogCard = (props: DogCardProps) => {
                   {dog.sex}
                 </>
               </Typo>
-              <div className={styles.neutered}>
+              <div>
                 {renderNeutered()}
               </div>
 
