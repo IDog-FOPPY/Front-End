@@ -60,12 +60,13 @@
     }
 
     .dogInfo{
-      //width: 100%;
       height: 100%;
       margin-left: 10px;
       display: flex;
+      //flex: 1;
       flex-grow: 1;
       flex-direction: column;
+
 
       .headerSection{
         display: flex;
@@ -94,14 +95,10 @@
           .contentEl{
             align-items: center;
           }
-
         }
 
         .contentRight{
           flex-grow: 1;
-          .contentEl{
-            align-items: top;
-          }
         }
 
         .contentEl{

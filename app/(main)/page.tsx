@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import HeroBanner from "./(HeroBanner)";
 import Lost from "./(Lost)";
-import Register from "./(Register)";
+import DogRegister from "./(DogRegister)";
 
 
 export default function MainPage() {
@@ -11,7 +11,7 @@ export default function MainPage() {
       <Link href="/guide" style={{ width: '100%' }}>
         <HeroBanner />
       </Link>
-      <Register />
+      <DogRegister />
       <Lost />
     </>
   )

@@ -33,11 +33,11 @@ const DogCard = (props: DogCardProps) => {
     <div className={styles.dogCard}>
       <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} />
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD">발견 지역</Typo>
+        <Typo variant="footnote" color="#0074DD">실종 지역</Typo>
         <Typo variant="footnote" color="black">{dog.location}</Typo>
       </div>
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD">발견 시점</Typo>
+        <Typo variant="footnote" color="#0074DD">실종 시점</Typo>
         <Typo variant="footnote" color="black">{dog.time}</Typo>
       </div>
     </div>

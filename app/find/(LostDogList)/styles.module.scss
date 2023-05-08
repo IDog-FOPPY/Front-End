@@ -1,0 +1,54 @@
+.sectionLayout{
+  width: 100%;
+  margin-top: 40px;
+
+  .dogCard{
+    //width: 100%;
+    height: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    box-shadow: 1px 1px 5px 1px #D9D9D9;
+
+    .dogImg{
+      width: 80px;
+      height: 80px;
+      border-radius: 5px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .contentSection{
+      height: 100%;
+      display: flex;
+      flex: 1;
+      flex-grow: 1;
+      margin-left: 10px;
+
+      .contentLeft{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+      }
+      .contentRight{
+        margin-left: 10px;
+        width: 50%;
+      }
+
+      .contentEl{
+        display: flex;
+        margin-bottom: 7px;
+        white-space: nowrap;
+        .content{
+          margin-left: 5px;
+        }
+      }
+    }
+    
+
+  }
+}

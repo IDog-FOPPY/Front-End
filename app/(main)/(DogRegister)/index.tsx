@@ -33,9 +33,7 @@ const DogCard = (props: DogCardProps) => {
     if (dog.reported === true)
       return (
         <div >
-          <Typo variant="footnote" color="white" className={styles.reported} >
-            실종신고
-          </Typo>
+          <Typo variant="footnote" color="white" className={styles.reported} >실종신고</Typo>
         </div>
       )
     else return;
@@ -43,14 +41,10 @@ const DogCard = (props: DogCardProps) => {
 
   const renderNeutered = () => {
     if (dog.neutered === true) return (
-      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >
-        중성화 O
-      </Typo>
+      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >중성화 O</Typo>
     )
     else return (
-      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >
-        중성화 X
-      </Typo>
+      <Typo variant="footnote" color="#0074DD" className={styles.neutered} >중성화 X</Typo>
     )
   }
 
@@ -61,20 +55,14 @@ const DogCard = (props: DogCardProps) => {
       <div className={styles.dogInfo}>
 
         <div className={styles.headerSection}>
-          <Typo variant="t1" bold color="black">
-            <>
-              {dog.name}
-            </>
-          </Typo>
+          <Typo variant="t1" bold color="black">{dog.name}</Typo>
           {renderReported()}
         </div>
 
         <div className={styles.contentSection}>
           <div className={styles.contentLeft}>
             <div className={styles.contentEl}>
-              <Typo variant="footnote" color="#0074DD" >
-                나이
-              </Typo>
+              <Typo variant="footnote" color="#0074DD" >나이</Typo>
               <Typo variant="footnote" color="black" className={styles.content}>
                 <>
                   {dog.age.toString()}세
@@ -82,52 +70,28 @@ const DogCard = (props: DogCardProps) => {
               </Typo>
             </div>
             <div className={styles.contentEl}>
-              <Typo variant="footnote" color="#0074DD">
-                성별
-              </Typo>
-              <Typo variant="footnote" color="black" className={styles.content}>
-                <>
-                  {dog.sex}
-                </>
-              </Typo>
+              <Typo variant="footnote" color="#0074DD">성별</Typo>
+              <Typo variant="footnote" color="black" className={styles.content}>{dog.sex}</Typo>
               <div>
                 {renderNeutered()}
               </div>
 
             </div>
             <div className={styles.contentEl}>
-              <Typo variant="footnote" color="#0074DD">
-                견종
-              </Typo>
-              <Typo variant="footnote" color="black" className={styles.content}>
-                <>
-                  {dog.breed}
-                </>
-              </Typo>
+              <Typo variant="footnote" color="#0074DD">견종</Typo>
+              <Typo variant="footnote" color="black" className={styles.content}>{dog.breed}</Typo>
             </div>
           </div>
 
 
           <div className={styles.contentRight}>
             <div className={styles.contentEl}>
-              <Typo variant="footnote" color="#0074DD" >
-                메모
-              </Typo>
-              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>
-                <>
-                  {dog.memo}
-                </>
-              </Typo>
+              <Typo variant="footnote" color="#0074DD" >메모</Typo>
+              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.memo}</Typo>
             </div>
             <div className={styles.contentEl}>
-              <Typo variant="footnote" color="#0074DD">
-                질병
-              </Typo>
-              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>
-                <>
-                  {dog.disease}
-                </>
-              </Typo>
+              <Typo variant="footnote" color="#0074DD">질병</Typo>
+              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.disease}</Typo>
             </div>
           </div>
         </div>
@@ -138,7 +102,7 @@ const DogCard = (props: DogCardProps) => {
 
 
 
-export default function Register() {
+export default function DogRegister() {
 
 
   return (
@@ -150,9 +114,7 @@ export default function Register() {
           <Typo variant="t3" color="black" style={{ display: 'inline' }} className={styles.title}>
             <>
               내{' '}
-              <Typo variant="t3" bold color="#0074DD" style={{ display: 'inline' }}>
-                반려견
-              </Typo>
+              <Typo variant="t3" bold color="#0074DD" style={{ display: 'inline' }}>반려견</Typo>
               을 등록할게요
             </>
           </Typo>
@@ -167,12 +129,8 @@ export default function Register() {
       </div>
 
       <div className={styles.addDog}>
-        <Typo variant="h2" color="#9F9F9F">
-          +
-        </Typo>
+        <Typo variant="h2" color="#9F9F9F">+</Typo>
       </div>
-
-
     </div>
   )
 }
