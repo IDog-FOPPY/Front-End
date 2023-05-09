@@ -1,3 +1,5 @@
+// 유기견 게시판 페이지
+
 import Typo from '@components/core/Typo';
 import styles from './styles.module.scss';
 import dogEx from '@assets/png/dog-example.png';

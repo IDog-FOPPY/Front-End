@@ -47,35 +47,22 @@ const DogCard = (props: DogCardProps) => {
 export default function Lost() {
   return (
     <div className={styles.sectionLayout}>
-      <Link href="/find">
+      <Link href="/LostDogList">
         <div className={styles.titleSection}>
           <Bullhorn className={styles.bullhorn} />
           <div className={styles.underline}>
             <Typo variant="t3" color="#0074DD" bold className={styles.title}>
               <>
-                유기견
+                가족
                 <Typo variant="t3" color="black" style={{ display: 'inline' }}>
-                  을 발견했어요
+                  을 찾고있어요
                 </Typo>
               </>
             </Typo>
             <ArrowRight />
           </div>
         </div>
-
-        <div className={styles.goFootprint}>
-          <Typo variant="footnote" color="#565656" bold>
-            등록된 비문
-          </Typo>
-          <Typo variant="footnote" color="#565656">
-            인지 확인해보기
-          </Typo>
-        </div>
-
       </Link>
-
-
-
 
       <div className={styles.dogList}>
         {DogList.map((dog: Dog) => {

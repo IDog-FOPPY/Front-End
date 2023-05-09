@@ -1,3 +1,5 @@
+// 가이드 페이지
+
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
 import logo from '@assets/Logo.png';
