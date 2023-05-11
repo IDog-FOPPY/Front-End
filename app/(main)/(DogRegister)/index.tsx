@@ -1,4 +1,5 @@
 import styles from './styles.module.scss';
+import Link from 'next/link'
 import Typo from '@components/core/Typo';
 import Paw from '@assets/svg/paw.svg';
 import dog1 from '@assets/png/main/dog1.png';
@@ -49,6 +50,9 @@ const DogCard = (props: DogCardProps) => {
   }
 
   return (
+
+
+
     <div className={styles.dogCard}>
       <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.img})` }} />
 
@@ -97,6 +101,7 @@ const DogCard = (props: DogCardProps) => {
         </div>
       </div>
     </div>
+
   )
 }
 
@@ -124,13 +129,17 @@ export default function DogRegister() {
 
       <div className={styles.dogList}>
         {DogList.map((el: Dog) => {
-          return <DogCard dog={el} key={el.name} />
+          return (
+            <Link href='/EditMyDog'><DogCard dog={el} key={el.name} /></Link>
+          )
         })}
       </div>
 
-      <div className={styles.addDog}>
-        <Typo variant="h2" color="#9F9F9F">+</Typo>
-      </div>
+      <Link href="/AddMyDog">
+        <div className={styles.addDog}>
+          <Typo variant="h2" color="#9F9F9F">+</Typo>
+        </div>
+      </Link>
     </div>
   )
 }
