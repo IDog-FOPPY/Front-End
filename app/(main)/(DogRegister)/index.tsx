@@ -130,12 +130,12 @@ export default function DogRegister() {
       <div className={styles.dogList}>
         {DogList.map((el: Dog) => {
           return (
-            <Link href='/EditMyDog'><DogCard dog={el} key={el.name} /></Link>
+            <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
           )
         })}
       </div>
 
-      <Link href="/AddMyDog">
+      <Link href="/add-my-dog">
         <div className={styles.addDog}>
           <Typo variant="h2" color="#9F9F9F">+</Typo>
         </div>

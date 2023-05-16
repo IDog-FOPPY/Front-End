@@ -64,7 +64,7 @@ const DogCard = (props: DogCardProps) => {
 export default function LostDogList() {
 
   return (
-    <div className={styles.sectionLayout}>
+    <div className={styles.pageLayout}>
       <Typo variant="t2" bold color="black">가족을 찾고있어요</Typo>
       <div className={styles.dogList}>
         {DogList.map((dog: Dog) => {

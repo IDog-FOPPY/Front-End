@@ -15,7 +15,7 @@ export default function AddMyDogPage() {
           <Typo variant="t2" color="#0074DD" className={styles.completeBtn}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
-          sdf
+          //
         </div>
 
       </div>

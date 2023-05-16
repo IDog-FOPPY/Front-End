@@ -14,7 +14,7 @@ export default function PageLayout(props: PageLayoutProps) {
 
   const pathname = usePathname();
   const isCommonLayout = () => {
-    if (pathname === '/AddMyDog' || pathname === '/EditMyDog') return false
+    if (pathname === '/add-my-dog' || pathname === '/edit-my-dog') return false
     else return true
   }
 

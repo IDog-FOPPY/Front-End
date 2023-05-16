@@ -7,7 +7,7 @@ import DogRegister from "./(DogRegister)";
 export default function MainPage() {
   return (
     <>
-      <Link href="/Guide" style={{ width: '100%' }}>
+      <Link href="/guide" style={{ width: '100%' }}>
         <HeroBanner />
       </Link>
       <DogRegister />

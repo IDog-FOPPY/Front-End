@@ -1,3 +1,5 @@
+// 유기견 게시판 페이지
+
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
 import ArrowRight from '@assets/svg/arrow-right.svg';
@@ -47,7 +49,7 @@ const DogCard = (props: DogCardProps) => {
 export default function Lost() {
   return (
     <div className={styles.sectionLayout}>
-      <Link href="/LostDogList">
+      <Link href="/lost-dog-list">
         <div className={styles.titleSection}>
           <Bullhorn className={styles.bullhorn} />
           <div className={styles.underline}>
