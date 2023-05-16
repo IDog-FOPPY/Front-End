@@ -38,7 +38,7 @@ body {
 }
 
 body {
-  max-width: 1024px;
+  max-width: $body-max-width;
   margin: 0 auto;
 }
 
