@@ -5,3 +5,35 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.drawer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: white;
+
+  @include mobile {
+    padding: 0 30px;
+  }
+
+  @include laptop {
+   padding: 0 136px;
+  }
+
+  @include desktop {
+    padding: 0 360px;
+  }
+
+  .drawerHeader {
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+    .closeBtn {
+      font-size: 28px;
+      color: #5c5c5c;
+      font-weight: 700;
+    }
+  }
+}
