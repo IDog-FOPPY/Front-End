@@ -27,7 +27,7 @@ export default function HeroBanner() {
             등록부터 함께해요.
           </>
         </Typo>
-        <Typo variant='caption' color="#606060" className={styles.footprint}>
+        <Typo variant='footnote' color="#606060" className={styles.footprint}>
           <>
             Q. 비문이 뭔가요?
             <ArrowRightMiddle />
@@ -41,7 +41,7 @@ export default function HeroBanner() {
 
         <div className={styles.emergencyIcon} style={{ backgroundImage: `url(${emIcon.src})` }}></div>
         <div className={styles.textContainer}>
-          <Typo variant='caption' bold color='#606060' className={styles.text} >
+          <Typo bold color='#606060' className={styles.text} >
             <>
               유기견을 발견했어요
               <Typo variant='footnote' color='#0074DD' className={styles.textFootnote}>
