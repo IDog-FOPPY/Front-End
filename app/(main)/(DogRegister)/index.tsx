@@ -1,18 +1,19 @@
-import styles from './styles.module.scss';
 import Link from 'next/link'
+import Image, { StaticImageData } from 'next/image';
+import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
-import Paw from '@assets/svg/paw.svg';
+import Paw from '@assets/svg/main/paw.svg';
 import dog1 from '@assets/png/main/dog1.png';
 import dog2 from '@assets/png/main/dog2.png';
-import ArrowRight from '@assets/svg/arrow-right.svg';
+import ArrowRight from '@assets/svg/main/arrow-right.svg';
 
 const DogList: Dog[] = [
-  { img: dog1.src, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
-  { img: dog2.src, name: "코쿤", reported: false, age: 1, sex: "여아", neutered: false, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "" }
+  { img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
+  { img: dog2, name: "코쿤", reported: false, age: 1, sex: "여아", neutered: false, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "" }
 ]
 
 interface Dog {
-  img: string;
+  img: StaticImageData;
   name: string;
   reported: boolean;
   age: number;
@@ -54,8 +55,7 @@ const DogCard = (props: DogCardProps) => {
 
 
     <div className={styles.dogCard}>
-      <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.img})` }} />
-
+      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
       <div className={styles.dogInfo}>
 
         <div className={styles.headerSection}>

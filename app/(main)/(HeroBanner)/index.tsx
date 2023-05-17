@@ -1,11 +1,11 @@
 "use client";
 
 import bgImg from '@assets/png/main/heroBannerBgImg.png';
-import emIcon from '@assets/png/main/emergencyIcon.png';
-import ArrowRightBlue from '@assets/svg/arrow-right-blue.svg';
+import ArrowRightBlue from '@assets/svg/main/arrow-right-blue.svg';
 import Typo from '@components/core/Typo';
 import { useDevice } from 'src/logics/hooks/useDevice';
-import ArrowRightMiddle from '@assets/svg/arrow-right-middle.svg';
+import ArrowRightMiddle from '@assets/svg/main/arrow-right-middle.svg';
+import Emergency from '@assets/svg/main/emergency.svg';
 import styles from './styles.module.scss';
 
 
@@ -13,7 +13,6 @@ export default function HeroBanner() {
   const device = useDevice();
 
   return (
-
     <div className={styles.heroBannerContainer} style={{ backgroundImage: `url(${bgImg.src})` }}>
 
       <div>
@@ -38,8 +37,7 @@ export default function HeroBanner() {
 
 
       <div className={styles.lookUpButton}>
-
-        <div className={styles.emergencyIcon} style={{ backgroundImage: `url(${emIcon.src})` }}></div>
+        <Emergency />
         <div className={styles.textContainer}>
           <Typo bold color='#606060' className={styles.text} >
             <>

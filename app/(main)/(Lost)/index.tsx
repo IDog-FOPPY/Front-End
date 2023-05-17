@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image';
 import Typo from '@components/core/Typo';
-import ArrowRight from '@assets/svg/arrow-right.svg';
-import Bullhorn from '@assets/svg/bullhorn.svg';
+import ArrowRight from '@assets/svg/main/arrow-right.svg';
+import Bullhorn from '@assets/svg/main/bullhorn.svg';
 import dogEx from '@assets/png/dog-example.png';
 import styles from './styles.module.scss';
 
@@ -34,11 +34,11 @@ const DogCard = (props: DogCardProps) => {
     <div className={styles.dogCard}>
       <Image alt="dog-image" src={dog.image} className={styles.dogImg} />
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD" style={{marginRight: '10px'}}>실종 지역</Typo>
+        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 지역</Typo>
         <Typo variant="footnote" color="black">{dog.location}</Typo>
       </div>
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD" style={{marginRight: '10px'}}>실종 시점</Typo>
+        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시점</Typo>
         <Typo variant="footnote" color="black">{dog.time}</Typo>
       </div>
     </div>

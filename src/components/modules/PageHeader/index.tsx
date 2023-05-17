@@ -17,20 +17,20 @@ export default function PageHeader() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if(open) document.body.style.overflow = 'hidden';
+    if (open) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto'
-  },[open])
+  }, [open])
 
-  return(
+  return (
     !open ?
-    <div className={styles.headerContainer} onClick={() => setOpen(true)}>
-      <DrawerIcon className={styles.drawerIcon} viewBox="0 0 20 14" width="24px" height="24px" />
-    </div>
-    : 
-    <div className={styles.drawer}>
-      <div className={styles.drawerHeader}>
-        <span className={styles.closeBtn} onClick={() => setOpen(false)}>X</span>
+      <div className={styles.headerContainer} onClick={() => setOpen(true)}>
+        <DrawerIcon className={styles.drawerIcon} viewBox="0 0 20 14" width="24px" height="24px" />
       </div>
-    </div>
+      :
+      <div className={styles.drawer}>
+        <div className={styles.drawerHeader}>
+          <span className={styles.closeBtn} onClick={() => setOpen(false)}>X</span>
+        </div>
+      </div>
   )
 }

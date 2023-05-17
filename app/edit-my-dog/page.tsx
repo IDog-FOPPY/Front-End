@@ -2,7 +2,7 @@
 
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
-import ArrowLeft from '@assets/svg/arrow-left.svg';
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 
 
 export default function EditMyDogPage() {

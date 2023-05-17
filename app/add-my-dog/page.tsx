@@ -2,8 +2,8 @@
 
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
-import ArrowLeft from '@assets/svg/arrow-left.svg';
-import Album from '@assets/svg/album.svg';
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import Album from '@assets/svg/register/album.svg';
 
 
 export default function AddMyDogPage() {
@@ -37,22 +37,26 @@ export default function AddMyDogPage() {
             </div>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >이름</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
+
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" className={styles.nameBox} />
+
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >나이</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>나이</Typo>
+            <div className={styles.ageBox}></div>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >성별</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>성별</Typo>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >견종</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>견종</Typo>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >메모</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" >질병</Typo>
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
           </div>
 
         </div>
