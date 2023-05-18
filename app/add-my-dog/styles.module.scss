@@ -33,7 +33,7 @@
 
 
     .contentEl {
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .contentTitle {
@@ -41,6 +41,29 @@
       align-items: center;
       margin-bottom: 10px;
     }
+
+    .dropdown {
+      position: absolute;
+      background-color: white;
+      width: 70px;
+      height: 120px;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      overflow: scroll;
+      padding: 6px;
+      font-size: 12px;
+      color: black;
+
+
+      .dropdownEl {
+        height: 30px;
+        border-bottom: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
 
     .imageBoxWrapper {
       display: flex;
@@ -72,6 +95,156 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
+      font-size: 12px;
+      color: black;
+      font-family: "Pretendard";
+
+      &::placeholder {
+        font-size: 11px;
+        color: #9F9F9F;
+
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .ageBoxWrapper {
+      display: flex;
+      align-items: center;
+
+      .ageBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 30px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: black;
+
+        .text {
+          font-size: 12px;
+          color: #9F9F9F;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: auto;
+          margin-right: 5px;
+        }
+      }
+
+    }
+
+
+    .sexBoxWrapper {
+      display: flex;
+      align-items: center;
+
+      .sexBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 30px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: black;
+
+        .dropdownIcon {
+          margin-left: auto;
+        }
+      }
+
+      .neuteredCheck {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+
+        .customCheckBox {
+          appearance: none;
+          width: 15px;
+          height: 15px;
+          border-radius: 2px;
+          border: 1px solid #d9d9d9;
+
+          &:checked {
+            appearance: auto;
+          }
+
+        }
+
+        .text {
+          font-size: 12px;
+          color: #9F9F9F;
+          display: inline;
+        }
+      }
+
+    }
+
+    .breedBoxWrapper {
+      display: flex;
+      align-items: center;
+
+
+      .breedBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 30px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: black;
+
+        .dropdownIcon {
+          margin-left: auto;
+        }
+      }
+
+      .breedInput {
+        width: 100px;
+        height: 30px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 12px;
+        color: black;
+        margin-left: 3px;
+        font-family: "Pretendard";
+
+        &::placeholder {
+          font-size: 11px;
+          color: #9F9F9F;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+
+    }
+
+    .memoBox {
+      width: 100%;
+      height: 60px;
+      border: 1px solid #D9D9D9;
+      border-radius: 5px;
+      padding: 5px 10px;
+      font-family: "Pretendard";
+      font-size: 12px;
+      color: black;
+      resize: none;
 
       &::placeholder {
         font-size: 11px;
@@ -83,17 +256,27 @@
       }
     }
 
-    .ageDropDownBox {
-      width: 50px;
-      height: 30px;
+
+    .diseaseBox {
+      width: 100%;
+      height: 60px;
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
+      font-size: 12px;
+      color: black;
+      font-family: "Pretendard";
+      resize: none;
+
+      &::placeholder {
+        font-size: 11px;
+        color: #9F9F9F;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
-
-
-
-
 
 
 
