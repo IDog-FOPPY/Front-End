@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image';
 import styles from './styles.module.scss';
@@ -8,11 +10,12 @@ import dog2 from '@assets/png/main/dog2.png';
 import ArrowRight from '@assets/svg/main/arrow-right.svg';
 
 const DogList: Dog[] = [
-  { img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
-  { img: dog2, name: "코쿤", reported: false, age: 1, sex: "여아", neutered: false, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "" }
+  { id: 1, img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
+  { id: 2, img: dog2, name: "코쿤", reported: false, age: 1, sex: "여아", neutered: false, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "" }
 ]
 
 interface Dog {
+  id: number;
   img: StaticImageData;
   name: string;
   reported: boolean;
@@ -130,7 +133,14 @@ export default function DogRegister() {
       <div className={styles.dogList}>
         {DogList.map((el: Dog) => {
           return (
-            <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
+            // <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
+            <Link href={{
+              pathname: '/edit-my-dog',
+              query: { id: el.id },
+            }}
+            >
+              <DogCard dog={el} key={el.name} />
+            </Link>
           )
         })}
       </div>
