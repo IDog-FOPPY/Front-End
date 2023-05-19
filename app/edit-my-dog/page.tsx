@@ -22,6 +22,7 @@ export default function EditMyDogPage() {
 
   // id값에 맞는 개 정보 받아와야함
   const dogId = useSearchParams().get("id");
+
   //더미데이터
   const dog = { id: 1, img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" }
 
@@ -120,7 +121,8 @@ export default function EditMyDogPage() {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" name="dog_name" placeholder="반려견의 이름(별명)을 등록해주세요" className={styles.nameBox} />
+            <input type="text" name="dog_name" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dog.name} className={styles.nameBox} />
+
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>나이</Typo>
@@ -176,12 +178,12 @@ export default function EditMyDogPage() {
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} name="dog_memo" placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" className={styles.memoBox} />
+            <textarea rows={1} name="dog_memo" placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dog.memo} className={styles.memoBox} />
           </div>
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
-            <textarea name="dog_disease" placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" className={styles.diseaseBox} />
+            <textarea name="dog_disease" placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dog.disease} className={styles.diseaseBox} />
           </div>
 
         </div>
