@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 // import Link from 'next/link';
 import Typo from '@components/core/Typo';
 import ArrowRightBlue from '@assets/svg/main/arrow-right-blue.svg';
@@ -9,13 +9,18 @@ import styles from './styles.module.scss';
 
 export default function InputImageButton () {
   
-  const [img, setImage] = useState();
+  const [img, setImage] = useState<FileList | null>();
 
   useEffect(() => { console.log(img) },[img])
+
+  const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files;
+    setImage(file);
+  }
   
   return(
     <div className={styles.lookUpButton}>
-      <input type="file" onInput={(e) => setImage(e.target.value)} accept="image/png, image/jpeg, image/jpg" />
+      <input type="file" onChange={onLoadFile} accept="image/*" />
       <Emergency />
       <div className={styles.textContainer}>
         <Typo bold color='#606060' className={styles.text} >
