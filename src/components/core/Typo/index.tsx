@@ -6,7 +6,7 @@ interface TypoProps {
   color: string;
   style?: object;
   className?: string;
-  children: React.ReactElement | string;
+  children: React.ReactNode | string;
 }
 
 export default function Typo(props: TypoProps) {
