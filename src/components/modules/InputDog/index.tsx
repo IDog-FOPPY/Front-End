@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import Typo from '@components/core/Typo';
 import { DogInfo } from '@src/types/dogInfo';
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
@@ -8,6 +8,7 @@ import Album from '@assets/svg/register/album.svg';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
 import styles from './styles.module.scss';
+import { StaticImageData } from 'next/image';
 
 interface InputDogdogInfo {
   pageTitle: string;
@@ -26,6 +27,16 @@ export default function InputDog(props: InputDogdogInfo) {
   const [sex, setSex] = useState(dogInfo?.sex);
   const [breed, setBreed] = useState(dogInfo?.breed);
   const [reported, setReported] = useState(dogInfo?.reported);
+  const [img, setImage] = useState<File[]>([]);
+  const [imgNum, setImgNum] = useState(0);
+
+  useEffect(() => {console.log(typeof img[0]); if(img) setImgNum(img.length) },[img])
+
+  const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files;
+    let temp = [...img, ...Array(file)];
+    setImage(temp);
+  }
 
   const AgeDropdown = () => {
     if (isAgeOpen === true)
@@ -90,26 +101,25 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
             <div className={styles.contentTitle}>
-              <Typo variant="t3" bold color="black" >사진 등록</Typo>
+              <Typo variant="t3" bold color="black">사진 등록</Typo>
               <Typo variant="footnote" color="#606060" style={{ marginLeft: '5px' }}>얼굴과 몸의 정면, 측면이 모두 나오면 좋아요!</Typo>
             </div>
             <div className={styles.imageBoxWrapper}>
               <div className={styles.addImageBox}>
+                <input multiple type="file" onChange={onLoadFile} accept="image/*" />
                 <Album />
                 <Typo variant="footnote" color="#606060">
-                  <>
-                    <Typo variant="footnote" color="#0074DD" style={{ display: 'inline' }}> 0</Typo>   {/* 입력받은 이미지 개수대로 숫자 늘어나야함 */}
+                    <Typo variant="footnote" color="#0074DD" style={{ display: 'inline' }}>{imgNum}</Typo>
                     / 10
-                  </>
                 </Typo>
               </div>
-
+              {/* {img?.map(imageItem => {
+              })} */}
               {/*
                <div className={styles.imageBox}>
                 선택한 이미지 출력박스
               </div> 
               */}
-
             </div>
           </div>
           <div className={styles.contentEl}>
