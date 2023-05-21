@@ -76,7 +76,7 @@ export default function InputDog(props: InputDogdogInfo) {
   }
 
   const setReportedHandler = () => {
-    dogInfo?.reported ? setReported(false) : setReported(true)
+    reported ? setReported(false) : setReported(true)
   }
 
   return (
