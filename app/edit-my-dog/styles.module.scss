@@ -1,5 +1,26 @@
 @import "./styles/mixin.scss";
 
+
+@keyframes slide-fade-in-dropdown-animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .pageLayout {
   .header {
     width: 100%;
@@ -55,6 +76,7 @@
     padding: 6px;
     font-size: 12px;
     color: black;
+    animation: fadein .5s ease;
 
 
     .dropdownEl {
@@ -63,7 +85,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: slide-fade-in-dropdown-animation .5s ease;
     }
+
+
+
   }
 
   //-----------------사진 등록-----------------//
@@ -320,27 +346,11 @@
     margin-left: 5px;
     animation: fadein 1s;
 
-    @keyframes fadein {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-
     .reportedContentEl {
       display: flex;
       align-items: center;
-
-
     }
   }
-
-
-
 
 
 }
