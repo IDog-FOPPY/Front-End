@@ -10,11 +10,12 @@ import PawIcon from '@assets/svg/register/paw.svg';
 import styles from './styles.module.scss';
 
 interface InputDogdogInfo {
+  pageTitle: string;
   dogInfo?: DogInfo;
 }
 
 export default function InputDog(props: InputDogdogInfo) {
-  const { dogInfo } = props;
+  const { pageTitle, dogInfo } = props;
   const ageEl = [...Array(21)];
   const sexEl = ["남아", "여아"];
   const breedEl = ["골든 리트리버", "닥스훈트", "달마시안", "도베르만 핀셔", "래브라도 리트리버", "말티즈", "말티푸", "미니어처 슈나우저", "미니어처 푸들", "미니어처 핀셔", "믹스견", "베들링턴 테리어", "보더콜리", "보스턴 테리어", "비글", "비숑 프리제", "사모예드", "셰틀랜드 쉽독", "스탠더드 푸들", "스피츠", "시바 이누", "시베리안 허스키", "시츄", "아메리칸 코카 스파니엘", "아프간하운드", "요크셔 테리어", "웰시 코기", "이탈리안 그레이하운드", "제페니스 스피츠", "진돗개", "차우차우", "치와와", "코커 스패니얼", "토이 푸들", "파피용", "퍼그", "페키니즈", "펨브록 웰시코기", "포메라니안", "푸들", "풍산개", "프렌치 불도그", "직접 입력"];
@@ -83,7 +84,7 @@ export default function InputDog(props: InputDogdogInfo) {
       <div className={styles.pageLayout}>
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
-          <Typo variant="t2" bold color="black">반려견 등록하기</Typo>
+          <Typo variant="t2" bold color="black">{pageTitle}</Typo>
           <Typo variant="t2" color="#0074DD" className={styles.completeBtn}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>

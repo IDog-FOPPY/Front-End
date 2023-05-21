@@ -3,6 +3,6 @@ import InputDog from '@components/modules/InputDog';
 
 export default function AddMyDogPage() {
   return(
-    <InputDog />
+    <InputDog pageTitle="반려견 등록하기"/>
   )
 }
