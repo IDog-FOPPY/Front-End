@@ -186,7 +186,6 @@
 
       .text {
         font-size: 12px;
-        color: #9F9F9F;
         display: inline;
       }
     }
@@ -283,6 +282,64 @@
       outline: none;
     }
   }
+
+
+
+  //-----------------실종신고-----------------//
+
+
+
+
+  .reportedCheck {
+    display: flex;
+    align-items: center;
+    width: 150px;
+
+    .customCheckBox {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      border: 2px solid red;
+
+      &:checked {
+        appearance: auto;
+        background-color: red;
+        accent-color: red;
+      }
+    }
+
+    .text {
+      margin-left: 5px;
+      font-size: 15px;
+      display: inline;
+    }
+  }
+
+  .reportedSection {
+    margin-left: 5px;
+    animation: fadein 1s;
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+
+    .reportedContentEl {
+      display: flex;
+      align-items: center;
+
+
+    }
+  }
+
+
 
 
 

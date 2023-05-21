@@ -11,8 +11,7 @@ import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import { useState } from 'react';
 import dog1 from '@assets/png/main/dog1.png';
 import Image, { StaticImageData } from 'next/image';
-
-
+import PawIcon from '@assets/svg/register/paw.svg';
 
 
 
@@ -29,7 +28,6 @@ export default function EditMyDogPage() {
 
 
 
-
   const ageEl = [...Array(21)];
   const sexEl = ["남아", "여아"];
   const breedEl = ["골든 리트리버", "닥스훈트", "달마시안", "도베르만 핀셔", "래브라도 리트리버", "말티즈", "말티푸", "미니어처 슈나우저", "미니어처 푸들", "미니어처 핀셔", "믹스견", "베들링턴 테리어", "보더콜리", "보스턴 테리어", "비글", "비숑 프리제", "사모예드", "셰틀랜드 쉽독", "스탠더드 푸들", "스피츠", "시바 이누", "시베리안 허스키", "시츄", "아메리칸 코카 스파니엘", "아프간하운드", "요크셔 테리어", "웰시 코기", "이탈리안 그레이하운드", "제페니스 스피츠", "진돗개", "차우차우", "치와와", "코커 스패니얼", "토이 푸들", "파피용", "퍼그", "페키니즈", "펨브록 웰시코기", "포메라니안", "푸들", "풍산개", "프렌치 불도그", "직접 입력"];
@@ -40,6 +38,8 @@ export default function EditMyDogPage() {
   const [age, setAge] = useState(dog.age);
   const [sex, setSex] = useState(dog.sex);
   const [breed, setBreed] = useState(dog.breed);
+
+  const [reported, setReported] = useState(dog.reported);
 
   const AgeDropdown = () => {
     if (isAgeOpen === true)
@@ -89,9 +89,16 @@ export default function EditMyDogPage() {
     else return (<div></div>)
   }
 
+  const setReportedHandler = () => {
+    reported === true ? setReported(false) : setReported(true)
+  }
+
+
+
 
   return (
     <>
+
       <div className={styles.pageLayout}>
         <div className={styles.header}>
           <div className={styles.backBtn} ><ArrowLeft /></div>
@@ -114,9 +121,13 @@ export default function EditMyDogPage() {
                   </>
                 </Typo>
               </div>
-              {/* <div className={styles.imageBox}>
+
+              {/*
+               <div className={styles.imageBox}>
                 선택한 이미지 출력박스
-              </div> */}
+              </div> 
+              */}
+
             </div>
           </div>
           <div className={styles.contentEl}>
@@ -151,7 +162,7 @@ export default function EditMyDogPage() {
                 <SexDropdown />
               </div>
               <label className={styles.neuteredCheck}>
-                <input type="checkbox" name="neutered" value="neutered" className={styles.customCheckBox} />
+                <input type="checkbox" name="neutered" defaultChecked={dog.neutered} className={styles.customCheckBox} />
                 <Typo color="#9F9F9F" className={styles.text}>중성화</Typo>
               </label>
             </div>
@@ -186,9 +197,59 @@ export default function EditMyDogPage() {
             <textarea name="dog_disease" placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dog.disease} className={styles.diseaseBox} />
           </div>
 
-        </div>
 
+
+
+          {/* -----------------여기부터는 EditPage일때만 보여지는 실종신고 section--------------- */}
+          <div className={styles.contentEl}>
+
+            <label className={styles.reportedCheck}>
+              <input type="checkbox" name="reported" className={styles.customCheckBox} defaultChecked={reported} onClick={() => setReportedHandler()} />
+              <Typo color="red" className={styles.text}>실종 신고하기</Typo>
+            </label>
+            {
+              reported === true
+                ?
+                <>
+                  <div className={styles.reportedSection}>
+                    <div className={styles.reportedContentEl}>
+                      <PawIcon />
+                      <Typo variant="caption" color="#606060">실종 장소</Typo>
+                    </div>
+                    <div className={styles.reportedContentEl}>
+                      <PawIcon />
+                      <Typo variant="caption" color="#606060">실종 날짜</Typo>
+                    </div>
+                    <div className={styles.reportedContentEl}>
+                      <PawIcon />
+                      <Typo variant="caption" color="#606060">실종 시각</Typo>
+                    </div>
+                    <div className={styles.reportedContentEl}>
+                      <PawIcon />
+                      <Typo variant="caption" color="#606060">기타</Typo>
+                    </div>
+                  </div>
+
+                </>
+
+                :
+                null
+            }
+
+
+          </div>
+
+
+          {/* ---------------------------------------------------------------------------------- */}
+
+
+
+
+
+        </div>
       </div>
+
+
     </>
   )
 }
