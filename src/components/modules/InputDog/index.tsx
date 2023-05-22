@@ -8,7 +8,7 @@ import Album from '@assets/svg/register/album.svg';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
 import styles from './styles.module.scss';
-import { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
 interface InputDogdogInfo {
   pageTitle: string;
@@ -30,12 +30,16 @@ export default function InputDog(props: InputDogdogInfo) {
   const [img, setImage] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
 
-  useEffect(() => {console.log(typeof img[0]); if(img) setImgNum(img.length) },[img])
+  useEffect(() => {
+    if(img) setImgNum(img.length);
+  },[img])
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files;
-    let temp = [...img, ...Array(file)];
-    setImage(temp);
+    if(e.target.files){
+      const files = Array.from(e.target.files);
+      let temp: File[] = img;
+      setImage([...temp, ...files]);
+    }
   }
 
   const AgeDropdown = () => {
@@ -113,13 +117,12 @@ export default function InputDog(props: InputDogdogInfo) {
                     / 10
                 </Typo>
               </div>
-              {/* {img?.map(imageItem => {
-              })} */}
-              {/*
-               <div className={styles.imageBox}>
-                선택한 이미지 출력박스
-              </div> 
-              */}
+              {img?.map(imageItem => {
+                const url = URL.createObjectURL(imageItem)
+                return (
+                  <div key={url} style={{backgroundImage: `url(${url})`}} className={styles.imageBox} />
+                )
+              })}
             </div>
           </div>
           <div className={styles.contentEl}>
