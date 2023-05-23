@@ -140,7 +140,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
                   <input type="hidden" name="dog_age" value={age} />
                   {age}
-                  <Typo color="#9F9F9F" className={styles.text}>세</Typo>
+                  <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
                   <DropdownIcon />
                 </div>
                 <AgeDropdown />
@@ -161,7 +161,7 @@ export default function InputDog(props: InputDogdogInfo) {
               </div>
               <label className={styles.neuteredCheck}>
                 <input type="checkbox" name="neutered" defaultChecked={dogInfo?.neutered} className={styles.customCheckBox} />
-                <Typo color="#9F9F9F" className={styles.text}>중성화</Typo>
+                <Typo color="#9F9F9F" variant="caption" className={styles.text}>중성화</Typo>
               </label>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function InputDog(props: InputDogdogInfo) {
           <div className={styles.contentEl}>
             <label className={styles.reportedCheck}>
               <input type="checkbox" name="reported" className={styles.customCheckBox} defaultChecked={reported} onClick={() => setReportedHandler()} />
-              <Typo color="red" className={styles.text}>실종 신고하기</Typo>
+              <Typo color="red" variant="t3" className={styles.text}>실종 신고하기</Typo>
             </label>
             {
               reported === true
