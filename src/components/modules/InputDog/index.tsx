@@ -9,6 +9,7 @@ import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
 import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
+import { hangjungdong } from "@src/constants/hangjungdong";
 
 interface InputDogdogInfo {
   pageTitle: string;
@@ -30,12 +31,25 @@ export default function InputDog(props: InputDogdogInfo) {
   const [img, setImage] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
 
+  const [isSidoOpen, setIsSidoOpen] = useState(false);
+  const [isSigugunOpen, setIsSigugunOpen] = useState(false);
+  const [isDongOpen, setIsDongOpen] = useState(false);
+
+  const { sido, sigugun, dong } = hangjungdong;
+  const [val1, setVal1] = useState("");
+  const [val2, setVal2] = useState("");
+  const [val3, setVal3] = useState("");
+  const [addr1, setAddr1] = useState("");
+  const [addr2, setAddr2] = useState("");
+  const [addr3, setAddr3] = useState("");
+
+
   useEffect(() => {
     if (img) setImgNum(img.length);
   }, [img])
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (imgNum < 3) {
+    if (imgNum < 10) {
       if (e.target.files) {
         const files = Array.from(e.target.files);
         let temp: File[] = img;
@@ -43,7 +57,7 @@ export default function InputDog(props: InputDogdogInfo) {
       }
     }
     else
-      alert('사진 업로드는 3장까지 가능해요!');
+      alert('사진 업로드는 10장까지 가능해요!');
     // if (e.target.files) {
     //   const files = Array.from(e.target.files);
     //   let temp: File[] = img;
@@ -101,6 +115,98 @@ export default function InputDog(props: InputDogdogInfo) {
 
   const setReportedHandler = () => {
     reported ? setReported(false) : setReported(true)
+  }
+
+  const AddressDropdown = () => {
+
+    return (
+      <>
+        <div className={styles.sidoSection}>
+          <div className={styles.sidoBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); }}>
+            <input type="hidden" name="dog_breed" value={addr1} />
+
+            <Typo color="black">{addr1}</Typo>
+            <DropdownIcon className={styles.dropdownIcon} />
+          </div>
+          {
+            isSidoOpen
+              ?
+              <>
+                <div className={styles.dropdown} style={{ width: "150px" }}>
+                  <>
+                    {sido.map((e) => {
+                      return (
+
+                        <div className={styles.dropdownEl} onClick={() => { setIsSidoOpen(false); setVal1(e.sido); setAddr1(e.codeNm) }} key={e.sido}>
+                          {e.codeNm}
+                        </div>
+                      )
+                    })}
+                  </>
+                </div>
+              </>
+              : null
+          }
+        </div>
+
+        <div className={styles.sigugunSection}>
+          <div className={styles.sidoBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
+            <input type="hidden" name="dog_breed" value={addr2} />
+            {addr2}
+            <DropdownIcon className={styles.dropdownIcon} />
+          </div>
+          {
+            isSigugunOpen
+              ?
+              <>
+                <div className={styles.dropdown} style={{ width: "150px" }}>
+                  {sigugun
+                    .filter((e) => e.sido === val1)
+                    .map((e) => {
+                      return (
+                        <div className={styles.dropdownEl} onClick={() => { setIsSigugunOpen(false); setVal2(e.sigugun); setAddr2(e.codeNm) }} key={e.sigugun}>
+                          {e.codeNm}
+                        </div>
+                      )
+                    })}
+                </div>
+              </>
+              : null
+          }
+        </div>
+
+        <div className={styles.dongSection}>
+          <div className={styles.sidoBox} onClick={() => setIsDongOpen(true)}>
+            <input type="hidden" name="dog_breed" value={addr3} />
+            {addr3}
+            <DropdownIcon className={styles.dropdownIcon} />
+          </div>
+          {
+            isDongOpen
+              ?
+              <>
+                <div className={styles.dropdown} style={{ width: "150px" }}>
+                  {dong
+                    .filter((e) => e.sido === val1 && e.sigugun === val2)
+                    .map((e) => {
+                      return (
+                        <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
+                          {e.codeNm}
+                        </div>
+                      )
+                    })}
+                </div>
+              </>
+              : null
+          }
+        </div>
+
+
+
+      </>
+    )
+
+
   }
 
   return (
@@ -217,6 +323,15 @@ export default function InputDog(props: InputDogdogInfo) {
                     <div className={styles.reportedContentEl}>
                       <PawIcon />
                       <Typo variant="caption" color="#606060">실종 장소</Typo>
+
+                      {/* <div className={styles.breedBox} onClick={() => setIsSidoOpen(true)}>
+                        <input type="hidden" name="dog_breed" value={addr1} />
+                        {addr1}
+                        <DropdownIcon className={styles.dropdownIcon} />
+                      </div> */}
+
+                      <AddressDropdown />
+
                     </div>
                     <div className={styles.reportedContentEl}>
                       <PawIcon />
