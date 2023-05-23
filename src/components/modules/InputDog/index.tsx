@@ -31,11 +31,11 @@ export default function InputDog(props: InputDogdogInfo) {
   const [imgNum, setImgNum] = useState(0);
 
   useEffect(() => {
-    if(img) setImgNum(img.length);
-  },[img])
+    if (img) setImgNum(img.length);
+  }, [img])
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files){
+    if (e.target.files) {
       const files = Array.from(e.target.files);
       let temp: File[] = img;
       setImage([...temp, ...files]);
@@ -108,21 +108,24 @@ export default function InputDog(props: InputDogdogInfo) {
               <Typo variant="t3" bold color="black">사진 등록</Typo>
               <Typo variant="footnote" color="#606060" style={{ marginLeft: '5px' }}>얼굴과 몸의 정면, 측면이 모두 나오면 좋아요!</Typo>
             </div>
-            <div className={styles.imageBoxWrapper}>
+            <div className={styles.imageBoxSection}>
               <div className={styles.addImageBox}>
                 <input multiple type="file" onChange={onLoadFile} accept="image/*" />
                 <Album />
                 <Typo variant="footnote" color="#606060">
-                    <Typo variant="footnote" color="#0074DD" style={{ display: 'inline' }}>{imgNum}</Typo>
-                    / 10
+                  <Typo variant="footnote" color="#0074DD" style={{ display: 'inline' }}>{imgNum}</Typo>
+                  / 10
                 </Typo>
               </div>
-              {img?.map(imageItem => {
-                const url = URL.createObjectURL(imageItem)
-                return (
-                  <div key={url} style={{backgroundImage: `url(${url})`}} className={styles.imageBox} />
-                )
-              })}
+              <div className={styles.imageBoxWrapper}>
+                {img?.map(imageItem => {
+                  const url = URL.createObjectURL(imageItem)
+                  return (
+                    <div key={url} style={{ backgroundImage: `url(${url})` }} className={styles.imageBox} />
+                  )
+                })}
+              </div>
+
             </div>
           </div>
           <div className={styles.contentEl}>
