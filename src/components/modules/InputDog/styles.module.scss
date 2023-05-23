@@ -318,7 +318,16 @@
     .reportedContentEl {
       display: flex;
       align-items: center;
+      margin-top: 5px;
+
+      .reportedContentTitle {
+        width: 60px;
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+      }
     }
+
 
     .addrDropdownWrapper {
       display: flex;
@@ -327,25 +336,27 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 85px;
+        width: 88px;
         height: 30px;
         border: 1px solid #D9D9D9;
         border-radius: 5px;
         padding: 5px 10px;
         color: black;
-        margin-left: 6px;
+        margin-right: 5px;
 
-        overflow: hidden;
-        white-space: nowrap;
+        // overflow: hidden;
+        // white-space: nowrap;
 
-        .dropdownIcon {
-          margin-left: auto;
-
+        .inputAddr {
+          width: 55px;
+          //flex-grow: 1;
+          overflow: hidden;
+          white-space: nowrap;
         }
+
       }
 
       .addressDropdown {
-        margin-left: 6px;
         width: 85px;
         position: absolute;
         background-color: white;
@@ -370,8 +381,7 @@
     }
 
     .addrDetailBox {
-      margin-left: 6px;
-      margin-top: 6px;
+      margin-top: 3px;
       width: 250px;
       height: 30px;
       border: 1px solid #D9D9D9;
@@ -383,8 +393,6 @@
       }
     }
 
-
   }
-
 
 }

@@ -124,8 +124,8 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.addrDropdownWrapper}>
           <div className={styles.sidoSection}>
             <div className={styles.addrBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); setAddr3(""); }}>
-              <input type="hidden" name="dog_breed" value={addr1} />
-              <Typo color="black" variant="caption">{addr1}</Typo>
+              <input type="hidden" name="dog_lostAddr1" value={addr1} />
+              <Typo color="black" variant="caption" className={styles.inputAddr}>{addr1}</Typo>
               <DropdownIcon className={styles.dropdownIcon} />
             </div>
             {
@@ -151,8 +151,8 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.sigugunSection}>
             <div className={styles.addrBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
-              <input type="hidden" name="dog_breed" value={addr2} />
-              <Typo color="black" variant="caption">{addr2}</Typo>
+              <input type="hidden" name="dog_lostAddr2" value={addr2} />
+              <Typo color="black" variant="caption" className={styles.inputAddr}>{addr2}</Typo>
               <DropdownIcon className={styles.dropdownIcon} />
             </div>
             {
@@ -177,8 +177,8 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.dongSection}>
             <div className={styles.addrBox} onClick={() => setIsDongOpen(true)}>
-              <input type="hidden" name="dog_breed" value={addr3} />
-              <Typo color="black" variant="caption">{addr3}</Typo>
+              <input type="hidden" name="dog_lostAddr3" value={addr3} />
+              <Typo color="black" variant="caption" className={styles.inputAddr}>{addr3}</Typo>
               <DropdownIcon className={styles.dropdownIcon} />
             </div>
             {
@@ -321,15 +321,20 @@ export default function InputDog(props: InputDogdogInfo) {
                 <>
                   <div className={styles.reportedSection}>
                     <div className={styles.reportedContentEl}>
-                      <PawIcon />
-                      <Typo variant="caption" color="#606060">실종 장소</Typo>
-                      <div>
-                        <AddressDropdown />
-                        <input type="text" name="dog_name" placeholder="상세 주소를 입력해주세요" className={styles.addrDetailBox} />
+                      <div className={styles.reportedContentTitle}>
+                        <PawIcon />
+                        <Typo variant="caption" color="#606060">실종 장소</Typo>
                       </div>
+                      <AddressDropdown />
 
 
                     </div>
+
+                    <div className={styles.reportedContentEl}>
+                      <div className={styles.reportedContentTitle} />
+                      <input type="text" name="dog_lostAddr4" placeholder="상세 주소를 입력해주세요" className={styles.addrDetailBox} />
+                    </div>
+
                     <div className={styles.reportedContentEl}>
                       <PawIcon />
                       <Typo variant="caption" color="#606060">실종 날짜</Typo>
