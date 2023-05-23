@@ -121,85 +121,86 @@ export default function InputDog(props: InputDogdogInfo) {
 
     return (
       <>
-        <div className={styles.sidoSection}>
-          <div className={styles.sidoBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); }}>
-            <input type="hidden" name="dog_breed" value={addr1} />
-            <Typo color="black" variant="caption">{addr1}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
+        <div className={styles.addrDropdownWrapper}>
+          <div className={styles.sidoSection}>
+            <div className={styles.addrBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); setAddr3(""); }}>
+              <input type="hidden" name="dog_breed" value={addr1} />
+              <Typo color="black" variant="caption">{addr1}</Typo>
+              <DropdownIcon className={styles.dropdownIcon} />
+            </div>
+            {
+              isSidoOpen
+                ?
+                <>
+                  <div className={styles.addressDropdown}>
+                    <>
+                      {sido.map((e) => {
+                        return (
+
+                          <div className={styles.dropdownEl} onClick={() => { setIsSidoOpen(false); setVal1(e.sido); setAddr1(e.codeNm) }} key={e.sido}>
+                            <Typo color="black" variant="caption">{e.codeNm}</Typo>
+                          </div>
+                        )
+                      })}
+                    </>
+                  </div>
+                </>
+                : null
+            }
           </div>
-          {
-            isSidoOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  <>
-                    {sido.map((e) => {
-                      return (
 
-                        <div className={styles.dropdownEl} onClick={() => { setIsSidoOpen(false); setVal1(e.sido); setAddr1(e.codeNm) }} key={e.sido}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                  </>
-                </div>
-              </>
-              : null
-          }
-        </div>
-
-        <div className={styles.sigugunSection}>
-          <div className={styles.sidoBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
-            <input type="hidden" name="dog_breed" value={addr2} />
-            <Typo color="black" variant="caption">{addr2}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
+          <div className={styles.sigugunSection}>
+            <div className={styles.addrBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
+              <input type="hidden" name="dog_breed" value={addr2} />
+              <Typo color="black" variant="caption">{addr2}</Typo>
+              <DropdownIcon className={styles.dropdownIcon} />
+            </div>
+            {
+              isSigugunOpen
+                ?
+                <>
+                  <div className={styles.addressDropdown}>
+                    {sigugun
+                      .filter((e) => e.sido === val1)
+                      .map((e) => {
+                        return (
+                          <div className={styles.dropdownEl} onClick={() => { setIsSigugunOpen(false); setVal2(e.sigugun); setAddr2(e.codeNm) }} key={e.sigugun}>
+                            <Typo color="black" variant="caption">{e.codeNm}</Typo>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </>
+                : null
+            }
           </div>
-          {
-            isSigugunOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  {sigugun
-                    .filter((e) => e.sido === val1)
-                    .map((e) => {
-                      return (
-                        <div className={styles.dropdownEl} onClick={() => { setIsSigugunOpen(false); setVal2(e.sigugun); setAddr2(e.codeNm) }} key={e.sigugun}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                </div>
-              </>
-              : null
-          }
-        </div>
 
-        <div className={styles.dongSection}>
-          <div className={styles.sidoBox} onClick={() => setIsDongOpen(true)}>
-            <input type="hidden" name="dog_breed" value={addr3} />
-            <Typo color="black" variant="caption">{addr3}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
+          <div className={styles.dongSection}>
+            <div className={styles.addrBox} onClick={() => setIsDongOpen(true)}>
+              <input type="hidden" name="dog_breed" value={addr3} />
+              <Typo color="black" variant="caption">{addr3}</Typo>
+              <DropdownIcon className={styles.dropdownIcon} />
+            </div>
+            {
+              isDongOpen
+                ?
+                <>
+                  <div className={styles.addressDropdown}>
+                    {dong
+                      .filter((e) => e.sido === val1 && e.sigugun === val2)
+                      .map((e) => {
+                        return (
+                          <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
+                            <Typo color="black" variant="caption">{e.codeNm}</Typo>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </>
+                : null
+            }
           </div>
-          {
-            isDongOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  {dong
-                    .filter((e) => e.sido === val1 && e.sigugun === val2)
-                    .map((e) => {
-                      return (
-                        <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                </div>
-              </>
-              : null
-          }
         </div>
-
 
 
       </>
@@ -322,14 +323,11 @@ export default function InputDog(props: InputDogdogInfo) {
                     <div className={styles.reportedContentEl}>
                       <PawIcon />
                       <Typo variant="caption" color="#606060">실종 장소</Typo>
+                      <div>
+                        <AddressDropdown />
+                        <input type="text" name="dog_name" placeholder="상세 주소를 입력해주세요" className={styles.addrDetailBox} />
+                      </div>
 
-                      {/* <div className={styles.breedBox} onClick={() => setIsSidoOpen(true)}>
-                        <input type="hidden" name="dog_breed" value={addr1} />
-                        {addr1}
-                        <DropdownIcon className={styles.dropdownIcon} />
-                      </div> */}
-
-                      <AddressDropdown />
 
                     </div>
                     <div className={styles.reportedContentEl}>

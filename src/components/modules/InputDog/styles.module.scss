@@ -141,14 +141,6 @@
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     padding: 5px 10px;
-    font-size: 12px;
-    color: black;
-
-    &::placeholder {
-      font-size: 11px;
-      color: #9F9F9F;
-
-    }
 
     &:focus {
       outline: none;
@@ -255,14 +247,7 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      font-size: 12px;
-      color: black;
       margin-left: 3px;
-
-      &::placeholder {
-        font-size: 11px;
-        color: #9F9F9F;
-      }
 
       &:focus {
         outline: none;
@@ -279,14 +264,7 @@
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     padding: 5px 10px;
-    font-size: 12px;
-    color: black;
     resize: none;
-
-    &::placeholder {
-      font-size: 11px;
-      color: #9F9F9F;
-    }
 
     &:focus {
       outline: none;
@@ -300,14 +278,7 @@
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     padding: 5px 10px;
-    font-size: 12px;
-    color: black;
     resize: none;
-
-    &::placeholder {
-      font-size: 11px;
-      color: #9F9F9F;
-    }
 
     &:focus {
       outline: none;
@@ -349,31 +320,70 @@
       align-items: center;
     }
 
-    .sidoBox {
+    .addrDropdownWrapper {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 80px;
+
+      .addrBox {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 85px;
+        height: 30px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: black;
+        margin-left: 6px;
+
+        overflow: hidden;
+        white-space: nowrap;
+
+        .dropdownIcon {
+          margin-left: auto;
+
+        }
+      }
+
+      .addressDropdown {
+        margin-left: 6px;
+        width: 85px;
+        position: absolute;
+        background-color: white;
+        height: 120px;
+        border: 1px solid #d9d9d9;
+        border-radius: 5px;
+        overflow: scroll;
+        padding: 6px;
+        color: black;
+        animation: fadein .5s ease;
+
+
+        .dropdownEl {
+          height: 30px;
+          border-bottom: 1px solid #d9d9d9;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: slide-fade-in-dropdown-animation .5s ease;
+        }
+      }
+    }
+
+    .addrDetailBox {
+      margin-left: 6px;
+      margin-top: 6px;
+      width: 250px;
       height: 30px;
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      color: black;
-      margin-left: 6px;
 
-      overflow: hidden;
-      white-space: nowrap;
-
-      .dropdown {
-        width: 80px;
-        margin-left: 6px;
-      }
-
-      .dropdownIcon {
-        margin-left: auto;
-
+      &:focus {
+        outline: none;
       }
     }
+
+
   }
 
 
