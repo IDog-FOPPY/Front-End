@@ -3,38 +3,52 @@
     font-size: 80px;
     line-height: 96px;
   }
+
   &.h2 {
     font-size: 50px;
     line-height: 70px;
   }
+
   &.h3 {
     font-size: 40px;
     line-height: 50px;
   }
+
   &.h4 {
     font-size: 36px;
     line-height: 60px;
   }
+
   &.h5 {
     font-size: 34px;
     line-height: 50px;
   }
+
   &.h6 {
     font-size: 32px;
     line-height: 50px;
   }
+
   &.t1 {
     font-size: 26px;
     line-height: 40px;
   }
+
   &.t2 {
     font-size: 24px;
     line-height: 34px;
   }
+
   &.t3 {
     font-size: 22px;
     line-height: 32px;
   }
+
+  &.caption {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
   &.footnote {
     font-size: 14px;
     line-height: 22px;
@@ -46,38 +60,52 @@
       font-size: 40px;
       line-height: 48px;
     }
+
     &.h2 {
       font-size: 30px;
       line-height: 42px;
     }
+
     &.h3 {
       font-size: 26px;
       line-height: 36px;
     }
+
     &.h4 {
       font-size: 24px;
       line-height: 34px;
     }
+
     &.h5 {
       font-size: 22px;
       line-height: 32px;
     }
+
     &.h6 {
       font-size: 20px;
       line-height: 32px;
     }
+
     &.t1 {
       font-size: 18px;
       line-height: 28px;
     }
+
     &.t2 {
       font-size: 16px;
       line-height: 26px;
     }
+
     &.t3 {
       font-size: 14px;
       line-height: 22px;
     }
+
+    &.caption {
+      font-size: 12px;
+      line-height: 18px;
+    }
+
     &.footnote {
       font-size: 8px;
       line-height: 10px;
