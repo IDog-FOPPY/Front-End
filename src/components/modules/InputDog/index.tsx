@@ -35,11 +35,20 @@ export default function InputDog(props: InputDogdogInfo) {
   }, [img])
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
-      let temp: File[] = img;
-      setImage([...temp, ...files]);
+    if (imgNum < 3) {
+      if (e.target.files) {
+        const files = Array.from(e.target.files);
+        let temp: File[] = img;
+        setImage([...temp, ...files]);
+      }
     }
+    else
+      alert('사진 업로드는 3장까지 가능해요!');
+    // if (e.target.files) {
+    //   const files = Array.from(e.target.files);
+    //   let temp: File[] = img;
+    //   setImage([...temp, ...files]);
+    // }
   }
 
   const AgeDropdown = () => {
@@ -114,7 +123,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 <Album />
                 <Typo variant="footnote" color="#606060">
                   <Typo variant="footnote" color="#0074DD" style={{ display: 'inline' }}>{imgNum}</Typo>
-                  / 10
+                  /10
                 </Typo>
               </div>
               <div className={styles.imageBoxWrapper}>
