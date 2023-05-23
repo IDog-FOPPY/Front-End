@@ -73,7 +73,6 @@
     border-radius: 5px;
     overflow: scroll;
     padding: 6px;
-    font-size: 12px;
     color: black;
     animation: fadein .5s ease;
 
@@ -170,11 +169,8 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      font-size: 12px;
-      color: black;
 
       .text {
-        color: #9F9F9F;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -199,8 +195,6 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      font-size: 12px;
-      color: black;
 
       .dropdownIcon {
         margin-left: auto;
@@ -248,7 +242,6 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      font-size: 12px;
       color: black;
 
       .dropdownIcon {
@@ -365,12 +358,16 @@
       border: 1px solid #D9D9D9;
       border-radius: 5px;
       padding: 5px 10px;
-      font-size: 12px;
       color: black;
       margin-left: 6px;
 
       overflow: hidden;
       white-space: nowrap;
+
+      .dropdown {
+        width: 80px;
+        margin-left: 6px;
+      }
 
       .dropdownIcon {
         margin-left: auto;

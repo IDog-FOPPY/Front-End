@@ -72,7 +72,7 @@ export default function InputDog(props: InputDogdogInfo) {
           {ageEl.map((e, index) => {
             return (
               <div className={styles.dropdownEl} onClick={() => { setIsAgeOpen(false); setAge(index); }} key={index}>
-                {index}
+                <Typo color="black" variant="caption">{index}</Typo>
               </div>
             )
           })}
@@ -88,7 +88,7 @@ export default function InputDog(props: InputDogdogInfo) {
           {sexEl.map((e) => {
             return (
               <div className={styles.dropdownEl} onClick={() => { setIsSexOpen(false); setSex(e); }} key={e}>
-                {e}
+                <Typo color="black" variant="caption">{e}</Typo>
               </div>
             )
           })}
@@ -104,7 +104,7 @@ export default function InputDog(props: InputDogdogInfo) {
           {breedEl.map((e) => {
             return (
               <div className={styles.dropdownEl} onClick={() => { setIsBreedOpen(false); setBreed(e); }} key={e}>
-                {e}
+                <Typo color="black" variant="caption">{e}</Typo>
               </div>
             )
           })}
@@ -124,21 +124,20 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.sidoSection}>
           <div className={styles.sidoBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); }}>
             <input type="hidden" name="dog_breed" value={addr1} />
-
-            <Typo color="black">{addr1}</Typo>
+            <Typo color="black" variant="caption">{addr1}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
           {
             isSidoOpen
               ?
               <>
-                <div className={styles.dropdown} style={{ width: "150px" }}>
+                <div className={styles.dropdown}>
                   <>
                     {sido.map((e) => {
                       return (
 
                         <div className={styles.dropdownEl} onClick={() => { setIsSidoOpen(false); setVal1(e.sido); setAddr1(e.codeNm) }} key={e.sido}>
-                          {e.codeNm}
+                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
                         </div>
                       )
                     })}
@@ -152,20 +151,20 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.sigugunSection}>
           <div className={styles.sidoBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
             <input type="hidden" name="dog_breed" value={addr2} />
-            {addr2}
+            <Typo color="black" variant="caption">{addr2}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
           {
             isSigugunOpen
               ?
               <>
-                <div className={styles.dropdown} style={{ width: "150px" }}>
+                <div className={styles.dropdown}>
                   {sigugun
                     .filter((e) => e.sido === val1)
                     .map((e) => {
                       return (
                         <div className={styles.dropdownEl} onClick={() => { setIsSigugunOpen(false); setVal2(e.sigugun); setAddr2(e.codeNm) }} key={e.sigugun}>
-                          {e.codeNm}
+                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
                         </div>
                       )
                     })}
@@ -178,20 +177,20 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.dongSection}>
           <div className={styles.sidoBox} onClick={() => setIsDongOpen(true)}>
             <input type="hidden" name="dog_breed" value={addr3} />
-            {addr3}
+            <Typo color="black" variant="caption">{addr3}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
           {
             isDongOpen
               ?
               <>
-                <div className={styles.dropdown} style={{ width: "150px" }}>
+                <div className={styles.dropdown}>
                   {dong
                     .filter((e) => e.sido === val1 && e.sigugun === val2)
                     .map((e) => {
                       return (
                         <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
-                          {e.codeNm}
+                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
                         </div>
                       )
                     })}
@@ -254,7 +253,7 @@ export default function InputDog(props: InputDogdogInfo) {
               <div>
                 <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
                   <input type="hidden" name="dog_age" value={age} />
-                  {age}
+                  <Typo color="black" variant="caption">{age}</Typo>
                   <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
                   <DropdownIcon />
                 </div>
@@ -269,7 +268,7 @@ export default function InputDog(props: InputDogdogInfo) {
               <div>
                 <div className={styles.sexBox} onClick={() => setIsSexOpen(true)}>
                   <input type="hidden" name="dog_sex" value={sex} />
-                  {sex}
+                  <Typo color="black" variant="caption">{sex}</Typo>
                   <DropdownIcon className={styles.dropdownIcon} />
                 </div>
                 <SexDropdown />
@@ -287,7 +286,7 @@ export default function InputDog(props: InputDogdogInfo) {
               <div>
                 <div className={styles.breedBox} onClick={() => setIsBreedOpen(true)}>
                   <input type="hidden" name="dog_breed" value={breed} />
-                  {breed}
+                  <Typo color="black" variant="caption">{breed}</Typo>
                   <DropdownIcon className={styles.dropdownIcon} />
                 </div>
                 <BreedDropdown />
