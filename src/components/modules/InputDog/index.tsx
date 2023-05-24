@@ -9,16 +9,37 @@ import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
 import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
-import { hangjungdong } from "@src/constants/hangjungdong";
-
 import AddressDropdown from '@src/components/modules/AddressDropdown';
+
+
+// ------------------ 날짜선택 -> 모듈? --------------------------- //
+import 'dayjs/locale/ko'
+
+import { Dayjs } from 'dayjs'
+import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
+import generatePicker from 'antd/es/date-picker/generatePicker'
+import locale from 'antd/es/date-picker/locale/ko_KR'
+import { genPlaceholderStyle } from 'antd/es/input/style';
+
+const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
+
+
+
+export const AntDatePicker = () => {
+  return <DatePicker
+    locale={locale}
+    placeholder=""
+    className={styles.datePicker}
+  />
+}
+
+// --------------------------------------------------------------- //
 
 
 interface InputDogdogInfo {
   pageTitle: string;
   dogInfo?: DogInfo;
 }
-
 export default function InputDog(props: InputDogdogInfo) {
   const { pageTitle, dogInfo } = props;
   const ageEl = [...Array(21)];
@@ -228,9 +249,17 @@ export default function InputDog(props: InputDogdogInfo) {
                     </div>
 
                     <div className={styles.reportedContentEl}>
-                      <PawIcon />
-                      <Typo variant="caption" color="#606060">실종 날짜</Typo>
+                      <div className={styles.reportedContentTitle}>
+                        <PawIcon />
+                        <Typo variant="caption" color="#606060">실종 날짜</Typo>
+                      </div>
+
+                      <AntDatePicker />
+
+
                     </div>
+
+
                     <div className={styles.reportedContentEl}>
                       <PawIcon />
                       <Typo variant="caption" color="#606060">실종 시각</Typo>

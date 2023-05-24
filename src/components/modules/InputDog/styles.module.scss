@@ -318,7 +318,7 @@
     .reportedContentEl {
       display: flex;
       align-items: center;
-      margin-top: 5px;
+      margin-top: 8px;
 
       .reportedContentTitle {
         width: 60px;
@@ -328,61 +328,9 @@
       }
     }
 
-
-    .addrDropdownWrapper {
-      display: flex;
-
-      .addrBox {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 88px;
-        height: 30px;
-        border: 1px solid #D9D9D9;
-        border-radius: 5px;
-        padding: 5px 10px;
-        color: black;
-        margin-right: 5px;
-
-        // overflow: hidden;
-        // white-space: nowrap;
-
-        .inputAddr {
-          width: 55px;
-          //flex-grow: 1;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-
-      }
-
-      .addressDropdown {
-        width: 85px;
-        position: absolute;
-        background-color: white;
-        height: 120px;
-        border: 1px solid #d9d9d9;
-        border-radius: 5px;
-        overflow: scroll;
-        padding: 6px;
-        color: black;
-        animation: fadein .5s ease;
-
-
-        .dropdownEl {
-          height: 30px;
-          border-bottom: 1px solid #d9d9d9;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: slide-fade-in-dropdown-animation .5s ease;
-        }
-      }
-    }
-
     .addrDetailBox {
-      margin-top: 3px;
-      width: 250px;
+
+      width: 280px;
       height: 30px;
       border: 1px solid #D9D9D9;
       border-radius: 5px;
@@ -392,6 +340,17 @@
         outline: none;
       }
     }
+
+    .datePicker {
+      width: 130px;
+      height: 30px;
+      border: 1px solid #D9D9D9;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+    }
+
 
   }
 

@@ -20,12 +20,13 @@
 
 .addrDropdownWrapper {
   display: flex;
+  z-index: 999;
 
   .addrBox {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 88px;
+    width: 90px;
     height: 30px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
