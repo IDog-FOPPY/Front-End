@@ -13,15 +13,16 @@ import AddressDropdown from '@src/components/modules/AddressDropdown';
 
 
 import 'dayjs/locale/ko'
-import { Dayjs } from 'dayjs'
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 // import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 // import generatePicker from 'antd/es/date-picker/generatePicker'
 // const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-import locale from 'antd/es/date-picker/locale/ko_KR'
+import locale from 'antd/es/date-picker/locale/ko_KR';
 import { TimePicker } from 'antd';
 import { DatePicker } from 'antd';
-
-
+const timeFormat = 'HH:mm';
+const dateFormat = 'YY/MM/DD';
 
 interface InputDogdogInfo {
   pageTitle: string;
@@ -244,7 +245,9 @@ export default function InputDog(props: InputDogdogInfo) {
                       <DatePicker
                         locale={locale}
                         placeholder=""
+                        format={dateFormat}
                         className={styles.antPickerStyle}
+                        defaultValue={dayjs(dogInfo?.lostDate, dateFormat)}
                       />
 
                     </div>
@@ -256,9 +259,10 @@ export default function InputDog(props: InputDogdogInfo) {
                         <Typo variant="caption" color="#606060">실종 시각</Typo>
                       </div>
                       <TimePicker
-                        locale={locale}
                         placeholder=""
+                        format={timeFormat}
                         className={styles.antPickerStyle}
+                        defaultValue={dayjs(dogInfo?.lostTime, timeFormat)}
                       />
                     </div>
                     <div className={styles.reportedContentEl}>
@@ -270,7 +274,7 @@ export default function InputDog(props: InputDogdogInfo) {
                         <div className={styles.reportedContentTitle}></div>
                       </div>
 
-                      <textarea name="dog_disease" placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )" className={styles.diseaseBox} />
+                      <textarea name="dog_disease" placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )" defaultValue={dogInfo?.lostFeat} className={styles.etcBox} />
                     </div>
                   </div>
 

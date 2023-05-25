@@ -7,24 +7,21 @@ import ArrowRight from '@assets/svg/main/arrow-right.svg';
 import Bullhorn from '@assets/svg/main/bullhorn.svg';
 import dogEx from '@assets/png/dog-example.png';
 import styles from './styles.module.scss';
+import { DogInfo } from '@src/types/dogInfo';
 
-const DogList: Dog[] = [
-  { id: 0, image: dogEx, location: '송파구 방이동', time: '23/02/26 13:30' },
-  { id: 1, image: dogEx, location: '송파구 방이동', time: '23/02/26 13:30' },
-  { id: 2, image: dogEx, location: '송파구 방이동', time: '23/02/26 13:30' },
-  { id: 3, image: dogEx, location: '송파구 방이동', time: '23/02/26 13:30' },
-  { id: 4, image: dogEx, location: '송파구 방이동', time: '23/02/26 13:30' },
+
+const DogList: DogInfo[] = [
+  { id: 0, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
+  { id: 1, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
+  { id: 2, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
+  { id: 3, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
+  { id: 4, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
+  { id: 5, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
 ]
 
-interface Dog {
-  id: number;
-  image: StaticImageData;
-  location: string;
-  time: string;
-}
 
 interface DogCardProps {
-  dog: Dog;
+  dog: DogInfo;
 }
 
 const DogCard = (props: DogCardProps) => {
@@ -32,14 +29,18 @@ const DogCard = (props: DogCardProps) => {
 
   return (
     <div className={styles.dogCard}>
-      <Image alt="dog-image" src={dog.image} className={styles.dogImg} />
+      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
       <div className={styles.dogInfo}>
         <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 지역</Typo>
-        <Typo variant="footnote" color="black">{dog.location}</Typo>
+        <Typo variant="footnote" color="black">주소주소주소</Typo>
       </div>
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시점</Typo>
-        <Typo variant="footnote" color="black">{dog.time}</Typo>
+        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 날짜</Typo>
+        <Typo variant="footnote" color="black">{dog.lostDate}</Typo>
+      </div>
+      <div className={styles.dogInfo}>
+        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시각</Typo>
+        <Typo variant="footnote" color="black">{dog.lostTime}</Typo>
       </div>
     </div>
   )
@@ -67,7 +68,7 @@ export default function Lost() {
 
       <div className={styles.dogContainer}>
         <div className={styles.dogList}>
-          {DogList.map((dog: Dog) => {
+          {DogList.map((dog: DogInfo) => {
             return <DogCard dog={dog} key={dog.id} />
           })}
         </div>
