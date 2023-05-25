@@ -322,6 +322,7 @@
 
       .reportedContentTitle {
         width: 60px;
+        height: 30px;
         display: flex;
         align-items: center;
         margin-right: 5px;
@@ -341,7 +342,7 @@
       }
     }
 
-    .datePicker {
+    .antPickerStyle {
       width: 130px;
       height: 30px;
       border: 1px solid #D9D9D9;
@@ -351,7 +352,18 @@
       z-index: 1;
     }
 
+    .etcBox {
+      width: 280px;
+      height: 60px;
+      border: 1px solid #D9D9D9;
+      border-radius: 5px;
+      padding: 5px 10px;
+      resize: none;
 
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
 }

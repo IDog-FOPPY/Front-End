@@ -12,28 +12,15 @@ import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from '@src/components/modules/AddressDropdown';
 
 
-// ------------------ 날짜선택 -> 모듈? --------------------------- //
 import 'dayjs/locale/ko'
-
 import { Dayjs } from 'dayjs'
-import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
-import generatePicker from 'antd/es/date-picker/generatePicker'
+// import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
+// import generatePicker from 'antd/es/date-picker/generatePicker'
+// const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
 import locale from 'antd/es/date-picker/locale/ko_KR'
-import { genPlaceholderStyle } from 'antd/es/input/style';
+import { TimePicker } from 'antd';
+import { DatePicker } from 'antd';
 
-const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-
-
-
-export const AntDatePicker = () => {
-  return <DatePicker
-    locale={locale}
-    placeholder=""
-    className={styles.datePicker}
-  />
-}
-
-// --------------------------------------------------------------- //
 
 
 interface InputDogdogInfo {
@@ -226,6 +213,7 @@ export default function InputDog(props: InputDogdogInfo) {
             <textarea name="dog_disease" placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dogInfo?.disease} className={styles.diseaseBox} />
           </div>
 
+          {/* 실종신고 파트는 input 안넣었어요 장소,날짜,시간을 어케 전달해야 할지 모르겠어서ㅜㅠㅜ */}
           <div className={styles.contentEl}>
             <label className={styles.reportedCheck}>
               <input type="checkbox" name="reported" className={styles.customCheckBox} defaultChecked={reported} onClick={() => setReportedHandler()} />
@@ -253,20 +241,36 @@ export default function InputDog(props: InputDogdogInfo) {
                         <PawIcon />
                         <Typo variant="caption" color="#606060">실종 날짜</Typo>
                       </div>
-
-                      <AntDatePicker />
-
+                      <DatePicker
+                        locale={locale}
+                        placeholder=""
+                        className={styles.antPickerStyle}
+                      />
 
                     </div>
 
 
                     <div className={styles.reportedContentEl}>
-                      <PawIcon />
-                      <Typo variant="caption" color="#606060">실종 시각</Typo>
+                      <div className={styles.reportedContentTitle}>
+                        <PawIcon />
+                        <Typo variant="caption" color="#606060">실종 시각</Typo>
+                      </div>
+                      <TimePicker
+                        locale={locale}
+                        placeholder=""
+                        className={styles.antPickerStyle}
+                      />
                     </div>
                     <div className={styles.reportedContentEl}>
-                      <PawIcon />
-                      <Typo variant="caption" color="#606060">기타</Typo>
+                      <div>
+                        <div className={styles.reportedContentTitle}>
+                          <PawIcon />
+                          <Typo variant="caption" color="#606060">기타</Typo>
+                        </div>
+                        <div className={styles.reportedContentTitle}></div>
+                      </div>
+
+                      <textarea name="dog_disease" placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )" className={styles.diseaseBox} />
                     </div>
                   </div>
 
