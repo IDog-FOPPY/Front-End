@@ -3,55 +3,47 @@
 import Typo from '@components/core/Typo';
 import styles from './styles.module.scss';
 import dogEx from '@assets/png/dog-example.png';
+import { DogInfo } from '@src/types/dogInfo';
+import Image, { StaticImageData } from 'next/image';
 
 
-const DogList: Dog[] = [
-  { image: dogEx.src, location: '송파구 문정동 장지동주민센터', date: '23/02/26', time: '13:30', feature: '하네스가 분홍색임' },
-  { image: dogEx.src, location: '부평구 삼산동 현대아파트 401동 놀이터', date: '23/02/26', time: '13:30', feature: '사람을 보면 물어요' },
-  { image: dogEx.src, location: '송파구 방이동', date: '23/02/26', time: '13:30', feature: '하네스가 분홍색임 너무귀여워요 찾아주세요 제발제발제발' },
-  { image: dogEx.src, location: '송파구 방이동', date: '23/02/26', time: '13:30', feature: '하네스가 분홍색임' },
-  { image: dogEx.src, location: '송파구 방이동 희망어린이공원', date: '23/02/26', time: '13:30', feature: '하네스가 분홍색임' },
+
+const DogList: DogInfo[] = [
+  { id: 1, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
+  { id: 2, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
+  { id: 3, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
+  { id: 4, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
 ]
-
-interface Dog {
-  image: string;
-  location: string;
-  date: string;
-  time: string;
-  feature: string;
-}
-
 interface DogCardProps {
-  dog: Dog;
+  dog: DogInfo;
 }
-
 
 const DogCard = (props: DogCardProps) => {
   const { dog } = props;
 
   return (
     <div className={styles.dogCard}>
-      <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} />
+      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
       <div className={styles.contentSection}>
         <div className={styles.contentLeft}>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD" >실종 지역</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.location}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>주소주소주소</Typo>
           </div>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD">실종 날짜</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.date}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content}>{dog.lostDate}</Typo>
           </div>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD">실종 시간</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.time}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content}>{dog.lostTime}</Typo>
           </div>
         </div>
 
         <div className={styles.contentRight}>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD" >특징</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.feature}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.lostFeat}</Typo>
           </div>
         </div>
       </div>
@@ -67,8 +59,8 @@ export default function LostDogList() {
     <div className={styles.pageLayout}>
       <Typo variant="t2" bold color="black">가족을 찾고있어요</Typo>
       <div className={styles.dogList}>
-        {DogList.map((dog: Dog) => {
-          return <DogCard dog={dog} key={dog.image} />
+        {DogList.map((dog: DogInfo) => {
+          return <DogCard dog={dog} key={dog.id} />
         })}
       </div>
     </div>

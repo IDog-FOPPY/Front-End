@@ -1,9 +1,9 @@
 "use client";
 
+import { usePathname } from 'next/navigation';
 import PageFooter from "../PageFooter";
 import PageHeader from "../PageHeader";
 import styles from "./styles.module.scss";
-import { usePathname } from 'next/navigation';
 
 interface PageLayoutProps {
   children: React.ReactNode;

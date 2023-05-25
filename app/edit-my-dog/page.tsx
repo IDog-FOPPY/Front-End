@@ -1,25 +1,18 @@
-// 반려견 추가 페이지
+"use client";
 
-import styles from './styles.module.scss';
-import Typo from '@components/core/Typo';
-import ArrowLeft from '@assets/svg/arrow-left.svg';
-
+import { useSearchParams } from 'next/navigation';
+import dog1 from '@assets/png/main/dog1.png';
+import InputDog from '@src/components/modules/InputDog';
 
 export default function EditMyDogPage() {
+
+  // id값에 맞는 개 정보 받아와야함
+  const dogId = useSearchParams().get("id");
+
+  //더미데이터
+  const dog = { id: 1, img: dog1, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" }
+
   return (
-    <>
-      <div className={styles.pageLayout}>
-        <div className={styles.header}>
-          <div className={styles.backBtn} ><ArrowLeft /></div>
-          <Typo variant="t2" bold color="black">반려견 수정하기</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn}>완료</Typo>
-        </div>
-        <div className={styles.contentLayout}>
-          // Link 태그로 props 넘겨받아서 데이터 미리 입력된 페이지 출력
-        </div>
-
-      </div>
-    </>
-
+    <InputDog pageTitle="반려견 수정하기" dogInfo={dog} />
   )
 }
