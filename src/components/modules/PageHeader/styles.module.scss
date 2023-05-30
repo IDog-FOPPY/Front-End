@@ -10,14 +10,36 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
+  z-index: 100;
   background-color: white;
+
+  animation-name: slide;
+  animation-duration: 0.1s;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+  @keyframes slide {
+    0% {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      bottom: 0;
+      right: -100%;
+    }
+    100% {
+      left: 0;
+      right: 0;
+    }
+  }
 
   @include mobile {
     padding: 0 30px;
   }
 
   @include laptop {
-   padding: 0 136px;
+    padding: 0 136px;
   }
 
   @include desktop {
@@ -29,11 +51,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    
+
     .closeBtn {
       font-size: 28px;
       color: #5c5c5c;
-      font-weight: 700;
+      font-weight: 500;
     }
   }
 }

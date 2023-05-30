@@ -1,12 +1,12 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.formatOnSave": true, // 파일 저장시 자동수정 옵션
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.codeActionsOnSave": {
-      // For ESLint
-      "source.fixAll.eslint": true
-  },
+    // For ESLint
+    "source.fixAll.eslint": true
+  }
 }

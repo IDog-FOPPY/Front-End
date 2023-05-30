@@ -12,16 +12,20 @@
   margin: 0 auto;
   background-color: $white;
   min-height: 100vh;
+  padding-bottom: 30px;
 
   @include mobile {
-    padding: 0 30px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   @include laptop {
-   padding: 0 136px;
+    padding-left: 136px;
+    padding-right: 136px;
   }
 
   @include desktop {
-    padding: 0 360px;
+    padding-left: 360px;
+    padding-right: 360px;
   }
 }
