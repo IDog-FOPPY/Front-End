@@ -434,7 +434,7 @@ export default function InputDog(props: InputDogdogInfo) {
                         실종 장소
                       </Typo>
                     </div>
-                    <AddressDropdown addrDogInfo={dogInfo} />
+                    <AddressDropdown addrDogInfo={dogInfo} pageTitle="inputDog" />
                   </div>
                   <div className={styles.reportedContentEl}>
                     <div className={styles.reportedContentTitle} />

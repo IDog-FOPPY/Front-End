@@ -1,10 +1,13 @@
 // 유기견 게시판 페이지
+"use client";
 
+import { useState } from 'react';
 import Typo from '@components/core/Typo';
 import styles from './styles.module.scss';
 import dogEx from '@assets/png/dog-example.png';
 import { DogInfo } from '@src/types/dogInfo';
 import Image, { StaticImageData } from 'next/image';
+import AddressDropdown from '@src/components/modules/AddressDropdown';
 
 
 
@@ -54,10 +57,18 @@ const DogCard = (props: DogCardProps) => {
 
 
 export default function LostDogList() {
+  const [addr, setAddr] = useState("");
+
+  // const addrTextReturn = (text: string) => {
+  //   console.log(text);
+  // };
 
   return (
     <div className={styles.pageLayout}>
       <Typo variant="t2" bold color="black">가족을 찾고있어요</Typo>
+      <div>
+        <AddressDropdown pageTitle="lostDogPage" />
+      </div>
       <div className={styles.dogList}>
         {DogList.map((dog: DogInfo) => {
           return <DogCard dog={dog} key={dog.id} />

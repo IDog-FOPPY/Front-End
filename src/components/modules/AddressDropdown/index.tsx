@@ -1,3 +1,4 @@
+"use client";
 
 import { useState } from 'react';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
@@ -7,11 +8,15 @@ import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
 
 interface AddressDropdownDogInfo {
+  pageTitle: string;
   addrDogInfo?: DogInfo;
+  addrTextReturn?: (text: string) => void;
+  // addrTextReturn(text:string)?: void;
+
 }
 
 export default function AddressDropdown(props: AddressDropdownDogInfo) {
-  const { addrDogInfo } = props;
+  const { addrDogInfo, pageTitle, addrTextReturn } = props;
 
   const [isSidoOpen, setIsSidoOpen] = useState(false);
   const [isSigugunOpen, setIsSigugunOpen] = useState(false);
@@ -29,12 +34,13 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   // console.log(addrDogInfo?.sex)
 
 
+
+
   return (
     <>
       <div className={styles.addrDropdownWrapper}>
         <div className={styles.sidoSection}>
           <div className={styles.addrBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); setAddr3(""); }}>
-            <input type="hidden" name="dog_lostAddr1" value={addr1} />
             <Typo color="black" variant="caption" className={styles.inputAddr}>{addr1}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
@@ -60,7 +66,6 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
 
         <div className={styles.sigugunSection}>
           <div className={styles.addrBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
-            <input type="hidden" name="dog_lostAddr2" value={addr2} />
             <Typo color="black" variant="caption" className={styles.inputAddr}>{addr2}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
@@ -86,7 +91,6 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
 
         <div className={styles.dongSection}>
           <div className={styles.addrBox} onClick={() => setIsDongOpen(true)}>
-            <input type="hidden" name="dog_lostAddr3" value={addr3} />
             <Typo color="black" variant="caption" className={styles.inputAddr}>{addr3}</Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
@@ -110,6 +114,25 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
           }
         </div>
       </div>
+
+
+
+      {
+        //input 페이지에서 사용할 경우
+        pageTitle === "dogInput"
+          ?
+          <>
+            <input type="hidden" name="dog_lostAddr1" value={addr1} />
+            <input type="hidden" name="dog_lostAddr2" value={addr2} />
+            <input type="hidden" name="dog_lostAddr3" value={addr3} />
+          </>
+
+          //lostDogList 페이지에서 사용할 경우
+          :
+          <>
+            {/* {addrTextReturn(addr1)} */}
+          </>
+      }
     </>
   )
 }
