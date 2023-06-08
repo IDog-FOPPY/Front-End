@@ -58,4 +58,38 @@
       font-weight: 500;
     }
   }
+
+  .dogInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    overflow-x: scroll;
+
+    .dogEl {
+      .dogCircle {
+        position: relative;
+
+        .dogImg {
+          width: 100px;
+          height: 100px;
+          border-radius: 50px;
+        }
+
+        .editBtn {
+          position: absolute;
+          bottom: 0;
+          right: 10px;
+          z-index: 1;
+          background-color: #0074dd;
+          width: 24px;
+          height: 24px;
+          border-radius: 12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
 }
