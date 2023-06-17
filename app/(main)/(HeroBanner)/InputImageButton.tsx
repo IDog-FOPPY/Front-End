@@ -11,7 +11,7 @@ export default function InputImageButton () {
   
   const [img, setImage] = useState<FileList | null>();
 
-  useEffect(() => { console.log(img) },[img])
+  // useEffect(() => { console.log(img) },[img])
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files;

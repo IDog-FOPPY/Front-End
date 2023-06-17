@@ -6,11 +6,12 @@ interface TypoProps {
   color: string;
   style?: object;
   className?: string;
+  onClick?: () => void;
   children: React.ReactNode | string;
 }
 
 export default function Typo(props: TypoProps) {
-  const { bold = false, variant = 'h2', color, style, className, children } = props;
+  const { bold = false, variant = 'h2', color, style, className, onClick, children } = props;
 
   return (
     <div
@@ -19,7 +20,9 @@ export default function Typo(props: TypoProps) {
         color: color,
         ...style
       }}
-      className={className + ' ' + styles[variant]}>
+      className={className + ' ' + styles[variant]}
+      onClick={onClick}
+    >
       {children}
     </div>
   )
