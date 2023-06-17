@@ -30,11 +30,11 @@ const DogCard = (props: DogCardProps) => {
       </div>
       <div className={styles.dogInfo}>
         <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시점</Typo>
-        <Typo variant="footnote" color="black">{dog.missDate?.replaceAll('-','/') + ' ' + dog.missTime}</Typo>
+        <Typo variant="footnote" color="black">{dog.missDate?.replaceAll('-','/')}</Typo>
       </div>
       <div className={styles.dogInfo}>
         <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시각</Typo>
-        <Typo variant="footnote" color="black">{dog.lostTime}</Typo>
+        <Typo variant="footnote" color="black">{dog.missTime}</Typo>
       </div>
     </div>
   )
