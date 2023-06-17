@@ -21,10 +21,10 @@ const dateFormat = "MM/DD";
 
 
 const DogList: DogInfo[] = [
-  { id: 1, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
-  { id: 2, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
-  { id: 3, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
-  { id: 4, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" },
+  { id: 1, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
+  { id: 2, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
+  { id: 3, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
+  { id: 4, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
 ]
 interface DogCardProps {
   dog: DogInfo;
@@ -44,18 +44,18 @@ const DogCard = (props: DogCardProps) => {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD">실종 날짜</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.lostDate}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content}>{dog.missDate}</Typo>
           </div>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD">실종 시간</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.lostTime}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content}>{dog.missTime}</Typo>
           </div>
         </div>
 
         <div className={styles.contentRight}>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD" >특징</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.lostFeat}</Typo>
+            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.etc}</Typo>
           </div>
         </div>
       </div>
@@ -70,7 +70,9 @@ export default function LostDogList() {
   const [addr2, setAddr2] = useState("");
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
-  // console.log("day", missDate?.format("YYYY-MM-DD"))
+
+  //addr1, addr2, breed, missDate.format("YYYY-MM-DD") 백에 PUSH
+
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
   const breedEl = [
