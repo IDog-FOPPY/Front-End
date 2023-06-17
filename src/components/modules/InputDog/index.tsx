@@ -105,13 +105,8 @@ export default function InputDog(props: InputDogdogInfo) {
   const [addr3, setAddr3] = useState("");
 
   useEffect(() => {
-    console.log("img", img);
     if (img) setImgNum(img.length);
   }, [img]);
-
-  useEffect(() => {
-    console.log(neutered);
-  }, [neutered])
  
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (imgNum < 10) {
@@ -122,6 +117,25 @@ export default function InputDog(props: InputDogdogInfo) {
       }
     } else alert("사진 업로드는 10장까지 가능해요!");
   };
+
+  const onComplete = () => {
+    // if(name && sex && breed && age && neutered && reported){
+    //   postDogs({
+    //     petName: name,
+    //     petSex: sex === '여아' ? true : false,
+    //     petBreed: breed,
+    //     petOld: age,
+    //     disease: disease,
+    //     neutered: neutered,
+    //     note: memo,
+    //     missed: reported,
+    //     missCity: addr1,
+    //     missGu: addr2,
+    //     missDong: addr3,
+    //   })
+    // }
+  }
+
 
   const removeImage = (index: number) => {
     const temp = img.filter((v, i) => i != index);
@@ -207,104 +221,13 @@ export default function InputDog(props: InputDogdogInfo) {
     reported ? setReported(false) : setReported(true);
   };
 
-  const AddressDropdown = () => {
-
-    return (
-      <>
-        <div className={styles.sidoSection}>
-          <div className={styles.sidoBox} onClick={() => { setIsSidoOpen(true); setAddr2(""); }}>
-            <input type="hidden" name="dog_breed" value={addr1} />
-            <Typo color="black" variant="caption">{addr1}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
-          </div>
-          {
-            isSidoOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  <>
-                    {sido.map((e) => {
-                      return (
-
-                        <div className={styles.dropdownEl} onClick={() => { setIsSidoOpen(false); setVal1(e.sido); setAddr1(e.codeNm) }} key={e.sido}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                  </>
-                </div>
-              </>
-              : null
-          }
-        </div>
-
-        <div className={styles.sigugunSection}>
-          <div className={styles.sidoBox} onClick={() => { setIsSigugunOpen(true); setAddr3(""); }}>
-            <input type="hidden" name="dog_breed" value={addr2} />
-            <Typo color="black" variant="caption">{addr2}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
-          </div>
-          {
-            isSigugunOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  {sigugun
-                    .filter((e) => e.sido === val1)
-                    .map((e) => {
-                      return (
-                        <div className={styles.dropdownEl} onClick={() => { setIsSigugunOpen(false); setVal2(e.sigugun); setAddr2(e.codeNm) }} key={e.sigugun}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                </div>
-              </>
-              : null
-          }
-        </div>
-
-        <div className={styles.dongSection}>
-          <div className={styles.sidoBox} onClick={() => setIsDongOpen(true)}>
-            <input type="hidden" name="dog_breed" value={addr3} />
-            <Typo color="black" variant="caption">{addr3}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
-          </div>
-          {
-            isDongOpen
-              ?
-              <>
-                <div className={styles.dropdown}>
-                  {dong
-                    .filter((e) => e.sido === val1 && e.sigugun === val2)
-                    .map((e) => {
-                      return (
-                        <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
-                </div>
-              </>
-              : null
-          }
-        </div>
-
-
-
-      </>
-    )
-
-
-  }
-
   return (
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn}>완료</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -363,8 +286,7 @@ export default function InputDog(props: InputDogdogInfo) {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" name="dog_name" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.name} className={styles.nameBox} />
-
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" value={name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -378,7 +300,7 @@ export default function InputDog(props: InputDogdogInfo) {
             <div className={styles.ageBoxWrapper}>
               <div>
                 <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
-                  <input type="hidden" name="dog_age" value={age} />
+                  <input type="hidden" value={age} />
                   <Typo color="black" variant="caption">{age}</Typo>
                   <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
                   <DropdownIcon />
@@ -412,7 +334,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 <SexDropdown />
               </div>
               <label className={styles.neuteredCheck}>
-                <input type="checkbox" name="neutered" defaultChecked={dogInfo?.neutered} className={styles.customCheckBox} />
+                <input type="checkbox" name="neutered" defaultChecked={neutered} className={styles.customCheckBox} onChange={(e)=>setNeutered(e.target.checked)} />
                 <Typo color="#9F9F9F" variant="caption" className={styles.text}>중성화</Typo>
               </label>
             </div>
@@ -443,7 +365,7 @@ export default function InputDog(props: InputDogdogInfo) {
               </div>
               {
                 breed === "직접 입력"
-                  ? <input type="text" name="dog_breed" placeholder="직접 입력" className={styles.breedInput} />
+                  ? <input type="text" placeholder="직접 입력" className={styles.breedInput} onChange={(e)=>setBreed(e.target.value)} />
                   : null
               }
             </div>
@@ -451,12 +373,12 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} name="dog_memo" placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.memo} className={styles.memoBox} />
+            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={memo} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
-            <textarea name="dog_disease" placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dogInfo?.disease} className={styles.diseaseBox} />
+            <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
           </div>
 
           {/* 실종신고 파트는 input 안넣었어요 장소,날짜,시간을 어케 전달해야 할지 모르겠어서ㅜㅠㅜ */}
@@ -507,7 +429,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={dateFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.lostDate, dateFormat)}
+                      defaultValue={dayjs(dogInfo?.missDate, dateFormat)}
                     />
                   </div>
 
@@ -522,7 +444,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={timeFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.lostTime, timeFormat)}
+                      defaultValue={dayjs(dogInfo?.missTime, timeFormat)}
                     />
                   </div>
                   <div className={styles.reportedContentEl}>
@@ -539,7 +461,7 @@ export default function InputDog(props: InputDogdogInfo) {
                     <textarea
                       name="dog_disease"
                       placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )"
-                      defaultValue={dogInfo?.lostFeat}
+                      defaultValue={dogInfo?.etc}
                       className={styles.etcBox}
                     />
                   </div>
