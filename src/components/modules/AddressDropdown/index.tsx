@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import { hangjungdong } from "@src/constants/hangjungdong";
 import { DogInfo } from '@src/types/dogInfo';
@@ -10,9 +10,7 @@ import Typo from '@components/core/Typo';
 interface AddressDropdownDogInfo {
   pageTitle: string;
   addrDogInfo?: DogInfo;
-  addrTextReturn?: (text: string) => void;
-  // addrTextReturn(text:string)?: void;
-
+  addrTextReturn?: (text1: string, text2: string) => void;
 }
 
 export default function AddressDropdown(props: AddressDropdownDogInfo) {
@@ -33,7 +31,12 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
 
   // console.log(addrDogInfo?.sex)
 
-
+  useEffect(() => {
+    if (pageTitle !== "inputDog" && addrTextReturn) {
+      addrTextReturn(addr1, addr2);
+      //console.log("dropdown module", addr1)
+    }
+  }, [pageTitle, addr2])
 
 
   return (
@@ -89,37 +92,42 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
           }
         </div>
 
-        <div className={styles.dongSection}>
-          <div className={styles.addrBox} onClick={() => setIsDongOpen(true)}>
-            <Typo color="black" variant="caption" className={styles.inputAddr}>{addr3}</Typo>
-            <DropdownIcon className={styles.dropdownIcon} />
-          </div>
-          {
-            isDongOpen
-              ?
-              <>
-                <div className={styles.addressDropdown}>
-                  {dong
-                    .filter((e) => e.sido === val1 && e.sigugun === val2)
-                    .map((e) => {
-                      return (
-                        <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
-                          <Typo color="black" variant="caption">{e.codeNm}</Typo>
-                        </div>
-                      )
-                    })}
+        {
+          pageTitle === "inputDog"
+            ?
+            <>
+              <div className={styles.dongSection}>
+                <div className={styles.addrBox} onClick={() => setIsDongOpen(true)}>
+                  <Typo color="black" variant="caption" className={styles.inputAddr}>{addr3}</Typo>
+                  <DropdownIcon className={styles.dropdownIcon} />
                 </div>
-              </>
-              : null
-          }
-        </div>
+                {
+                  isDongOpen
+                    ?
+                    <>
+                      <div className={styles.addressDropdown}>
+                        {dong
+                          .filter((e) => e.sido === val1 && e.sigugun === val2)
+                          .map((e) => {
+                            return (
+                              <div className={styles.dropdownEl} onClick={() => { setIsDongOpen(false); setVal3(e.dong); setAddr3(e.codeNm) }} key={e.dong}>
+                                <Typo color="black" variant="caption">{e.codeNm}</Typo>
+                              </div>
+                            )
+                          })}
+                      </div>
+                    </>
+                    : null
+                }
+              </div>
+            </>
+            : null
+        }
       </div>
-
-
 
       {
         //input 페이지에서 사용할 경우
-        pageTitle === "dogInput"
+        pageTitle === "inputDog"
           ?
           <>
             <input type="hidden" name="dog_lostAddr1" value={addr1} />
@@ -128,10 +136,7 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
           </>
 
           //lostDogList 페이지에서 사용할 경우
-          :
-          <>
-            {/* {addrTextReturn(addr1)} */}
-          </>
+          : null
       }
     </>
   )
