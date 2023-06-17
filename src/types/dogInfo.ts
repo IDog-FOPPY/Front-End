@@ -1,17 +1,16 @@
 import { StaticImageData } from "next/image";
 
 export interface DogInfo {
-  // 변수명 수정 필요
-  id?: number; // petId
-  name?: string; // petName
-  sex?: boolean; // petSex (true 여자 false 남자)
-  breed?: string; // petBreed
-  age?: number; // petOld
+  petId?: number;
+  petName?: string; 
+  petSex?: boolean; // (true 여자 false 남자)
+  petBreed?: string; 
+  petOld?: number; 
   disease?: string;
   neutered?: boolean;
-  memo?: string; // note
+  note?: string;
 
-  reported?: boolean; // missed
+  missed?: boolean;
   missCity?: string;
   missGu?: string;
   missDong?: string;

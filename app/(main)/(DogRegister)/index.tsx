@@ -5,16 +5,10 @@ import Image, { StaticImageData } from 'next/image';
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
 import Paw from '@assets/svg/main/paw.svg';
-import dog1 from '@assets/png/main/dog1.png';
-import dog2 from '@assets/png/main/dog2.png';
 import ArrowRight from '@assets/svg/main/arrow-right.svg';
+import { useEffect, useState } from 'react';
+import { getDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
-
-
-const DogList: DogInfo[] = [
-  { id: 1, img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" },
-  { id: 2, img: dog2, name: "코쿤", reported: false, age: 1, sex: "여아", neutered: false, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "" }
-]
 
 interface DogCardProps {
   dog: DogInfo;
@@ -24,7 +18,7 @@ const DogCard = (props: DogCardProps) => {
   const { dog } = props;
 
   const renderReported = () => {
-    if (dog.reported === true)
+    if (dog.missed === true)
       return (
         <div >
           <Typo variant="footnote" color="white" className={styles.reported} >실종신고</Typo>
@@ -43,15 +37,14 @@ const DogCard = (props: DogCardProps) => {
   }
 
   return (
-
-
-
     <div className={styles.dogCard}>
-      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
+      {/* img 백 미구현 상태여서 임시 div로 대체 */}
+      {/* <Image alt="dog-image" src={dog.img} className={styles.dogImg} /> */}
+      <div className={styles.dogImg} />
       <div className={styles.dogInfo}>
 
         <div className={styles.headerSection}>
-          <Typo variant="t1" bold color="black">{dog.name}</Typo>
+          <Typo variant="t1" bold color="black">{dog.petName}</Typo>
           {renderReported()}
         </div>
 
@@ -61,13 +54,13 @@ const DogCard = (props: DogCardProps) => {
               <Typo variant="footnote" color="#0074DD" >나이</Typo>
               <Typo variant="footnote" color="black" className={styles.content}>
                 <>
-                  {dog.age}세
+                  {dog.petOld?.toString()}세
                 </>
               </Typo>
             </div>
             <div className={styles.contentEl}>
               <Typo variant="footnote" color="#0074DD">성별</Typo>
-              <Typo variant="footnote" color="black" className={styles.content}>{dog.sex}</Typo>
+              <Typo variant="footnote" color="black" className={styles.content}>{dog.petSex}</Typo>
               <div>
                 {renderNeutered()}
               </div>
@@ -75,7 +68,7 @@ const DogCard = (props: DogCardProps) => {
             </div>
             <div className={styles.contentEl}>
               <Typo variant="footnote" color="#0074DD">견종</Typo>
-              <Typo variant="footnote" color="black" className={styles.content}>{dog.breed}</Typo>
+              <Typo variant="footnote" color="black" className={styles.content}>{dog.petBreed}</Typo>
             </div>
           </div>
 
@@ -83,7 +76,7 @@ const DogCard = (props: DogCardProps) => {
           <div className={styles.contentRight}>
             <div className={styles.contentEl}>
               <Typo variant="footnote" color="#0074DD" >메모</Typo>
-              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.memo}</Typo>
+              <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.note}</Typo>
             </div>
             <div className={styles.contentEl}>
               <Typo variant="footnote" color="#0074DD">질병</Typo>
@@ -100,7 +93,19 @@ const DogCard = (props: DogCardProps) => {
 
 
 export default function DogRegister() {
+  
+  const [dogs, setDogs] = useState([]);
 
+  useEffect(() => {
+    const getData = async () => {
+      setDogs(await getDogs());
+    };
+    getData();
+  },[])
+
+  // useEffect(() => {
+  //   console.log('dogs',dogs);
+  // },[dogs])
 
   return (
     <div className={styles.sectionLayout}>
@@ -120,14 +125,17 @@ export default function DogRegister() {
       </div>
 
       <div className={styles.dogList}>
-        {DogList.map((el: DogInfo) => {
+        {dogs?.map((el: DogInfo) => {
           return (
-            <Link href={{
-              pathname: '/edit-my-dog',
-              query: { id: el.id },
-            }}
+            // <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
+            <Link 
+              href={{
+                pathname: '/edit-my-dog',
+                query: { id: el.petId },
+              }}
+              key={el.petId}
             >
-              <DogCard dog={el} key={el.name} />
+              <DogCard dog={el} key={el.petName} />
             </Link>
           )
         })}

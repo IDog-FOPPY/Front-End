@@ -1,11 +1,11 @@
 // 유기견 게시판 페이지
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Typo from '@components/core/Typo';
-import styles from './styles.module.scss';
-import dogEx from '@assets/png/dog-example.png';
+import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
+import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from '@src/components/modules/AddressDropdown';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
@@ -18,14 +18,6 @@ import locale from "antd/es/date-picker/locale/ko_KR";
 import { DatePicker } from "antd";
 const dateFormat = "MM/DD";
 
-
-
-const DogList: DogInfo[] = [
-  { id: 1, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
-  { id: 2, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
-  { id: 3, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
-  { id: 4, img: dogEx, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, missDate: "23/05/25", missTime: "21:20", etc: "제발찾아주세요" },
-]
 interface DogCardProps {
   dog: DogInfo;
 }
@@ -35,12 +27,14 @@ const DogCard = (props: DogCardProps) => {
 
   return (
     <div className={styles.dogCard}>
-      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
+      {/* 백에서 img 구현 안되 임시 div로 대체 */}
+      {/* <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} /> */}
+      <div className={styles.dogImg} />
       <div className={styles.contentSection}>
         <div className={styles.contentLeft}>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD" >실종 지역</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>주소주소주소</Typo>
+            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.missCity + ' ' + dog.missGu + ' ' + dog.missDong}</Typo>
           </div>
           <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD">실종 날짜</Typo>
@@ -70,6 +64,20 @@ export default function LostDogList() {
   const [addr2, setAddr2] = useState("");
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
+
+  const [dogs, setDogs] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      setDogs(await getStrayDogs());
+    };
+    getData();
+  },[]);
+
+  // useEffect(() => {
+  //   console.log('dogs',dogs)
+  // },[dogs])
+
 
   //addr1, addr2, breed, missDate.format("YYYY-MM-DD") 백에 PUSH
 
@@ -155,9 +163,6 @@ export default function LostDogList() {
     else return <div></div>;
   };
 
-
-
-
   return (
     <div className={styles.pageLayout}>
       <Typo variant="t2" bold color="black">가족을 찾고있어요</Typo>
@@ -207,8 +212,8 @@ export default function LostDogList() {
 
       </div>
       <div className={styles.dogList}>
-        {DogList.map((dog: DogInfo) => {
-          return <DogCard dog={dog} key={dog.id} />
+        {dogs.map((dog: DogInfo) => {
+          return <DogCard dog={dog} key={dog.petId} />
         })}
       </div>
     </div>

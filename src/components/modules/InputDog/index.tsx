@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent } from "react";
-import Typo from "@components/core/Typo";
-import { DogInfo } from "@src/types/dogInfo";
-import ArrowLeft from "@assets/svg/register/arrow-left.svg";
-import Album from "@assets/svg/register/album.svg";
-import DropdownIcon from "@assets/svg/register/dropdown.svg";
-import PawIcon from "@assets/svg/register/paw.svg";
-import styles from "./styles.module.scss";
-import Image, { StaticImageData } from "next/image";
+import { useState, useEffect, ChangeEvent } from 'react';
+import Typo from '@components/core/Typo';
+import { DogInfo } from '@src/types/dogInfo';
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import Album from '@assets/svg/register/album.svg';
+import DropdownIcon from '@assets/svg/register/dropdown.svg';
+import PawIcon from '@assets/svg/register/paw.svg';
+import styles from './styles.module.scss';
+import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from "@src/components/modules/AddressDropdown";
+import { hangjungdong } from "@src/constants/hangjungdong";
+import { postDogs } from '@src/logics/axios';
 
 import "dayjs/locale/ko";
 import type { Dayjs } from "dayjs";
@@ -79,18 +81,33 @@ export default function InputDog(props: InputDogdogInfo) {
   const [isSexOpen, setIsSexOpen] = useState(false);
   const [isAgeOpen, setIsAgeOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
-  const [age, setAge] = useState(dogInfo?.age);
-  const [sex, setSex] = useState(dogInfo?.sex);
-  const [breed, setBreed] = useState(dogInfo?.breed);
-  const [reported, setReported] = useState(dogInfo?.reported);
+  const [name, setName] = useState(dogInfo?.petName);
+  const [age, setAge] = useState(dogInfo?.petOld);
+  const [sex, setSex] = useState(dogInfo?.petSex === true ? '여아' : '남아');
+  const [neutered, setNeutered] = useState(dogInfo?.neutered);
+  const [breed, setBreed] = useState(dogInfo?.petBreed);
+  const [memo, setMemo] = useState(dogInfo?.note);
+  const [disease, setDisease] = useState(dogInfo?.disease);
+  const [reported, setReported] = useState(dogInfo?.missed);
   const [img, setImage] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
 
+  const [isSidoOpen, setIsSidoOpen] = useState(false);
+  const [isSigugunOpen, setIsSigugunOpen] = useState(false);
+  const [isDongOpen, setIsDongOpen] = useState(false);
+
+  const { sido, sigugun, dong } = hangjungdong;
+  const [val1, setVal1] = useState("");
+  const [val2, setVal2] = useState("");
+  const [val3, setVal3] = useState("");
+  const [addr1, setAddr1] = useState("");
+  const [addr2, setAddr2] = useState("");
+  const [addr3, setAddr3] = useState("");
+
   useEffect(() => {
-    console.log("img", img);
     if (img) setImgNum(img.length);
   }, [img]);
-
+ 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (imgNum < 10) {
       if (e.target.files) {
@@ -100,6 +117,25 @@ export default function InputDog(props: InputDogdogInfo) {
       }
     } else alert("사진 업로드는 10장까지 가능해요!");
   };
+
+  const onComplete = () => {
+    // if(name && sex && breed && age && neutered && reported){
+    //   postDogs({
+    //     petName: name,
+    //     petSex: sex === '여아' ? true : false,
+    //     petBreed: breed,
+    //     petOld: age,
+    //     disease: disease,
+    //     neutered: neutered,
+    //     note: memo,
+    //     missed: reported,
+    //     missCity: addr1,
+    //     missGu: addr2,
+    //     missDong: addr3,
+    //   })
+    // }
+  }
+
 
   const removeImage = (index: number) => {
     const temp = img.filter((v, i) => i != index);
@@ -189,15 +225,9 @@ export default function InputDog(props: InputDogdogInfo) {
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
-          <div className={styles.backBtn}>
-            <ArrowLeft />
-          </div>
-          <Typo variant="t2" bold color="black">
-            {pageTitle}
-          </Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn}>
-            완료
-          </Typo>
+          <div className={styles.backBtn}><ArrowLeft /></div>
+          <Typo variant="t2" bold color="black">{pageTitle}</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -255,21 +285,8 @@ export default function InputDog(props: InputDogdogInfo) {
             </div>
           </div>
           <div className={styles.contentEl}>
-            <Typo
-              variant="t3"
-              bold
-              color="black"
-              className={styles.contentTitle}
-            >
-              이름
-            </Typo>
-            <input
-              type="text"
-              name="dog_name"
-              placeholder="반려견의 이름(별명)을 등록해주세요"
-              defaultValue={dogInfo?.name}
-              className={styles.nameBox}
-            />
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" value={name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -282,21 +299,10 @@ export default function InputDog(props: InputDogdogInfo) {
             </Typo>
             <div className={styles.ageBoxWrapper}>
               <div>
-                <div
-                  className={styles.ageBox}
-                  onClick={() => setIsAgeOpen(true)}
-                >
-                  <input type="hidden" name="dog_age" value={age} />
-                  <Typo color="black" variant="caption">
-                    {age}
-                  </Typo>
-                  <Typo
-                    color="#9F9F9F"
-                    variant="caption"
-                    className={styles.text}
-                  >
-                    세
-                  </Typo>
+                <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
+                  <input type="hidden" value={age} />
+                  <Typo color="black" variant="caption">{age}</Typo>
+                  <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
                   <DropdownIcon />
                 </div>
                 <AgeDropdown />
@@ -328,15 +334,8 @@ export default function InputDog(props: InputDogdogInfo) {
                 <SexDropdown />
               </div>
               <label className={styles.neuteredCheck}>
-                <input
-                  type="checkbox"
-                  name="neutered"
-                  defaultChecked={dogInfo?.neutered}
-                  className={styles.customCheckBox}
-                />
-                <Typo color="#9F9F9F" variant="caption" className={styles.text}>
-                  중성화
-                </Typo>
+                <input type="checkbox" name="neutered" defaultChecked={neutered} className={styles.customCheckBox} onChange={(e)=>setNeutered(e.target.checked)} />
+                <Typo color="#9F9F9F" variant="caption" className={styles.text}>중성화</Typo>
               </label>
             </div>
           </div>
@@ -364,50 +363,22 @@ export default function InputDog(props: InputDogdogInfo) {
                 </div>
                 <BreedDropdown />
               </div>
-              {breed === "직접 입력" ? (
-                <input
-                  type="text"
-                  name="dog_breed"
-                  placeholder="직접 입력"
-                  className={styles.breedInput}
-                />
-              ) : null}
+              {
+                breed === "직접 입력"
+                  ? <input type="text" placeholder="직접 입력" className={styles.breedInput} onChange={(e)=>setBreed(e.target.value)} />
+                  : null
+              }
             </div>
           </div>
 
           <div className={styles.contentEl}>
-            <Typo
-              variant="t3"
-              bold
-              color="black"
-              className={styles.contentTitle}
-            >
-              메모
-            </Typo>
-            <textarea
-              rows={1}
-              name="dog_memo"
-              placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)"
-              defaultValue={dogInfo?.memo}
-              className={styles.memoBox}
-            />
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
+            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={memo} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
-            <Typo
-              variant="t3"
-              bold
-              color="black"
-              className={styles.contentTitle}
-            >
-              질병
-            </Typo>
-            <textarea
-              name="dog_disease"
-              placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)"
-              defaultValue={dogInfo?.disease}
-              className={styles.diseaseBox}
-            />
+            <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
+            <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
           </div>
 
           {/* 실종신고 파트는 input 안넣었어요 장소,날짜,시간을 어케 전달해야 할지 모르겠어서ㅜㅠㅜ */}
@@ -458,7 +429,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={dateFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.lostDate, dateFormat)}
+                      defaultValue={dayjs(dogInfo?.missDate, dateFormat)}
                     />
                   </div>
 
@@ -473,7 +444,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={timeFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.lostTime, timeFormat)}
+                      defaultValue={dayjs(dogInfo?.missTime, timeFormat)}
                     />
                   </div>
                   <div className={styles.reportedContentEl}>
@@ -490,7 +461,7 @@ export default function InputDog(props: InputDogdogInfo) {
                     <textarea
                       name="dog_disease"
                       placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )"
-                      defaultValue={dogInfo?.lostFeat}
+                      defaultValue={dogInfo?.etc}
                       className={styles.etcBox}
                     />
                   </div>

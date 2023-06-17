@@ -1,5 +1,7 @@
 // 유기견 게시판 페이지
+"use client";
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link'
 import Image, { StaticImageData } from 'next/image';
 import Typo from '@components/core/Typo';
@@ -7,18 +9,8 @@ import ArrowRight from '@assets/svg/main/arrow-right.svg';
 import Bullhorn from '@assets/svg/main/bullhorn.svg';
 import dogEx from '@assets/png/dog-example.png';
 import styles from './styles.module.scss';
+import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
-
-
-const DogList: DogInfo[] = [
-  { id: 0, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-  { id: 1, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-  { id: 2, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-  { id: 3, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-  { id: 4, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-  { id: 5, img: dogEx, lostDate: '23/02/26', lostTime: '13:30' },
-]
-
 
 interface DogCardProps {
   dog: DogInfo;
@@ -29,24 +21,40 @@ const DogCard = (props: DogCardProps) => {
 
   return (
     <div className={styles.dogCard}>
-      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
+      {/* 백에서 img 구현 안되 임시 div로 대체 */}
+      {/* <Image alt="dog-image" src={dog.image} className={styles.dogImg} /> */}
+      <div className={styles.dogImg} />
       <div className={styles.dogInfo}>
         <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 지역</Typo>
-        <Typo variant="footnote" color="black">주소주소주소</Typo>
+        <Typo variant="footnote" color="black">{dog.missCity + ' ' + dog.missGu + ' ' + dog.missDong}</Typo>
       </div>
       <div className={styles.dogInfo}>
-        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 날짜</Typo>
-        <Typo variant="footnote" color="black">{dog.lostDate}</Typo>
+        <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시점</Typo>
+        <Typo variant="footnote" color="black">{dog.missDate?.replaceAll('-','/')}</Typo>
       </div>
       <div className={styles.dogInfo}>
         <Typo variant="footnote" color="#0074DD" style={{ marginRight: '10px' }}>실종 시각</Typo>
-        <Typo variant="footnote" color="black">{dog.lostTime}</Typo>
+        <Typo variant="footnote" color="black">{dog.missTime}</Typo>
       </div>
     </div>
   )
 }
 
 export default function Lost() {
+
+  const [dogs, setDogs] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      setDogs(await getStrayDogs());
+    };
+    getData();
+  },[]);
+
+  // useEffect(() => {
+  //   console.log('dogs',dogs)
+  // },[dogs])
+  
   return (
     <div className={styles.sectionLayout}>
       <Link href="/lost-dog-list">
@@ -68,8 +76,8 @@ export default function Lost() {
 
       <div className={styles.dogContainer}>
         <div className={styles.dogList}>
-          {DogList.map((dog: DogInfo) => {
-            return <DogCard dog={dog} key={dog.id} />
+          {dogs.map((dog: DogInfo) => {
+            return <DogCard dog={dog} key={dog.petId} />
           })}
         </div>
       </div>
