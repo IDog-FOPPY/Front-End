@@ -1,6 +1,138 @@
 .pageLayout {
   width: 100%;
 
+  .sortDogWrapper {
+    display: flex;
+    margin: 10px 0;
+
+    //justify-content: space-around;
+    .dropdownIcon {
+      margin-left: auto;
+    }
+
+    .sortDog {
+      width: 100px;
+      height: 30px;
+      margin-right: 10px;
+      border-radius: 30px;
+      border: 2px solid #D9D9D9;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      justify-content: space-around;
+      overflow-x: hidden;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .antPickerStyle {
+      width: 90px;
+      height: 30px;
+      border: 2px solid #d9d9d9;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      margin-right: 10px;
+
+      ::-webkit-input-placeholder {
+        /* Safari, Chrome and Opera */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      :-moz-placeholder {
+        /* Firefox 18- */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      :-ms-input-placeholder {
+        /* IE 10+ */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      ::-ms-input-placeholder {
+        /* Edge */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      :placeholder-shown {
+        /* Standard one last! */
+        color: #606060;
+        font-size: 12px;
+        line-height: 18px;
+      }
+    }
+
+    @keyframes slide-fade-in-dropdown-animation {
+      0% {
+        transform: translateY(-100%);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .dropdown {
+      position: absolute;
+      background-color: white;
+      width: 100px;
+      height: 130px;
+      border: 1px solid #d9d9d9;
+      border-radius: 10px;
+      overflow: scroll;
+      padding: 6px;
+      color: black;
+      animation: fadein 0.5s ease;
+
+      .dropdownEl {
+        height: 30px;
+        border-bottom: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: slide-fade-in-dropdown-animation 0.5s ease;
+      }
+    }
+
+    .searchBox {
+      width: 50px;
+      height: 30px;
+      border-radius: 30px;
+      background-color: #606060;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
+    }
+  }
+
+
   .dogCard {
     //width: 100%;
     height: 100%;

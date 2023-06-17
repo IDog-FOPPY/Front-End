@@ -6,7 +6,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.codeActionsOnSave": {
-      // For ESLint
-      "source.fixAll.eslint": true
-  },
+    // For ESLint
+    "source.fixAll.eslint": true
+  }
 }

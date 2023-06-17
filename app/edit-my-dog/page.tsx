@@ -10,7 +10,7 @@ export default function EditMyDogPage() {
   const dogId = useSearchParams().get("id");
 
   //더미데이터
-  const dog = { id: 1, img: dog1, name: "코코", reported: true, age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기" }
+  const dog = { id: 1, img: dog1, name: "코코", age: 4, sex: "남아", neutered: true, breed: "웰시코기", memo: " 메모  22년 10월에 건강검진 완료", disease: "견과류 알레르기", reported: true, lostDate: "23/05/25", lostTime: "21:20", lostFeat: "제발찾아주세요" }
 
   return (
     <InputDog pageTitle="반려견 수정하기" dogInfo={dog} />

@@ -1,0 +1,71 @@
+@keyframes slide-fade-in-dropdown-animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.addrDropdownWrapper {
+  display: flex;
+  z-index: 999;
+
+  .addrBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90px;
+    height: 30px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: black;
+    margin-right: 5px;
+
+    // overflow: hidden;
+    // white-space: nowrap;
+
+    .inputAddr {
+      width: 55px;
+      //flex-grow: 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+  }
+
+  .addressDropdown {
+    width: 90px;
+    position: absolute;
+    background-color: white;
+    height: 120px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    overflow: scroll;
+    padding: 6px;
+    color: black;
+    animation: fadein .5s ease;
+
+
+    .dropdownEl {
+      height: 30px;
+      border-bottom: 1px solid #d9d9d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: slide-fade-in-dropdown-animation .5s ease;
+    }
+  }
+}
