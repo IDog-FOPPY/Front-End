@@ -7,7 +7,6 @@ import Image, { StaticImageData } from 'next/image';
 import Typo from '@components/core/Typo';
 import ArrowRight from '@assets/svg/main/arrow-right.svg';
 import Bullhorn from '@assets/svg/main/bullhorn.svg';
-import dogEx from '@assets/png/dog-example.png';
 import styles from './styles.module.scss';
 import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
@@ -51,10 +50,6 @@ export default function Lost() {
     getData();
   },[]);
 
-  // useEffect(() => {
-  //   console.log('dogs',dogs)
-  // },[dogs])
-  
   return (
     <div className={styles.sectionLayout}>
       <Link href="/lost-dog-list">

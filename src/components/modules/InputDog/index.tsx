@@ -1,27 +1,23 @@
 "use client";
 
 import { useState, useEffect, ChangeEvent } from 'react';
+import "dayjs/locale/ko";
+import dayjs from "dayjs";
+import type { Dayjs } from "dayjs";
+import locale from "antd/es/date-picker/locale/ko_KR";
+import { TimePicker } from "antd";
+import { DatePicker } from "antd";
 import Typo from '@components/core/Typo';
 import { DogInfo } from '@src/types/dogInfo';
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Album from '@assets/svg/register/album.svg';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
-import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from "@src/components/modules/AddressDropdown";
-import { hangjungdong } from "@src/constants/hangjungdong";
 import { postDogs } from '@src/logics/axios';
+import styles from './styles.module.scss';
 
-import "dayjs/locale/ko";
-import type { Dayjs } from "dayjs";
-import dayjs from "dayjs";
-// import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
-// import generatePicker from 'antd/es/date-picker/generatePicker'
-// const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-import locale from "antd/es/date-picker/locale/ko_KR";
-import { TimePicker } from "antd";
-import { DatePicker } from "antd";
 const timeFormat = "HH:mm";
 const dateFormat = "YY/MM/DD";
 
@@ -84,29 +80,22 @@ export default function InputDog(props: InputDogdogInfo) {
   const [name, setName] = useState(dogInfo?.petName);
   const [age, setAge] = useState(dogInfo?.petOld);
   const [sex, setSex] = useState(dogInfo?.petSex === true ? '여아' : '남아');
-  const [neutered, setNeutered] = useState(dogInfo?.neutered);
+  const [neutered, setNeutered] = useState(dogInfo?.neutered ? dogInfo?.neutered : false);
   const [breed, setBreed] = useState(dogInfo?.petBreed);
   const [memo, setMemo] = useState(dogInfo?.note);
   const [disease, setDisease] = useState(dogInfo?.disease);
-  const [reported, setReported] = useState(dogInfo?.missed);
+  const [reported, setReported] = useState(dogInfo?.missed ? dogInfo?.missed : false);
   const [img, setImage] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
-
-  const [isSidoOpen, setIsSidoOpen] = useState(false);
-  const [isSigugunOpen, setIsSigugunOpen] = useState(false);
-  const [isDongOpen, setIsDongOpen] = useState(false);
-
-  const { sido, sigugun, dong } = hangjungdong;
-  const [val1, setVal1] = useState("");
-  const [val2, setVal2] = useState("");
-  const [val3, setVal3] = useState("");
-  const [addr1, setAddr1] = useState("");
-  const [addr2, setAddr2] = useState("");
-  const [addr3, setAddr3] = useState("");
-
+  const [addr1, setAddr1] = useState('');
+  const [addr2, setAddr2] = useState('');
+  const [addr3, setAddr3] = useState('');
+  
   useEffect(() => {
     if (img) setImgNum(img.length);
   }, [img]);
+
+  // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
  
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (imgNum < 10) {
@@ -118,24 +107,43 @@ export default function InputDog(props: InputDogdogInfo) {
     } else alert("사진 업로드는 10장까지 가능해요!");
   };
 
-  const onComplete = () => {
-    // if(name && sex && breed && age && neutered && reported){
-    //   postDogs({
-    //     petName: name,
-    //     petSex: sex === '여아' ? true : false,
-    //     petBreed: breed,
-    //     petOld: age,
-    //     disease: disease,
-    //     neutered: neutered,
-    //     note: memo,
-    //     missed: reported,
-    //     missCity: addr1,
-    //     missGu: addr2,
-    //     missDong: addr3,
-    //   })
-    // }
+  const onComplete = async () => {
+    console.log(name, sex, breed, age, neutered, reported);
+    if(name && sex && breed && age){
+      const res = await postDogs({
+        petName: name,
+        petSex: sex === '여아' ? true : false,
+        petBreed: breed,
+        petOld: age,
+        disease: disease,
+        neutered: neutered,
+        note: memo,
+        missed: reported,
+        missCity: addr1,
+        missGu: addr2,
+        missDong: addr3,
+      })
+      console.log({
+        petName: name,
+        petSex: sex === '여아' ? true : false,
+        petBreed: breed,
+        petOld: age,
+        disease: disease,
+        neutered: neutered,
+        note: memo,
+        missed: reported,
+        missCity: addr1,
+        missGu: addr2,
+        missDong: addr3,
+      },res);
+    }
   }
 
+  const addrTextReturn = (str1: string, str2: string, str3: string) => {
+    setAddr1(str1);
+    setAddr2(str2);
+    setAddr3(str3);
+  }
 
   const removeImage = (index: number) => {
     const temp = img.filter((v, i) => i != index);
@@ -227,7 +235,7 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => onComplete()}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -381,7 +389,6 @@ export default function InputDog(props: InputDogdogInfo) {
             <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
           </div>
 
-          {/* 실종신고 파트는 input 안넣었어요 장소,날짜,시간을 어케 전달해야 할지 모르겠어서ㅜㅠㅜ */}
           <div className={styles.contentEl}>
             <label className={styles.reportedCheck}>
               <input
@@ -405,7 +412,7 @@ export default function InputDog(props: InputDogdogInfo) {
                         실종 장소
                       </Typo>
                     </div>
-                    <AddressDropdown addrDogInfo={dogInfo} pageTitle="inputDog" />
+                    <AddressDropdown pageTitle="inputDog" addrTextReturn={addrTextReturn} />
                   </div>
                   <div className={styles.reportedContentEl}>
                     <div className={styles.reportedContentTitle} />

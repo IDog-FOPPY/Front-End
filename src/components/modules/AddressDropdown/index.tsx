@@ -3,18 +3,16 @@
 import { useEffect, useState } from 'react';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import { hangjungdong } from "@src/constants/hangjungdong";
-import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
 import Typo from '@components/core/Typo';
 
 interface AddressDropdownDogInfo {
   pageTitle: string;
-  addrDogInfo?: DogInfo;
-  addrTextReturn?: (text1: string, text2: string) => void;
+  addrTextReturn?: ((text1: string, text2: string) => void) | ((text1: string, text2: string, text3: string) => void);
 }
 
 export default function AddressDropdown(props: AddressDropdownDogInfo) {
-  const { addrDogInfo, pageTitle, addrTextReturn } = props;
+  const { pageTitle, addrTextReturn } = props;
 
   const [isSidoOpen, setIsSidoOpen] = useState(false);
   const [isSigugunOpen, setIsSigugunOpen] = useState(false);
@@ -34,10 +32,12 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   useEffect(() => {
     if (pageTitle !== "inputDog" && addrTextReturn) {
       addrTextReturn(addr1, addr2);
-      //console.log("dropdown module", addr1)
+    } else if (pageTitle === "inputDog" && addrTextReturn) {
+      addrTextReturn(addr1, addr2, addr3);
     }
-  }, [pageTitle, addr2])
+  }, [pageTitle, addrTextReturn, addr1, addr2, addr3])
 
+  useEffect(() => {console.log('addrrrrr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   return (
     <>

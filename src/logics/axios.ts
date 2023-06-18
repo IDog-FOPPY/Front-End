@@ -18,17 +18,12 @@ interface loginProps {
   pw: string;
 }
 export async function login({ id, pw }: loginProps) {
-  const formData = new FormData();
-  formData.append("username", id);
-  formData.append("password", pw);
+  // const formData = new FormData();
+  // formData.append("username", id);
+  // formData.append("password", pw);
 
   // try {
-  //   const res = await axios.post("/v1/member/login", {
-  //     params: {
-  //       username: id,
-  //       password: pw,
-  //     },
-  //   });
+  //   const res = await axios.post("/v1/member/login", formData);
   //   console.log(res.data)
   //   return res.data;
   // } catch (err) {
@@ -37,9 +32,13 @@ export async function login({ id, pw }: loginProps) {
   //   return {};
   // }
 
-
   try {
-    const res = await axios.post("/v1/member/login", formData);
+    const res = await axios.post("/v1/member/login", {
+      params: {
+        username: id,
+        password: pw,
+      },
+    });
     console.log(res.data)
     return res.data;
   } catch (err) {
