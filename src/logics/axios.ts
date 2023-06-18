@@ -18,17 +18,32 @@ interface loginProps {
   pw: string;
 }
 export async function login({ id, pw }: loginProps) {
-  console.log("login", id, pw)
-  try {
-    const res = await axios.post("/v1/member/login", {
-      params: {
-        username: id,
-        password: pw,
-      },
-    });
+  const formData = new FormData();
+  formData.append("username", id);
+  formData.append("password", pw);
 
+  // try {
+  //   const res = await axios.post("/v1/member/login", {
+  //     params: {
+  //       username: id,
+  //       password: pw,
+  //     },
+  //   });
+  //   console.log(res.data)
+  //   return res.data;
+  // } catch (err) {
+  //   console.log("error")
+  //   console.log(err);
+  //   return {};
+  // }
+
+
+  try {
+    const res = await axios.post("/v1/member/login", formData);
+    console.log(res.data)
     return res.data;
   } catch (err) {
+    console.log("error")
     console.log(err);
     return {};
   }
