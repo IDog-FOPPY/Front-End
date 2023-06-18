@@ -1,0 +1,41 @@
+.pageLayout {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo {
+    width: 200px;
+    height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 80px;
+  }
+
+
+  .loginBox {
+    width: 280px;
+    height: 40px;
+    border: 1px solid #EECD6D;
+    border-radius: 15px;
+    padding: 0px 20px;
+    margin-bottom: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .loginBtn {
+    width: 120px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #EECD6D;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

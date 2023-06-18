@@ -2,12 +2,13 @@ import { DogInfo } from "@src/types/dogInfo";
 import Axios from "axios";
 
 export const axios = Axios.create({
-  baseURL: 'https://foppy.shop/api',
+  // baseURL: 'https://foppy.shop/api',
+  baseURL: 'http://54.152.250.167:8080/api',
   timeout: 30000,
   headers: {
     // "Content-Language": "utf-8",
     // "Content-Type": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1pbmppd29uIiwiaWF0IjoxNjg2OTgyNTg1LCJleHAiOjE2ODcwNjg5ODV9.S4QQSU_IBijtHr0O8n5RvrrGzKRO_Nlwn-WArd9A6dg",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN0cmluZyIsImlhdCI6MTY4NzA4NDI1MiwiZXhwIjoxNjg3MTcwNjUyfQ._Eg7OZnI92VgWOaVEJnify-lxG5OiJor0Gh5cXviJl0",
   },
 });
 
@@ -16,7 +17,8 @@ interface loginProps {
   id: string;
   pw: string;
 }
-export async function login({id, pw}: loginProps) {
+export async function login({ id, pw }: loginProps) {
+  console.log("login", id, pw)
   try {
     const res = await axios.post("/v1/member/login", {
       params: {
@@ -24,6 +26,7 @@ export async function login({id, pw}: loginProps) {
         password: pw,
       },
     });
+
     return res.data;
   } catch (err) {
     console.log(err);
@@ -36,7 +39,7 @@ interface joinProps {
   id: string;
   pw: string;
 }
-export async function join({id, pw}: joinProps) {
+export async function join({ id, pw }: joinProps) {
   try {
     const res = await axios.post("/v1/member/join", {
       params: {
