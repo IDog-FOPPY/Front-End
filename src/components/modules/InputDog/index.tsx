@@ -19,7 +19,7 @@ import { postDogs } from '@src/logics/axios';
 import styles from './styles.module.scss';
 
 const timeFormat = "HH:mm";
-const dateFormat = "YY/MM/DD";
+const dateFormat = "YYYY/MM/DD";
 
 interface InputDogdogInfo {
   pageTitle: string;
@@ -78,26 +78,41 @@ export default function InputDog(props: InputDogdogInfo) {
   const [isAgeOpen, setIsAgeOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
   const [name, setName] = useState(dogInfo?.petName);
-  const [age, setAge] = useState(dogInfo?.petOld);
-  const [sex, setSex] = useState(dogInfo?.petSex === true ? '여아' : '남아');
-  const [neutered, setNeutered] = useState(dogInfo?.neutered ? dogInfo?.neutered : false);
-  const [breed, setBreed] = useState(dogInfo?.petBreed);
+  const [age, setAge] = useState<number>();
+  const [sex, setSex] = useState<string>();
+  const [neutered, setNeutered] = useState(false);
+  const [breed, setBreed] = useState<string>();
   const [memo, setMemo] = useState(dogInfo?.note);
   const [disease, setDisease] = useState(dogInfo?.disease);
-  const [reported, setReported] = useState(dogInfo?.missed ? dogInfo?.missed : false);
+  const [reported, setReported] = useState(false);
   const [img, setImage] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
-  const [addr1, setAddr1] = useState('');
-  const [addr2, setAddr2] = useState('');
-  const [addr3, setAddr3] = useState('');
-  const [addr4, setAddr4] = useState('');
-  
+  const [addr1, setAddr1] = useState<string>();
+  const [addr2, setAddr2] = useState<string>();
+  const [addr3, setAddr3] = useState<string>();
+  const [addr4, setAddr4] = useState<string>();
+
   useEffect(() => {
     if (img) setImgNum(img.length);
   }, [img]);
 
+  // useEffect(() => { console.log('name', name) }, [name]);
+
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
- 
+
+  useEffect(() => {
+    setAge(dogInfo?.petOld);
+    setSex(dogInfo?.petSex === true ? '여아' : '남아');
+    setBreed(dogInfo?.petBreed);
+    setReported(dogInfo?.missed ? dogInfo?.missed : false);
+    setAddr1(dogInfo?.missCity);
+    setAddr2(dogInfo?.missGu);
+    setAddr3(dogInfo?.missDong);
+    setAddr4(dogInfo?.missDetail);
+
+  }, [dogInfo])
+
+
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (imgNum < 10) {
       if (e.target.files) {
@@ -110,7 +125,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
   const onComplete = async () => {
     console.log(name, sex, breed, age, neutered, reported);
-    if(name && sex && breed && age){
+    if (name && sex && breed && age && pageTitle === "반려견 등록하기") {
       const res = await postDogs({
         petName: name,
         petSex: sex === '여아' ? true : false,
@@ -125,7 +140,7 @@ export default function InputDog(props: InputDogdogInfo) {
         missDong: addr3,
         missDetail: addr4,
       })
-      console.log({
+      console.log("반려견 등록 성공", {
         petName: name,
         petSex: sex === '여아' ? true : false,
         petBreed: breed,
@@ -138,14 +153,46 @@ export default function InputDog(props: InputDogdogInfo) {
         missGu: addr2,
         missDong: addr3,
         missDetail: addr4,
-      },res);
+      }, res);
     }
+    else if (name && sex && breed && age && pageTitle === "반려견 수정하기") {
+      const res = await postDogs({
+        petName: name,
+        petSex: sex === '여아' ? true : false,
+        petBreed: breed,
+        petOld: age,
+        disease: disease,
+        neutered: neutered,
+        note: memo,
+        missed: reported,
+        missCity: addr1,
+        missGu: addr2,
+        missDong: addr3,
+        missDetail: addr4,
+      })
+      console.log("반려견 수정 성공", {
+        petName: name,
+        petSex: sex === '여아' ? true : false,
+        petBreed: breed,
+        petOld: age,
+        disease: disease,
+        neutered: neutered,
+        note: memo,
+        missed: reported,
+        missCity: addr1,
+        missGu: addr2,
+        missDong: addr3,
+        missDetail: addr4,
+      }, res);
+    }
+    else console.log("error");
   }
 
   const addrTextReturn = (str1: string, str2: string, str3: string) => {
     setAddr1(str1);
     setAddr2(str2);
     setAddr3(str3);
+    //console.log(addr1, addr2, addr3);
   }
 
   const removeImage = (index: number) => {
@@ -297,7 +344,7 @@ export default function InputDog(props: InputDogdogInfo) {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" value={name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.petName} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -345,7 +392,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 <SexDropdown />
               </div>
               <label className={styles.neuteredCheck}>
-                <input type="checkbox" name="neutered" defaultChecked={neutered} className={styles.customCheckBox} onChange={(e)=>setNeutered(e.target.checked)} />
+                <input type="checkbox" name="neutered" defaultChecked={dogInfo?.neutered} className={styles.customCheckBox} onChange={(e) => setNeutered(e.target.checked)} />
                 <Typo color="#9F9F9F" variant="caption" className={styles.text}>중성화</Typo>
               </label>
             </div>
@@ -376,7 +423,7 @@ export default function InputDog(props: InputDogdogInfo) {
               </div>
               {
                 breed === "직접 입력"
-                  ? <input type="text" placeholder="직접 입력" className={styles.breedInput} onChange={(e)=>setBreed(e.target.value)} />
+                  ? <input type="text" placeholder="직접 입력" className={styles.breedInput} onChange={(e) => setBreed(e.target.value)} defaultValue={dogInfo?.disease} />
                   : null
               }
             </div>
@@ -384,12 +431,12 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={memo} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
+            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
-            <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
+            <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dogInfo?.disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
@@ -398,14 +445,14 @@ export default function InputDog(props: InputDogdogInfo) {
                 type="checkbox"
                 name="reported"
                 className={styles.customCheckBox}
-                defaultChecked={reported}
-                onClick={()=>setReportedHandler()}
+                defaultChecked={dogInfo?.missed}
+                onClick={() => setReportedHandler()}
               />
               <Typo color="red" variant="t3" className={styles.text}>
                 실종 신고하기
               </Typo>
             </label>
-            {reported === true ? (
+            {reported ? (
               <>
                 <div className={styles.reportedSection}>
                   <div className={styles.reportedContentEl}>
@@ -415,15 +462,16 @@ export default function InputDog(props: InputDogdogInfo) {
                         실종 장소
                       </Typo>
                     </div>
-                    <AddressDropdown pageTitle="inputDog" addrTextReturn={addrTextReturn} />
+                    <AddressDropdown pageTitle="inputDog" addrTextReturn={addrTextReturn} address1={addr1} address2={addr2} address3={addr3} />
                   </div>
                   <div className={styles.reportedContentEl}>
                     <div className={styles.reportedContentTitle} />
                     <input
                       type="text"
                       placeholder="상세 주소를 입력해주세요"
-                      onChange={(e)=>setAddr4(e.target.value)}
+                      onChange={(e) => setAddr4(e.target.value)}
                       className={styles.addrDetailBox}
+                      defaultValue={dogInfo?.missDetail}
                     />
                   </div>
 
