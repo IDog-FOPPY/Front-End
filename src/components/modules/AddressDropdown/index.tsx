@@ -18,7 +18,6 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   const [isSigugunOpen, setIsSigugunOpen] = useState(false);
   const [isDongOpen, setIsDongOpen] = useState(false);
 
-
   const { sido, sigugun, dong } = hangjungdong;
   const [val1, setVal1] = useState("");
   const [val2, setVal2] = useState("");
@@ -26,8 +25,6 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   const [addr1, setAddr1] = useState("");
   const [addr2, setAddr2] = useState("");
   const [addr3, setAddr3] = useState("");
-
-  // console.log(addrDogInfo?.sex)
 
   useEffect(() => {
     if (pageTitle !== "inputDog" && addrTextReturn) {
@@ -37,7 +34,7 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
     }
   }, [pageTitle, addrTextReturn, addr1, addr2, addr3])
 
-  useEffect(() => {console.log('addrrrrr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
+  // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   return (
     <>

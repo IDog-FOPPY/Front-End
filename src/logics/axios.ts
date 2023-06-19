@@ -8,7 +8,7 @@ export const axios = Axios.create({
   headers: {
     // "Content-Language": "utf-8",
     // "Content-Type": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN0cmluZyIsImlhdCI6MTY4NzA4NDI1MiwiZXhwIjoxNjg3MTcwNjUyfQ._Eg7OZnI92VgWOaVEJnify-lxG5OiJor0Gh5cXviJl0",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1pbmppd29uIiwiaWF0IjoxNjg3MTkxNDYxLCJleHAiOjE2ODcyNzc4NjF9.Lxi-B0-pU8S8vx2u4N90Wdijp10Lp9U6A197Xd69VII",
   },
 });
 
@@ -34,10 +34,8 @@ export async function login({ id, pw }: loginProps) {
 
   try {
     const res = await axios.post("/v1/member/login", {
-      params: {
-        username: id,
-        password: pw,
-      },
+      username: id,
+      password: pw,
     });
     console.log(res.data)
     return res.data;
