@@ -17,6 +17,10 @@ interface DogCardProps {
 const DogCard = (props: DogCardProps) => {
   const { dog } = props;
 
+  // useEffect(() => {
+  //   console.log('dog', dog)
+  // }, [dog])
+
   const renderReported = () => {
     if (dog.missed === true)
       return (
@@ -93,7 +97,7 @@ const DogCard = (props: DogCardProps) => {
 
 
 export default function DogRegister() {
-  
+
   const [dogs, setDogs] = useState([]);
 
   useEffect(() => {
@@ -101,11 +105,11 @@ export default function DogRegister() {
       setDogs(await getDogs());
     };
     getData();
-  },[])
+  }, [])
 
-  // useEffect(() => {
-  //   console.log('dogs',dogs);
-  // },[dogs])
+  useEffect(() => {
+    console.log('dogs', dogs);
+  }, [dogs])
 
   return (
     <div className={styles.sectionLayout}>
@@ -128,14 +132,14 @@ export default function DogRegister() {
         {dogs?.map((el: DogInfo) => {
           return (
             // <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
-            <Link 
+            <Link
               href={{
                 pathname: '/edit-my-dog',
                 query: { id: el.petId },
               }}
               key={el.petId}
             >
-              <DogCard dog={el} key={el.petName} />
+              <DogCard dog={el} key={el.petId} />
             </Link>
           )
         })}

@@ -4,10 +4,10 @@ let token = localStorage.getItem('foppy_auth_token');
 let uid = localStorage.getItem('foppy_user_uid');
 let authorization = undefined;
 
-if(token) {
+if (token) {
   token = 'Bearer ' + token;
   console.log('token', token);
-  authorization = {"Authorization" : token};
+  authorization = { "Authorization": token };
 }
 
 export const axios = Axios.create({
@@ -57,9 +57,10 @@ export async function join({ id, pw }: joinProps) {
 // 전체 반려견 조회
 export async function getDogs() {
   try {
-    const res = await axios.get(`/v1/member/getPet/${uid}`, {
+    // const res = await axios.get(`/v1/member/getPet/${uid}`, {
+    const res = await axios.get(`/PetDogs/get`, {
     });
-    console.log('res',res)
+    console.log('res', res)
     return res.data;
   } catch (err) {
     console.log(err);
@@ -87,15 +88,32 @@ interface postDogProps {
 }
 export async function postDogs(props: postDogProps) {
   try {
-    const res = await axios.post("PetDogs", {
-      params: props,
-    });
+    const res = await axios.post(`/PetDogs/PetDogs/save/${uid}`, props);
+    console.log("등록성공", res);
     return res.data;
   } catch (err) {
     console.log(err);
     return {};
   }
 }
+
+// 반려견 정보 조회
+interface getMyDogProps {
+  petId: number;
+}
+export async function getMyDog({ petId }: getMyDogProps) {
+  try {
+    const res = await axios.get(`/PetDogs/getDetail/${petId}`, {
+      params: {},
+    });
+    console.log("개 정보 조회", res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
+
 
 // 전체 유기견 조회
 export async function getStrayDogs() {

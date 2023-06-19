@@ -72,14 +72,14 @@ export default function LostDogList() {
       setDogs(await getStrayDogs());
     };
     getData();
-  },[]);
+  }, []);
 
   // useEffect(() => {
   //   console.log('dogs',dogs)
   // },[dogs])
 
 
-  //addr1, addr2, breed, missDate.format("YYYY-MM-DD") 백에 PUSH
+  // missDate.format("YYYY-MM-DD"), addr2, breed, 백에 PUSH
 
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
@@ -197,7 +197,7 @@ export default function LostDogList() {
           </div>
 
           <div>
-            <Typo variant="caption" color="white" className={styles.searchBox}>
+            <Typo variant="caption" color="white" className={styles.searchBox} >
               조회
             </Typo>
           </div>

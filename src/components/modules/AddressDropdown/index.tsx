@@ -9,10 +9,13 @@ import Typo from '@components/core/Typo';
 interface AddressDropdownDogInfo {
   pageTitle: string;
   addrTextReturn?: ((text1: string, text2: string) => void) | ((text1: string, text2: string, text3: string) => void);
+  address1?: string;
+  address2?: string;
+  address3?: string;
 }
 
 export default function AddressDropdown(props: AddressDropdownDogInfo) {
-  const { pageTitle, addrTextReturn } = props;
+  const { pageTitle, addrTextReturn, address1, address2, address3 } = props;
 
   const [isSidoOpen, setIsSidoOpen] = useState(false);
   const [isSigugunOpen, setIsSigugunOpen] = useState(false);
@@ -22,9 +25,9 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   const [val1, setVal1] = useState("");
   const [val2, setVal2] = useState("");
   const [val3, setVal3] = useState("");
-  const [addr1, setAddr1] = useState("");
-  const [addr2, setAddr2] = useState("");
-  const [addr3, setAddr3] = useState("");
+  const [addr1, setAddr1] = useState(address1);
+  const [addr2, setAddr2] = useState(address2);
+  const [addr3, setAddr3] = useState(address3);
 
   useEffect(() => {
     if (pageTitle !== "inputDog" && addrTextReturn) {
@@ -32,9 +35,17 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
     } else if (pageTitle === "inputDog" && addrTextReturn) {
       addrTextReturn(addr1, addr2, addr3);
     }
-  }, [pageTitle, addrTextReturn, addr1, addr2, addr3])
+
+  }, [pageTitle, addrTextReturn])
 
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
+
+  useEffect(() => {
+
+    setAddr1(address1);
+    setAddr2(address2);
+    setAddr3(address3);
+  }, [addr1, addr2, addr3])
 
   return (
     <>
