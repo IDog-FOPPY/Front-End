@@ -90,6 +90,7 @@ export default function InputDog(props: InputDogdogInfo) {
   const [addr1, setAddr1] = useState('');
   const [addr2, setAddr2] = useState('');
   const [addr3, setAddr3] = useState('');
+  const [addr4, setAddr4] = useState('');
   
   useEffect(() => {
     if (img) setImgNum(img.length);
@@ -122,6 +123,7 @@ export default function InputDog(props: InputDogdogInfo) {
         missCity: addr1,
         missGu: addr2,
         missDong: addr3,
+        missDetail: addr4,
       })
       console.log({
         petName: name,
@@ -135,6 +137,7 @@ export default function InputDog(props: InputDogdogInfo) {
         missCity: addr1,
         missGu: addr2,
         missDong: addr3,
+        missDetail: addr4,
       },res);
     }
   }
@@ -396,7 +399,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 name="reported"
                 className={styles.customCheckBox}
                 defaultChecked={reported}
-                onClick={() => setReportedHandler()}
+                onClick={()=>setReportedHandler()}
               />
               <Typo color="red" variant="t3" className={styles.text}>
                 실종 신고하기
@@ -418,8 +421,8 @@ export default function InputDog(props: InputDogdogInfo) {
                     <div className={styles.reportedContentTitle} />
                     <input
                       type="text"
-                      name="dog_lostAddr4"
                       placeholder="상세 주소를 입력해주세요"
+                      onChange={(e)=>setAddr4(e.target.value)}
                       className={styles.addrDetailBox}
                     />
                   </div>
