@@ -1,32 +1,42 @@
-// 비문 탐색 결과 페이지 - 실패
-
 "use client";
 
-
-import { useState, useEffect, ChangeEvent } from 'react';
-
-import Link from 'next/link'
-import styles from './styles.module.scss';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Typo from '@components/core/Typo';
 import logo from '@assets/Logo.png';
 import { login } from '@src/logics/axios';
-
+import LoginFailedPopup from './LoginFailedPopup';
+import styles from './styles.module.scss';
 
 export default function LoginPage() {
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const router = useRouter();
 
-  const onComplete = () => {
+  useEffect(() => {
+    localStorage.removeItem('foppy_auth_token');
+    localStorage.removeItem('foppy_user_uid');
+  }, [])
+
+  const onComplete = async() => {
     if (id && pw) {
-      login({
+      const data = await login({
         id: id,
         pw: pw,
       })
+      console.log(data);
+      if (data?.accessToken) {
+        localStorage.setItem('foppy_auth_token', data?.accessToken);
+        localStorage.setItem('foppy_user_uid', data?.id);
+        router.push('/');
+      } else {
+        // console.log('error!');
+        setIsPopupOpen(true);
+      }
     }
   }
-
-
 
   return (
     <>
@@ -52,12 +62,8 @@ export default function LoginPage() {
           아이디 찾기 / 비밀번호 찾기
         </Typo>
 
+        {isPopupOpen && <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />}
       </div>
-
-
-
-
     </>
-
   )
 }
