@@ -6,6 +6,7 @@ import Typo from '@components/core/Typo';
 import ArrowRightBlue from '@assets/svg/main/arrow-right-blue.svg';
 import Emergency from '@assets/svg/main/emergency.svg';
 import styles from './styles.module.scss';
+import { postNoseIdent } from '@src/logics/axios';
 
 export default function InputImageButton () {
   
@@ -17,6 +18,18 @@ export default function InputImageButton () {
     const file = e.target?.files;
     setImage(file);
   }
+
+  useEffect(() => {
+    console.log(img)
+    if (img) {
+      console.log('here!');
+      const post = async () => {
+        const res = await postNoseIdent(img[0]);
+        console.log(res);
+      }
+      post();
+    }
+  },[img])
   
   return(
     <div className={styles.lookUpButton}>

@@ -12,7 +12,7 @@ if(token) {
 
 export const axios = Axios.create({
   baseURL: 'http://54.152.250.167:8080/api',
-  timeout: 30000,
+  // timeout: 30000,
   headers: authorization,
 });
 
@@ -59,7 +59,6 @@ export async function getDogs() {
   try {
     const res = await axios.get(`/v1/member/getPet/${uid}`, {
     });
-    console.log('res',res)
     return res.data;
   } catch (err) {
     console.log(err);
@@ -110,4 +109,16 @@ export async function getStrayDogs() {
   }
 }
 
+// 비문 조회
+export async function postNoseIdent(img: File) {
+  try {
+    let formData = new FormData();
+    formData.append('file', img);
+    const res = await axios.post("StrayDogs/noseIdent", formData);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
 
