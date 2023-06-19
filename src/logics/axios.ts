@@ -1,15 +1,19 @@
-import { DogInfo } from "@src/types/dogInfo";
 import Axios from "axios";
 
+let token = localStorage.getItem('foppy_auth_token');
+let uid = localStorage.getItem('foppy_user_uid');
+let authorization = undefined;
+
+if(token) {
+  token = 'Bearer ' + token;
+  console.log('token', token);
+  authorization = {"Authorization" : token};
+}
+
 export const axios = Axios.create({
-  // baseURL: 'https://foppy.shop/api',
   baseURL: 'http://54.152.250.167:8080/api',
   timeout: 30000,
-  headers: {
-    // "Content-Language": "utf-8",
-    // "Content-Type": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1pbmppd29uIiwiaWF0IjoxNjg3MTkxNDYxLCJleHAiOjE2ODcyNzc4NjF9.Lxi-B0-pU8S8vx2u4N90Wdijp10Lp9U6A197Xd69VII",
-  },
+  headers: authorization,
 });
 
 // 로그인 
@@ -18,29 +22,13 @@ interface loginProps {
   pw: string;
 }
 export async function login({ id, pw }: loginProps) {
-  // const formData = new FormData();
-  // formData.append("username", id);
-  // formData.append("password", pw);
-
-  // try {
-  //   const res = await axios.post("/v1/member/login", formData);
-  //   console.log(res.data)
-  //   return res.data;
-  // } catch (err) {
-  //   console.log("error")
-  //   console.log(err);
-  //   return {};
-  // }
-
   try {
     const res = await axios.post("/v1/member/login", {
       username: id,
       password: pw,
     });
-    console.log(res.data)
     return res.data;
   } catch (err) {
-    console.log("error")
     console.log(err);
     return {};
   }
@@ -69,9 +57,9 @@ export async function join({ id, pw }: joinProps) {
 // 전체 반려견 조회
 export async function getDogs() {
   try {
-    const res = await axios.get("PetDogs", {
-      params: {},
+    const res = await axios.get(`/v1/member/getPet/${uid}`, {
     });
+    console.log('res',res)
     return res.data;
   } catch (err) {
     console.log(err);
