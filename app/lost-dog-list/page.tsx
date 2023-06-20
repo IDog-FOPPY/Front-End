@@ -48,9 +48,15 @@ const DogCard = (props: DogCardProps) => {
 
         <div className={styles.contentRight}>
           <div className={styles.contentEl}>
+            <Typo variant="footnote" color="#0074DD" >견종</Typo>
+            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.petBreed}</Typo>
+          </div>
+
+          <div className={styles.contentEl}>
             <Typo variant="footnote" color="#0074DD" >특징</Typo>
             <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.etc}</Typo>
           </div>
+
         </div>
       </div>
     </div>
@@ -64,19 +70,36 @@ export default function LostDogList() {
   const [addr2, setAddr2] = useState("");
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
+  const [dateFormat, setDateFormat] = useState("");
 
   const [dogs, setDogs] = useState([]);
 
+
+  const onComplete = async () => {
+    //console.log(name, sex, breed, age, neutered, reported);
+    if (addr2 && breed && missDate) {
+      setDateFormat(missDate.format("YYYY-MM-DD"))
+      const res = await getStrayDogs({
+        breed: breed,
+        addr2: addr2,
+        dateFormat: dateFormat
+      })
+      setDogs(res);
+    }
+
+  }
+
   useEffect(() => {
     const getData = async () => {
-      setDogs(await getStrayDogs());
+
+      setDogs(await getStrayDogs({}));
     };
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('dogs',dogs)
-  // },[dogs])
+  useEffect(() => {
+    console.log('dogs', dogs)
+  }, [dogs])
 
 
   // missDate.format("YYYY-MM-DD"), addr2, breed, 백에 PUSH
@@ -84,7 +107,7 @@ export default function LostDogList() {
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
   const breedEl = [
-    "골든 리트리버",
+    "골든리트리버",
     "닥스훈트",
     "달마시안",
     "도베르만 핀셔",
@@ -129,9 +152,10 @@ export default function LostDogList() {
     "직접 입력",
   ];
 
-  const addrTextReturn = (text1: string, text2: string) => {
+  const addrTextReturnTwo = (text1: string, text2: string) => {
     setAddr1(text1);
     setAddr2(text2);
+    console.log("addr2", addr2);
   };
 
   useEffect(() => {
@@ -197,7 +221,7 @@ export default function LostDogList() {
           </div>
 
           <div>
-            <Typo variant="caption" color="white" className={styles.searchBox} >
+            <Typo variant="caption" color="white" className={styles.searchBox} onClick={() => onComplete()} >
               조회
             </Typo>
           </div>
@@ -205,7 +229,7 @@ export default function LostDogList() {
         </div>
         {
           isAddrOpen ?
-            <AddressDropdown pageTitle="lostDogPage" addrTextReturn={addrTextReturn} />
+            <AddressDropdown pageTitle="lostDogPage" addrTextReturnTwo={addrTextReturnTwo} />
             : null
         }
 

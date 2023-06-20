@@ -116,10 +116,20 @@ export async function getMyDog({ petId }: getMyDogProps) {
 
 
 // 전체 유기견 조회
-export async function getStrayDogs() {
+interface strayDogProps {
+  breed?: string;
+  addr2?: string;
+  dateFormat?: string;
+}
+export async function getStrayDogs({ breed, addr2, dateFormat }: strayDogProps) {
   try {
     const res = await axios.get("StrayDogs", {
-      params: {},
+      params: {
+        petBreed: breed,
+        missGu: addr2,
+        missDate: dateFormat
+      },
+
     });
     return res.data;
   } catch (err) {
@@ -127,5 +137,4 @@ export async function getStrayDogs() {
     return {};
   }
 }
-
 
