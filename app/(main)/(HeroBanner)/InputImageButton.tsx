@@ -7,12 +7,11 @@ import ArrowRightBlue from '@assets/svg/main/arrow-right-blue.svg';
 import Emergency from '@assets/svg/main/emergency.svg';
 import styles from './styles.module.scss';
 import { postNoseIdent } from '@src/logics/axios';
-
+import { useRouter } from 'next/navigation';
 export default function InputImageButton () {
   
   const [img, setImage] = useState<FileList | null>();
-
-  // useEffect(() => { console.log(img) },[img])
+  const router = useRouter();
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files;
@@ -20,12 +19,15 @@ export default function InputImageButton () {
   }
 
   useEffect(() => {
-    console.log(img)
     if (img) {
-      console.log('here!');
       const post = async () => {
-        const res = await postNoseIdent(img[0]);
-        console.log(res);
+        // const res = await postNoseIdent(img[0]);
+        const res = {dogID:[6,7,6], top_3:[]}; // 임시
+        if(res?.dogID.length > 0){
+          router.push(`/noseid-match-success?petId=${res.dogID}`);
+        }else{
+
+        }
       }
       post();
     }

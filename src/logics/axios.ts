@@ -105,7 +105,6 @@ export async function getMyDog({ petId }: getMyDogProps) {
     const res = await axios.get(`/PetDogs/getDetail/${petId}`, {
       params: {},
     });
-    console.log("개 정보 조회", res);
     return res.data;
   } catch (err) {
     console.log(err);

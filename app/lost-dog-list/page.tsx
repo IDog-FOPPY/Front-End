@@ -16,48 +16,8 @@ import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import locale from "antd/es/date-picker/locale/ko_KR";
 import { DatePicker } from "antd";
+import DogCard from './DogCard';
 const dateFormat = "MM/DD";
-
-interface DogCardProps {
-  dog: DogInfo;
-}
-
-const DogCard = (props: DogCardProps) => {
-  const { dog } = props;
-
-  return (
-    <div className={styles.dogCard}>
-      {/* 백에서 img 구현 안되 임시 div로 대체 */}
-      {/* <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} /> */}
-      <div className={styles.dogImg} />
-      <div className={styles.contentSection}>
-        <div className={styles.contentLeft}>
-          <div className={styles.contentEl}>
-            <Typo variant="footnote" color="#0074DD" >실종 지역</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.missCity + ' ' + dog.missGu + ' ' + dog.missDong}</Typo>
-          </div>
-          <div className={styles.contentEl}>
-            <Typo variant="footnote" color="#0074DD">실종 날짜</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.missDate}</Typo>
-          </div>
-          <div className={styles.contentEl}>
-            <Typo variant="footnote" color="#0074DD">실종 시간</Typo>
-            <Typo variant="footnote" color="black" className={styles.content}>{dog.missTime}</Typo>
-          </div>
-        </div>
-
-        <div className={styles.contentRight}>
-          <div className={styles.contentEl}>
-            <Typo variant="footnote" color="#0074DD" >특징</Typo>
-            <Typo variant="footnote" color="black" className={styles.content} style={{ whiteSpace: 'normal' }}>{dog.etc}</Typo>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-
 
 export default function LostDogList() {
   const [addr1, setAddr1] = useState("");
@@ -208,8 +168,6 @@ export default function LostDogList() {
             <AddressDropdown pageTitle="lostDogPage" addrTextReturn={addrTextReturn} />
             : null
         }
-
-
       </div>
       <div className={styles.dogList}>
         {dogs.map((dog: DogInfo) => {
