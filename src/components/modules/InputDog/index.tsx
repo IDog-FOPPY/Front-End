@@ -17,6 +17,7 @@ import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from "@src/components/modules/AddressDropdown";
 import { postDogs } from '@src/logics/axios';
 import styles from './styles.module.scss';
+import { useRouter } from 'next/navigation';
 
 const timeFormat = "HH:mm";
 const dateFormat = "YYYY/MM/DD";
@@ -26,6 +27,7 @@ interface InputDogdogInfo {
   dogInfo?: DogInfo;
 }
 export default function InputDog(props: InputDogdogInfo) {
+  const router = useRouter();
   const { pageTitle, dogInfo } = props;
   const ageEl = [...Array(21)];
   const sexEl = ["남아", "여아"];
@@ -285,7 +287,7 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => onComplete()}>완료</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => router.push('/')}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>

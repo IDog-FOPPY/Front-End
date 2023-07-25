@@ -9,6 +9,9 @@ import ArrowRight from '@assets/svg/main/arrow-right.svg';
 import { useEffect, useState } from 'react';
 import { getDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
+import dummy1 from './dummy1.jpg';
+import dummy2 from './dummy2.jpg';
+import dummy3 from './dummy3.png';
 
 interface DogCardProps {
   dog: DogInfo;
@@ -42,9 +45,8 @@ const DogCard = (props: DogCardProps) => {
 
   return (
     <div className={styles.dogCard}>
-      {/* img 백 미구현 상태여서 임시 div로 대체 */}
-      {/* <Image alt="dog-image" src={dog.img} className={styles.dogImg} /> */}
-      <div className={styles.dogImg} />
+      <Image alt="dog-image" src={dog.img} className={styles.dogImg} />
+      {/* <div className={styles.dogImg} /> */}
       <div className={styles.dogInfo}>
 
         <div className={styles.headerSection}>
@@ -98,19 +100,25 @@ const DogCard = (props: DogCardProps) => {
 
 export default function DogRegister() {
 
-  const [dogs, setDogs] = useState([]);
+  // api 전체 수정 필요
+  // const [dogs, setDogs] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      setDogs(await getDogs());
-    };
-    getData();
-  }, [])
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setDogs(await getDogs());
+  //   };
+  //   getData();
+  // }, [])
 
-  useEffect(() => {
-    console.log('dogs', dogs);
-  }, [dogs])
+  // useEffect(() => {
+  //   console.log('dogs', dogs);
+  // }, [dogs])
 
+  const dummyDogs = [
+    {petId: 1, img: dummy2, petName: '민루피', petOld: '11', petSex:'암컷', petBreed: '토이푸들', note: '중성화 X' },
+    {petId: 2, img: dummy1, petName: '민소금', petOld: '4', petSex:'암컷', petBreed: '말티즈', note: '' },
+    {petId: 3, img: dummy3, petName: '민구름', petOld: '2', petSex:'암컷', neutered: true, petBreed: '말티즈', note: '' },
+  ]
   return (
     <div className={styles.sectionLayout}>
 
@@ -129,7 +137,7 @@ export default function DogRegister() {
       </div>
 
       <div className={styles.dogList}>
-        {dogs?.map((el: DogInfo) => {
+        {dummyDogs?.map((el: DogInfo) => {
           return (
             // <Link href='/edit-my-dog'><DogCard dog={el} key={el.name} /></Link>
             <Link

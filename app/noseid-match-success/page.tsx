@@ -8,6 +8,12 @@ import styles from './styles.module.scss';
 import { useSearchParams } from 'next/navigation';
 import { getMyDog } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
+
+import dummy1 from './dummy1.jpg';
+import dummy2 from './dummy2.jpg';
+import dummy3 from './dummy3.jpg';
+
+
 // import DogCard from 'app/lost-dog-list/DogCard';
 
 interface DogCardProps {
@@ -19,7 +25,7 @@ function DogCard (props: DogCardProps) {
 
   return (
     <div className={styles.dogCard}>
-      <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} />
+      <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.img.src})` }} />
       {/* <div className={styles.dogImg} /> */}
       <div className={styles.contentSection}>
         <div className={styles.contentLeft}>
@@ -49,27 +55,30 @@ function DogCard (props: DogCardProps) {
 }
 
 export default function NoseIdMatchSuccessPage () {
-  const [dogs, setDogs] = useState<DogInfo[]>();
+  const dogs = [
+    {petId: 1, img: dummy1, missCity: '서울특별시', missGu: '동작구', missDong: '상도동', missDate: '2023/06/17', missTime: "23:00" },
+    {petId: 2, img: dummy2, missCity: '서울특별시', missGu: '동작구', missDong: '상도동', missDate: '2023/06/17', missTime: "23:00" },
+    {petId: 3, img: dummy3, missCity: '서울특별시', missGu: '동작구', missDong: '상도동', missDate: '2023/06/17', missTime: "23:00" },
+  ]
+  // const [dogs, setDogs] = useState<DogInfo[]>();
   const petId = useSearchParams().get("petId")?.split(',');
 
-  useEffect(() => {
-    console.log('petID',petId)
-    if (petId) {
-      const getDogs = () => {
-        petId.map(async (v) => {
-          const appendDog = await getMyDog({ petId: parseInt(v) });
-          console.log('appendDog',appendDog)
-          setDogs(prev => {
-            if(prev) return [...prev, appendDog];
-            else return [appendDog];
-          });
-        })
-      }
-      getDogs();
-    }
-  }, [])
-
-  useEffect(() => {console.log('dogs',dogs)},[dogs])
+  // useEffect(() => {
+  //   console.log('petID',petId)
+  //   if (petId) {
+  //     const getDogs = () => {
+  //       petId.map(async (v) => {
+  //         const appendDog = await getMyDog({ petId: parseInt(v) });
+  //         console.log('appendDog',appendDog)
+  //         setDogs(prev => {
+  //           if(prev) return [...prev, appendDog];
+  //           else return [appendDog];
+  //         });
+  //       })
+  //     }
+  //     getDogs();
+  //   }
+  // }, [])
 
   return (
     <div>
@@ -84,7 +93,6 @@ export default function NoseIdMatchSuccessPage () {
         비문 유사도가 높은 순서대로 정렬되어 있어요
       </Typo>
       {dogs?.map(dog => <DogCard dog={dog} key={dog.petId} />)}
-      {/* <DogCard dog =  */}
     </div>
   )
 }

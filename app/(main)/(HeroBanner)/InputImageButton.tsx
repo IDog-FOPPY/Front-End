@@ -24,7 +24,7 @@ export default function InputImageButton () {
         // const res = await postNoseIdent(img[0]);
         const res = {dogID:[6,7,6], top_3:[]}; // 임시
         if(res?.dogID.length > 0){
-          router.push(`/noseid-match-success?petId=${res.dogID}`);
+          router.push(`/noseid-match-fail`);
         }else{
 
         }
