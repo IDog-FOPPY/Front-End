@@ -6,17 +6,32 @@ import Typo from '@components/core/Typo';
 import ArrowRightBlue from '@assets/svg/main/arrow-right-blue.svg';
 import Emergency from '@assets/svg/main/emergency.svg';
 import styles from './styles.module.scss';
-
+import { postNoseIdent } from '@src/logics/axios';
+import { useRouter } from 'next/navigation';
 export default function InputImageButton () {
   
   const [img, setImage] = useState<FileList | null>();
-
-  // useEffect(() => { console.log(img) },[img])
+  const router = useRouter();
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files;
     setImage(file);
   }
+
+  useEffect(() => {
+    if (img) {
+      const post = async () => {
+        // const res = await postNoseIdent(img[0]);
+        const res = {dogID:[6,7,6], top_3:[]}; // 임시
+        if(res?.dogID.length > 0){
+          router.push(`/noseid-match-fail`);
+        }else{
+
+        }
+      }
+      post();
+    }
+  },[img])
   
   return(
     <div className={styles.lookUpButton}>

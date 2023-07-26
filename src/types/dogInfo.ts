@@ -1,6 +1,7 @@
 import { StaticImageData } from "next/image";
 
 export interface DogInfo {
+  img?: StaticImageData;
   petId?: number;
   petName?: string; 
   petSex?: boolean; // (true 여자 false 남자)
