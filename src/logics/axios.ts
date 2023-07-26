@@ -56,6 +56,7 @@ export async function signup({ email, nickName, password, phone }: signupProps) 
   }
 }
 
+
 // 전체 반려견 조회 -> 수정 필요
 export async function getDogs() {
   try {
@@ -78,6 +79,7 @@ interface createDogProps {
     breed: string;
     note: string;
     disease: string;
+    neutered: boolean;
   },
   file: string[];
 }

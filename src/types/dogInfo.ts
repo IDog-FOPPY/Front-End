@@ -3,10 +3,10 @@ import { StaticImageData } from "next/image";
 export interface DogInfo {
   img?: StaticImageData;
   petId?: number;
-  petName?: string; 
+  petName?: string;
   petSex?: boolean; // (true 여자 false 남자)
-  petBreed?: string; 
-  petOld?: number; 
+  petBreed?: string;
+  birth?: string;
   disease?: string;
   neutered?: boolean;
   note?: string;
