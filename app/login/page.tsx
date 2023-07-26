@@ -20,17 +20,24 @@ export default function LoginPage() {
     localStorage.removeItem('foppy_user_uid');
   }, [])
 
-  const onComplete = async() => {
+  const onComplete = async () => {
     if (id && pw) {
-      const data = await login({
-        id: id,
-        pw: pw,
+      const res = await login({
+        email: id,
+        password: pw,
       })
-      console.log(data);
-      if (data?.accessToken) {
-        localStorage.setItem('foppy_auth_token', data?.accessToken);
-        localStorage.setItem('foppy_user_uid', data?.id);
-        router.push('/');
+      console.log('res', res);
+      console.log('res.data.token', res.data.token);
+      if (res?.data.token) {
+        localStorage.setItem('foppy_auth_token', res.data?.token);
+        localStorage.setItem('foppy_user_uid', res.data?.userId);
+        //router.push('/');
+
+
+        //로그인테스트
+        router.push('/add-my-dog');
+
+
       } else {
         // console.log('error!');
         setIsPopupOpen(true);

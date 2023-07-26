@@ -5,7 +5,7 @@ let uid = localStorage.getItem('foppy_user_uid');
 let authorization = undefined;
 
 if (token) {
-  token = 'Bearer ' + token;
+  //token = 'Bearer ' + token;
   console.log('token', token);
   authorization = { "Authorization": token };
 }
@@ -21,14 +21,10 @@ interface loginProps {
   email: string;
   password: string;
 }
-export async function login({ email, password }: loginProps) {
+
+export async function login(props: loginProps) {
   try {
-    const res = await axios.get("/user/login", {
-      params: {
-        email,
-        password,
-      },
-    });
+    const res = await axios.post("/user/login", props);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -124,7 +120,7 @@ interface getStrayDogsProps {
 
 export async function getStrayDogs(props: getStrayDogsProps) {
   try {
-    const res = await axios.get("/stray", {params: props});
+    const res = await axios.get("/stray", { params: props });
     return res.data;
   } catch (err) {
     console.log(err);
