@@ -16,6 +16,7 @@ export default function EditMyDogPage() {
       petId && setDog(await getMyDog({ petId: parseInt(petId) }));
     };
     getData();
+    console.log('dog', dog);
   }, []);
 
   return (

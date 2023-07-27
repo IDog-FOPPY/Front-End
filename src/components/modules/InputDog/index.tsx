@@ -80,12 +80,12 @@ export default function InputDog(props: InputDogdogInfo) {
   ];
   const [isSexOpen, setIsSexOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
-  const [name, setName] = useState(dogInfo?.petName);
+  const [name, setName] = useState(dogInfo?.name);
   const [birth, setBirth] = useState(dogInfo?.birth);
   const [sex, setSex] = useState<string>();
   const [neutered, setNeutered] = useState(false);
   const [breed, setBreed] = useState<string>();
-  const [memo, setMemo] = useState(dogInfo?.note ?? "");
+  const [note, setNote] = useState(dogInfo?.note ?? "");
   const [disease, setDisease] = useState(dogInfo?.disease ?? "");
   const [reported, setReported] = useState(false);
   const [img, setImage] = useState<File[]>([]);
@@ -109,13 +109,13 @@ export default function InputDog(props: InputDogdogInfo) {
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   useEffect(() => {
-    setSex(dogInfo?.petSex === true ? '여아' : '남아');
-    setBreed(dogInfo?.petBreed);
+    setSex(dogInfo?.sex === true ? '여아' : '남아');
+    setBreed(dogInfo?.breed);
     setReported(dogInfo?.isMissing ? true : false);
-    setAddr1(dogInfo?.isMissing?.missCity);
-    setAddr2(dogInfo?.isMissing?.missGu);
-    setAddr3(dogInfo?.isMissing?.missDong);
-    setAddr4(dogInfo?.isMissing?.missDetail);
+    setAddr1(dogInfo?.isMissing?.missingCity);
+    setAddr2(dogInfo?.isMissing?.missingGu);
+    setAddr3(dogInfo?.isMissing?.missingDong);
+    setAddr4(dogInfo?.isMissing?.missingDetailedLocation);
 
   }, [dogInfo])
 
@@ -139,7 +139,7 @@ export default function InputDog(props: InputDogdogInfo) {
           birth: birth,
           sex: sex === '여아' ? 'MALE' : 'FEMALE',
           breed: breed,
-          note: memo,
+          note: note,
           disease: disease,
           neutered: neutered,
         }, file: file
@@ -166,7 +166,7 @@ export default function InputDog(props: InputDogdogInfo) {
         birth: birth,
         sex: sex === '여아' ? 'MALE' : 'FEMALE',
         breed: breed,
-        note: memo,
+        note: note,
         disease: disease,
         neutered: neutered,
 
@@ -187,7 +187,7 @@ export default function InputDog(props: InputDogdogInfo) {
         birth: birth,
         sex: sex === '여아' ? 'MALE' : 'FEMALE',
         breed: breed,
-        note: memo,
+        note: note,
         disease: disease,
         neutered: neutered,
 
@@ -407,7 +407,7 @@ export default function InputDog(props: InputDogdogInfo) {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.petName} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -508,7 +508,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
+            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setNote(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
@@ -548,7 +548,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder="상세 주소를 입력해주세요"
                       onChange={(e) => setAddr4(e.target.value)}
                       className={styles.addrDetailBox}
-                      defaultValue={dogInfo?.isMissing?.missDetail}
+                      defaultValue={dogInfo?.isMissing?.missingDetailedLocation}
                     />
                   </div>
 

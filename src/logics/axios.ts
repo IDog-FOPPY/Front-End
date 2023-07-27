@@ -134,10 +134,11 @@ interface getMyDogProps {
 }
 export async function getMyDog({ petId }: getMyDogProps) {
   try {
-    const res = await axios.get(`/PetDogs/getDetail/${petId}`, {
+    const res = await axios.get(`/dog/${petId}`, {
       params: {},
     });
-    return res.data;
+    console.log('getmydog', res.data.data);
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
