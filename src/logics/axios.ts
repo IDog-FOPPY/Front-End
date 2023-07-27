@@ -92,7 +92,41 @@ export async function createDog(props: createDogProps) {
     console.log(err);
     return {};
   }
+
+
 }
+
+
+// 반려견 수정
+interface updateDogProps {
+  name: string;
+  birth: string;
+  sex: string;
+  breed: string;
+  note: string;
+  disease: string;
+  neutered: boolean;
+  isMissing?: {
+    missingCity?: string;
+    missingGu?: string;
+    missingDong?: string;
+    missingDetailedLocation?: string;
+    missDate?: string;
+    missTime?: string;
+    etc?: string;
+  }
+}
+export async function updateDog(petId: string | null | undefined, props: updateDogProps) {
+  try {
+    const res = await axios.patch(`/dog/${petId}`, props);
+    console.log("수정성공", res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
+
 
 // 반려견 정보 조회 -> 수정 필요
 interface getMyDogProps {
