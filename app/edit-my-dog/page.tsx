@@ -16,8 +16,9 @@ export default function EditMyDogPage() {
       petId && setDog(await getMyDog({ petId: parseInt(petId) }));
     };
     getData();
-    console.log('dog', dog);
   }, []);
+
+  console.log('dog', dog);
 
   return (
     <InputDog pageTitle="반려견 수정하기" dogInfo={dog} petId={petId} />

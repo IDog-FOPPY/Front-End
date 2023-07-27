@@ -106,15 +106,15 @@ interface updateDogProps {
   note: string;
   disease: string;
   neutered: boolean;
-  isMissing?: {
-    missingCity?: string;
-    missingGu?: string;
-    missingDong?: string;
-    missingDetailedLocation?: string;
-    missDate?: string;
-    missTime?: string;
-    etc?: string;
-  }
+  isMissing?: boolean;
+  missingCity?: string;
+  missingGu?: string;
+  missingDong?: string;
+  missingDetailedLocation?: string;
+  missDate?: string;
+  missTime?: string;
+  etc?: string;
+
 }
 export async function updateDog(petId: string | null | undefined, props: updateDogProps) {
   try {
@@ -128,7 +128,7 @@ export async function updateDog(petId: string | null | undefined, props: updateD
 }
 
 
-// 반려견 정보 조회 -> 수정 필요
+// 반려견 정보 조회 -> 수정 완료!
 interface getMyDogProps {
   petId: number;
 }
@@ -137,7 +137,7 @@ export async function getMyDog({ petId }: getMyDogProps) {
     const res = await axios.get(`/dog/${petId}`, {
       params: {},
     });
-    console.log('getmydog', res.data.data);
+    //console.log('getmydog', res.data.data);
     return res.data.data;
   } catch (err) {
     console.log(err);

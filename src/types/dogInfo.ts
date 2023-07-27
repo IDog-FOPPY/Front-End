@@ -1,27 +1,24 @@
 import { StaticImageData } from "next/image";
 
 export interface DogInfo {
-  img?: StaticImageData;
-  petName?: string;
-  petSex?: boolean; // (true 여자 false 남자)
-  petBreed?: string;
+  //img?: StaticImageData;
+  name?: string;
+  sex?: string; // (true 여자 false 남자)
+  breed?: string;
   birth?: string;
   disease?: string;
   neutered?: boolean;
   note?: string;
+  imgUrlList?: StaticImageData;
 
-  isMissing?: {
-    missCity?: string;
-    missGu?: string;
-    missDong?: string;
-    missDetail?: string;
-    missTime?: string;
-    missDate?: string;
-    etc?: string;
-  }
+  isMissing?: boolean;
+  missingCity?: string;
+  missingGu?: string;
+  missingDong?: string;
+  missingDetailedLocation?: string;
+  missTime?: string;
+  missDate?: string;
+  etc?: string;
 
-
-
-  // img?: StaticImageData; // 백 미구현 상태
 
 }

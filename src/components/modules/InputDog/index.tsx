@@ -83,39 +83,40 @@ export default function InputDog(props: InputDogdogInfo) {
   const [name, setName] = useState(dogInfo?.name);
   const [birth, setBirth] = useState(dogInfo?.birth);
   const [sex, setSex] = useState<string>();
-  const [neutered, setNeutered] = useState(false);
+  const [neutered, setNeutered] = useState(dogInfo?.neutered);
   const [breed, setBreed] = useState<string>();
   const [note, setNote] = useState(dogInfo?.note ?? "");
   const [disease, setDisease] = useState(dogInfo?.disease ?? "");
-  const [reported, setReported] = useState(false);
-  const [img, setImage] = useState<File[]>([]);
+  const [isMissing, setIsMissing] = useState(dogInfo?.isMissing);
+  //const [img, setImage] = useState<File[]>([]);
+  const [imgUrlList, setImgUrlList] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
   const [addr1, setAddr1] = useState<string>();
   const [addr2, setAddr2] = useState<string>();
   const [addr3, setAddr3] = useState<string>();
   const [addr4, setAddr4] = useState<string>();
-  const [missDate, setMissDate] = useState(dogInfo?.isMissing?.missDate);
-  const [missTime, setMissTime] = useState(dogInfo?.isMissing?.missTime);
-  const [etc, setEtc] = useState(dogInfo?.isMissing?.etc);
+  const [missDate, setMissDate] = useState(dogInfo?.missDate);
+  const [missTime, setMissTime] = useState(dogInfo?.missTime);
+  const [etc, setEtc] = useState(dogInfo?.etc);
 
   const [file, setFile] = useState<string[]>([]);
 
   useEffect(() => {
-    if (img) setImgNum(img.length);
-  }, [img]);
+    if (imgUrlList) setImgNum(imgUrlList.length);
+  }, [imgUrlList]);
 
   // useEffect(() => { console.log('name', name) }, [name]);
 
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   useEffect(() => {
-    setSex(dogInfo?.sex === true ? '여아' : '남아');
+    setSex(dogInfo?.sex === 'FEMALE' ? '여아' : '남아');
     setBreed(dogInfo?.breed);
-    setReported(dogInfo?.isMissing ? true : false);
-    setAddr1(dogInfo?.isMissing?.missingCity);
-    setAddr2(dogInfo?.isMissing?.missingGu);
-    setAddr3(dogInfo?.isMissing?.missingDong);
-    setAddr4(dogInfo?.isMissing?.missingDetailedLocation);
+    setIsMissing(dogInfo?.isMissing === true ? true : false);
+    setAddr1(dogInfo?.missingCity);
+    setAddr2(dogInfo?.missingGu);
+    setAddr3(dogInfo?.missingDong);
+    setAddr4(dogInfo?.missingDetailedLocation);
 
   }, [dogInfo])
 
@@ -124,24 +125,24 @@ export default function InputDog(props: InputDogdogInfo) {
     if (imgNum < 10) {
       if (e.target.files) {
         const files = Array.from(e.target.files);
-        let temp: File[] = img;
-        setImage([...temp, ...files]);
+        let temp: File[] = imgUrlList;
+        setImgUrlList([...temp, ...files]);
       }
     } else alert("사진 업로드는 10장까지 가능해요!");
   };
 
   const onComplete = async () => {
-    console.log(name, sex, breed, birth, neutered);
+    console.log(name, sex, breed, birth, neutered, isMissing);
     if (name && sex && breed && birth && pageTitle === "반려견 등록하기") {
       const res = await createDog({
         request: {
           name: name,
           birth: birth,
-          sex: sex === '여아' ? 'MALE' : 'FEMALE',
+          sex: sex === '여아' ? 'FEMALE' : 'MALE',
           breed: breed,
           note: note,
           disease: disease,
-          neutered: neutered,
+          neutered: neutered === true ? true : false,
         }, file: file
       })
       // console.log("반려견 등록 성공", {
@@ -160,46 +161,45 @@ export default function InputDog(props: InputDogdogInfo) {
       // }, res);
 
     }
-    else if (name && sex && breed && birth && pageTitle === "반려견 수정하기") {
+    else if (name && sex && breed && birth && note && pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
         name: name,
         birth: birth,
-        sex: sex === '여아' ? 'MALE' : 'FEMALE',
+        sex: sex === '여아' ? 'FEMALE' : 'MALE',
         breed: breed,
         note: note,
         disease: disease,
-        neutered: neutered,
+        neutered: neutered === true ? true : false,
 
-        isMissing: {
-          missingCity: addr1,
-          missingGu: addr2,
-          missingDong: addr3,
-          missingDetailedLocation: addr4,
-          missDate: missDate,
-          missTime: missTime,
-          etc: etc
-        }
+        isMissing: isMissing,
+        missingCity: addr1,
+        missingGu: addr2,
+        missingDong: addr3,
+        missingDetailedLocation: addr4,
+        missDate: missDate,
+        missTime: missTime,
+        etc: etc
+
 
       })
 
       console.log("반려견 수정 성공", {
         name: name,
         birth: birth,
-        sex: sex === '여아' ? 'MALE' : 'FEMALE',
+        sex: sex === '여아' ? 'FEMALE' : 'MALE',
         breed: breed,
         note: note,
         disease: disease,
         neutered: neutered,
 
-        isMissing: {
-          missingCity: addr1,
-          missingGu: addr2,
-          missingDong: addr3,
-          missingDetailedLocation: addr4,
-          missDate: missDate,
-          missTime: missTime,
-          etc: etc
-        }
+        isMissing: isMissing,
+        missingCity: addr1,
+        missingGu: addr2,
+        missingDong: addr3,
+        missingDetailedLocation: addr4,
+        missDate: missDate,
+        missTime: missTime,
+        etc: etc
 
       }, res);
       // console.log("반려견 수정 성공", {
@@ -228,8 +228,8 @@ export default function InputDog(props: InputDogdogInfo) {
   }
 
   const removeImage = (index: number) => {
-    const temp = img.filter((v, i) => i != index);
-    setImage(temp);
+    const temp = imgUrlList.filter((v, i) => i != index);
+    setImgUrlList(temp);
   };
 
   const onParseDate = (e: any) => {
@@ -339,7 +339,7 @@ export default function InputDog(props: InputDogdogInfo) {
   };
 
   const setReportedHandler = () => {
-    reported ? setReported(false) : setReported(true);
+    isMissing ? setIsMissing(false) : setIsMissing(true);
   };
 
   return (
@@ -348,7 +348,8 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => router.push('/')}>완료</Typo>
+          {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { router.push('/'); onComplete(); }}>완료</Typo> */}
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -385,7 +386,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 </Typo>
               </div>
               <div className={styles.imageBoxWrapper}>
-                {img?.map((imageItem, index) => {
+                {imgUrlList?.map((imageItem, index) => {
                   const url = URL.createObjectURL(imageItem);
                   return (
                     <div className={styles.imageBox} key={url}>
@@ -522,14 +523,14 @@ export default function InputDog(props: InputDogdogInfo) {
                 type="checkbox"
                 name="reported"
                 className={styles.customCheckBox}
-                defaultChecked={reported}
+                defaultChecked={isMissing}
                 onClick={() => setReportedHandler()}
               />
               <Typo color="red" variant="t3" className={styles.text}>
                 실종 신고하기
               </Typo>
             </label>
-            {reported ? (
+            {isMissing ? (
               <>
                 <div className={styles.reportedSection}>
                   <div className={styles.reportedContentEl}>
@@ -548,7 +549,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder="상세 주소를 입력해주세요"
                       onChange={(e) => setAddr4(e.target.value)}
                       className={styles.addrDetailBox}
-                      defaultValue={dogInfo?.isMissing?.missingDetailedLocation}
+                      defaultValue={dogInfo?.missingDetailedLocation}
                     />
                   </div>
 
@@ -564,7 +565,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={dateFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.isMissing?.missDate, dateFormat)}
+                      defaultValue={dayjs(dogInfo?.missDate, dateFormat)}
                       onChange={(e) => { setMissDate(onParseDate(e)) }}
                     />
                   </div>
@@ -580,7 +581,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder=""
                       format={timeFormat}
                       className={styles.antPickerStyle}
-                      defaultValue={dayjs(dogInfo?.isMissing?.missTime, timeFormat)}
+                      defaultValue={dayjs(dogInfo?.missTime, timeFormat)}
                       onChange={(e) => { setMissTime(onParseTime(e)) }}
                     />
                   </div>
@@ -598,7 +599,7 @@ export default function InputDog(props: InputDogdogInfo) {
                     <textarea
                       name="dog_disease"
                       placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )"
-                      defaultValue={dogInfo?.isMissing?.etc}
+                      defaultValue={dogInfo?.etc}
                       onChange={(e) => setEtc(e.target.value)}
                       className={styles.etcBox}
                     />
