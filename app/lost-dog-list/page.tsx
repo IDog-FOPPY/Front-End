@@ -24,19 +24,36 @@ export default function LostDogList() {
   const [addr2, setAddr2] = useState("");
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
+  const [dateFormat, setDateFormat] = useState("");
 
   const [dogs, setDogs] = useState([]);
 
+
+  const onComplete = async () => {
+    //console.log(name, sex, breed, age, neutered, reported);
+    if (addr2 && breed && missDate) {
+      setDateFormat(missDate.format("YYYY-MM-DD"))
+      const res = await getStrayDogs({
+        breed: breed,
+        addr2: addr2,
+        dateFormat: dateFormat
+      })
+      setDogs(res);
+    }
+
+  }
+
   useEffect(() => {
     const getData = async () => {
-      setDogs(await getStrayDogs());
+
+      setDogs(await getStrayDogs({}));
     };
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('dogs',dogs)
-  // },[dogs])
+  useEffect(() => {
+    console.log('dogs', dogs)
+  }, [dogs])
 
 
   // missDate.format("YYYY-MM-DD"), addr2, breed, 백에 PUSH
@@ -44,54 +61,55 @@ export default function LostDogList() {
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
   const breedEl = [
-    "골든 리트리버",
+    "골든리트리버",
     "닥스훈트",
     "달마시안",
-    "도베르만 핀셔",
-    "래브라도 리트리버",
+    "도베르만핀셔",
+    "래브라도리트리버",
     "말티즈",
     "말티푸",
-    "미니어처 슈나우저",
-    "미니어처 푸들",
-    "미니어처 핀셔",
+    "미니어처슈나우저",
+    "미니어처푸들",
+    "미니어처핀셔",
     "믹스견",
     "베들링턴 테리어",
     "보더콜리",
-    "보스턴 테리어",
+    "보스턴테리어",
     "비글",
-    "비숑 프리제",
+    "비숑프리제",
     "사모예드",
-    "셰틀랜드 쉽독",
-    "스탠더드 푸들",
+    "셰틀랜드쉽독",
+    "스탠더드푸들",
     "스피츠",
-    "시바 이누",
-    "시베리안 허스키",
+    "시바이누",
+    "시베리안허스키",
     "시츄",
-    "아메리칸 코카 스파니엘",
+    "아메리칸코카스파니엘",
     "아프간하운드",
-    "요크셔 테리어",
-    "웰시 코기",
-    "이탈리안 그레이하운드",
-    "제페니스 스피츠",
+    "요크셔테리어",
+    "웰시코기",
+    "이탈리안그레이하운드",
+    "제페니스스피츠",
     "진돗개",
     "차우차우",
     "치와와",
-    "코커 스패니얼",
-    "토이 푸들",
+    "코커스패니얼",
+    "토이푸들",
     "파피용",
     "퍼그",
     "페키니즈",
-    "펨브록 웰시코기",
+    "펨브록웰시코기",
     "포메라니안",
     "푸들",
     "풍산개",
-    "프렌치 불도그",
+    "프렌치불도그",
     "직접 입력",
   ];
 
-  const addrTextReturn = (text1: string, text2: string) => {
+  const addrTextReturnTwo = (text1: string, text2: string) => {
     setAddr1(text1);
     setAddr2(text2);
+    console.log("addr2", addr2);
   };
 
   useEffect(() => {
@@ -157,7 +175,7 @@ export default function LostDogList() {
           </div>
 
           <div>
-            <Typo variant="caption" color="white" className={styles.searchBox} >
+            <Typo variant="caption" color="white" className={styles.searchBox} onClick={() => onComplete()} >
               조회
             </Typo>
           </div>
@@ -165,7 +183,7 @@ export default function LostDogList() {
         </div>
         {
           isAddrOpen ?
-            <AddressDropdown pageTitle="lostDogPage" addrTextReturn={addrTextReturn} />
+            <AddressDropdown pageTitle="lostDogPage" addrTextReturnTwo={addrTextReturnTwo} />
             : null
         }
       </div>

@@ -18,7 +18,9 @@ export default function EditMyDogPage() {
     getData();
   }, []);
 
+  console.log('dog', dog);
+
   return (
-    <InputDog pageTitle="반려견 수정하기" dogInfo={dog} />
+    <InputDog pageTitle="반려견 수정하기" dogInfo={dog} petId={petId} />
   )
 }

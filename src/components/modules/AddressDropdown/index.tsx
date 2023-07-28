@@ -8,14 +8,15 @@ import Typo from '@components/core/Typo';
 
 interface AddressDropdownDogInfo {
   pageTitle: string;
-  addrTextReturn?: ((text1: string, text2: string) => void) | ((text1: string, text2: string, text3: string) => void);
+  addrTextReturnTwo?: ((text1: string, text2: string) => void);
+  addrTextReturnThree?: ((text1: string, text2: string, text3: string) => void);
   address1?: string;
   address2?: string;
   address3?: string;
 }
 
 export default function AddressDropdown(props: AddressDropdownDogInfo) {
-  const { pageTitle, addrTextReturn, address1, address2, address3 } = props;
+  const { pageTitle, addrTextReturnTwo, addrTextReturnThree, address1, address2, address3 } = props;
 
   const [isSidoOpen, setIsSidoOpen] = useState(false);
   const [isSigugunOpen, setIsSigugunOpen] = useState(false);
@@ -30,22 +31,28 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
   const [addr3, setAddr3] = useState(address3);
 
   useEffect(() => {
-    if (pageTitle !== "inputDog" && addrTextReturn) {
-      addrTextReturn(addr1, addr2);
-    } else if (pageTitle === "inputDog" && addrTextReturn) {
-      addrTextReturn(addr1, addr2, addr3);
-    }
+    if (pageTitle !== "inputDog" && addrTextReturnTwo) {
+      addr1 && addr2 && addrTextReturnTwo(addr1, addr2);
 
-  }, [pageTitle, addrTextReturn])
+    }
+  }, [pageTitle, addr1, addr2, addrTextReturnTwo])
+
+  useEffect(() => { console.log("addrTwo 실행", addr1, addr2); }, [addrTextReturnTwo])
+
+  useEffect(() => {
+    if (pageTitle === "inputDog" && addrTextReturnThree) {
+      addr1 && addr2 && addr3 && addrTextReturnThree(addr1, addr2, addr3);
+    }
+  }, [pageTitle, addrTextReturnThree])
 
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    setAddr1(address1);
-    setAddr2(address2);
-    setAddr3(address3);
-  }, [addr1, addr2, addr3])
+  //   setAddr1(address1);
+  //   setAddr2(address2);
+  //   setAddr3(address3);
+  // }, [addr1, addr2, addr3])
 
   return (
     <>

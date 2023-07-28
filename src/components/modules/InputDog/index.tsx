@@ -15,102 +15,108 @@ import DropdownIcon from '@assets/svg/register/dropdown.svg';
 import PawIcon from '@assets/svg/register/paw.svg';
 import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from "@src/components/modules/AddressDropdown";
-import { postDogs } from '@src/logics/axios';
+// import { postDogs } from '@src/logics/axios';
+import { createDog, updateDog } from '@src/logics/axios';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/navigation';
 
 const timeFormat = "HH:mm";
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "YYYY-MM-DD";
 
 interface InputDogdogInfo {
   pageTitle: string;
   dogInfo?: DogInfo;
+  petId?: string | null;
 }
 export default function InputDog(props: InputDogdogInfo) {
   const router = useRouter();
-  const { pageTitle, dogInfo } = props;
-  const ageEl = [...Array(21)];
+  const { pageTitle, dogInfo, petId } = props;
+  // const ageEl = [...Array(21)];
   const sexEl = ["남아", "여아"];
   const breedEl = [
-    "골든 리트리버",
+    "골든리트리버",
     "닥스훈트",
     "달마시안",
-    "도베르만 핀셔",
-    "래브라도 리트리버",
+    "도베르만핀셔",
+    "래브라도리트리버",
     "말티즈",
     "말티푸",
-    "미니어처 슈나우저",
-    "미니어처 푸들",
-    "미니어처 핀셔",
+    "미니어처슈나우저",
+    "미니어처푸들",
+    "미니어처핀셔",
     "믹스견",
     "베들링턴 테리어",
     "보더콜리",
-    "보스턴 테리어",
+    "보스턴테리어",
     "비글",
-    "비숑 프리제",
+    "비숑프리제",
     "사모예드",
-    "셰틀랜드 쉽독",
-    "스탠더드 푸들",
+    "셰틀랜드쉽독",
+    "스탠더드푸들",
     "스피츠",
-    "시바 이누",
-    "시베리안 허스키",
+    "시바이누",
+    "시베리안허스키",
     "시츄",
-    "아메리칸 코카 스파니엘",
+    "아메리칸코카스파니엘",
     "아프간하운드",
-    "요크셔 테리어",
-    "웰시 코기",
-    "이탈리안 그레이하운드",
-    "제페니스 스피츠",
+    "요크셔테리어",
+    "웰시코기",
+    "이탈리안그레이하운드",
+    "제페니스스피츠",
     "진돗개",
     "차우차우",
     "치와와",
-    "코커 스패니얼",
-    "토이 푸들",
+    "코커스패니얼",
+    "토이푸들",
     "파피용",
     "퍼그",
     "페키니즈",
-    "펨브록 웰시코기",
+    "펨브록웰시코기",
     "포메라니안",
     "푸들",
     "풍산개",
-    "프렌치 불도그",
+    "프렌치불도그",
     "직접 입력",
   ];
   const [isSexOpen, setIsSexOpen] = useState(false);
-  const [isAgeOpen, setIsAgeOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
-  const [name, setName] = useState(dogInfo?.petName);
-  const [age, setAge] = useState<number>();
+  const [name, setName] = useState(dogInfo?.name);
+  const [birth, setBirth] = useState(dogInfo?.birth);
   const [sex, setSex] = useState<string>();
-  const [neutered, setNeutered] = useState(false);
+  const [neutered, setNeutered] = useState(dogInfo?.neutered);
   const [breed, setBreed] = useState<string>();
-  const [memo, setMemo] = useState(dogInfo?.note);
-  const [disease, setDisease] = useState(dogInfo?.disease);
-  const [reported, setReported] = useState(false);
-  const [img, setImage] = useState<File[]>([]);
+  const [note, setNote] = useState(dogInfo?.note ?? "");
+  const [disease, setDisease] = useState(dogInfo?.disease ?? "");
+  const [isMissing, setIsMissing] = useState(dogInfo?.isMissing);
+  //const [img, setImage] = useState<File[]>([]);
+  const [imgUrlList, setImgUrlList] = useState<File[]>([]);
   const [imgNum, setImgNum] = useState(0);
   const [addr1, setAddr1] = useState<string>();
   const [addr2, setAddr2] = useState<string>();
   const [addr3, setAddr3] = useState<string>();
   const [addr4, setAddr4] = useState<string>();
+  const [missDate, setMissDate] = useState(dogInfo?.missDate);
+  const [missTime, setMissTime] = useState(dogInfo?.missTime);
+  const [etc, setEtc] = useState(dogInfo?.etc);
+
+  const [file, setFile] = useState<string[]>([]);
 
   useEffect(() => {
-    if (img) setImgNum(img.length);
-  }, [img]);
+    if (imgUrlList) setImgNum(imgUrlList.length);
+  }, [imgUrlList]);
 
   // useEffect(() => { console.log('name', name) }, [name]);
 
   // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   useEffect(() => {
-    setAge(dogInfo?.petOld);
-    setSex(dogInfo?.petSex === true ? '여아' : '남아');
-    setBreed(dogInfo?.petBreed);
-    setReported(dogInfo?.missed ? dogInfo?.missed : false);
-    setAddr1(dogInfo?.missCity);
-    setAddr2(dogInfo?.missGu);
-    setAddr3(dogInfo?.missDong);
-    setAddr4(dogInfo?.missDetail);
+    setSex(dogInfo?.sex === 'FEMALE' ? '여아' : '남아');
+    setBreed(dogInfo?.breed);
+    setIsMissing(dogInfo?.isMissing === true ? true : false);
+    setAddr1(dogInfo?.missingCity);
+    setAddr2(dogInfo?.missingGu);
+    setAddr3(dogInfo?.missingDong);
+    setAddr4(dogInfo?.missingDetailedLocation);
 
   }, [dogInfo])
 
@@ -119,78 +125,102 @@ export default function InputDog(props: InputDogdogInfo) {
     if (imgNum < 10) {
       if (e.target.files) {
         const files = Array.from(e.target.files);
-        let temp: File[] = img;
-        setImage([...temp, ...files]);
+        let temp: File[] = imgUrlList;
+        setImgUrlList([...temp, ...files]);
       }
     } else alert("사진 업로드는 10장까지 가능해요!");
   };
 
   const onComplete = async () => {
-    console.log(name, sex, breed, age, neutered, reported);
-    if (name && sex && breed && age && pageTitle === "반려견 등록하기") {
-      const res = await postDogs({
-        petName: name,
-        petSex: sex === '여아' ? true : false,
-        petBreed: breed,
-        petOld: age,
-        disease: disease,
-        neutered: neutered,
-        note: memo,
-        missed: reported,
-        missCity: addr1,
-        missGu: addr2,
-        missDong: addr3,
-        missDetail: addr4,
+    console.log(name, sex, breed, birth, neutered, isMissing);
+    if (name && sex && breed && birth && pageTitle === "반려견 등록하기") {
+      const res = await createDog({
+        request: {
+          name: name,
+          birth: birth,
+          sex: sex === '여아' ? 'FEMALE' : 'MALE',
+          breed: breed,
+          note: note,
+          disease: disease,
+          neutered: neutered === true ? true : false,
+        }, file: file
       })
-      console.log("반려견 등록 성공", {
-        petName: name,
-        petSex: sex === '여아' ? true : false,
-        petBreed: breed,
-        petOld: age,
-        disease: disease,
-        neutered: neutered,
-        note: memo,
-        missed: reported,
-        missCity: addr1,
-        missGu: addr2,
-        missDong: addr3,
-        missDetail: addr4,
-      }, res);
+      // console.log("반려견 등록 성공", {
+      //   petName: name,
+      //   petSex: sex === '여아' ? true : false,
+      //   petBreed: breed,
+      //   petOld: age,
+      //   disease: disease,
+      //   neutered: neutered,
+      //   note: memo,
+      //   missed: reported,
+      //   missCity: addr1,
+      //   missGu: addr2,
+      //   missDong: addr3,
+      //   missDetail: addr4,
+      // }, res);
+
     }
-    else if (name && sex && breed && age && pageTitle === "반려견 수정하기") {
-      const res = await postDogs({
-        petName: name,
-        petSex: sex === '여아' ? true : false,
-        petBreed: breed,
-        petOld: age,
+    else if (name && sex && breed && birth && note && pageTitle === "반려견 수정하기") {
+      const res = await updateDog(petId, {
+        name: name,
+        birth: birth,
+        sex: sex === '여아' ? 'FEMALE' : 'MALE',
+        breed: breed,
+        note: note,
         disease: disease,
-        neutered: neutered,
-        note: memo,
-        missed: reported,
-        missCity: addr1,
-        missGu: addr2,
-        missDong: addr3,
-        missDetail: addr4,
+        neutered: neutered === true ? true : false,
+
+        isMissing: isMissing,
+        missingCity: addr1,
+        missingGu: addr2,
+        missingDong: addr3,
+        missingDetailedLocation: addr4,
+        missDate: missDate,
+        missTime: missTime,
+        etc: etc
+
+
       })
+
       console.log("반려견 수정 성공", {
-        petName: name,
-        petSex: sex === '여아' ? true : false,
-        petBreed: breed,
-        petOld: age,
+        name: name,
+        birth: birth,
+        sex: sex === '여아' ? 'FEMALE' : 'MALE',
+        breed: breed,
+        note: note,
         disease: disease,
         neutered: neutered,
-        note: memo,
-        missed: reported,
-        missCity: addr1,
-        missGu: addr2,
-        missDong: addr3,
-        missDetail: addr4,
+
+        isMissing: isMissing,
+        missingCity: addr1,
+        missingGu: addr2,
+        missingDong: addr3,
+        missingDetailedLocation: addr4,
+        missDate: missDate,
+        missTime: missTime,
+        etc: etc
+
       }, res);
+      // console.log("반려견 수정 성공", {
+      //   petName: name,
+      //   petSex: sex === '여아' ? true : false,
+      //   petBreed: breed,
+      //   petOld: age,
+      //   disease: disease,
+      //   neutered: neutered,
+      //   note: memo,
+      //   missed: reported,
+      //   missCity: addr1,
+      //   missGu: addr2,
+      //   missDong: addr3,
+      //   missDetail: addr4,
+      // }, res);
     }
     else console.log("error");
   }
 
-  const addrTextReturn = (str1: string, str2: string, str3: string) => {
+  const addrTextReturnThree = (str1: string, str2: string, str3: string) => {
     setAddr1(str1);
     setAddr2(str2);
     setAddr3(str3);
@@ -198,34 +228,65 @@ export default function InputDog(props: InputDogdogInfo) {
   }
 
   const removeImage = (index: number) => {
-    const temp = img.filter((v, i) => i != index);
-    setImage(temp);
+    const temp = imgUrlList.filter((v, i) => i != index);
+    setImgUrlList(temp);
   };
 
-  const AgeDropdown = () => {
-    if (isAgeOpen === true)
-      return (
-        <div className={styles.dropdown}>
-          {ageEl.map((e, index) => {
-            return (
-              <div
-                className={styles.dropdownEl}
-                onClick={() => {
-                  setIsAgeOpen(false);
-                  setAge(index);
-                }}
-                key={index}
-              >
-                <Typo color="black" variant="caption">
-                  {index}
-                </Typo>
-              </div>
-            );
-          })}
-        </div>
-      );
-    else return <div></div>;
-  };
+  const onParseDate = (e: any) => {
+    const parseDate = (value: number) => {
+      if (value >= 10) {
+        return value;
+      }
+      else return `0${value}`;
+    }
+    const year = e.year();
+    const month = parseDate(e.month() + 1);
+    const day = parseDate(e.date());
+    const date = year + '-' + month + '-' + day;
+    console.log(date);
+    //console.log('birth', birth)
+    return date;
+  }
+
+  const onParseTime = (e: any) => {
+    const parseDate = (value: number) => {
+      if (value >= 10) {
+        return value;
+      }
+      else return `0${value}`;
+    }
+    const hour = parseDate(e.hour());
+    const minute = parseDate(e.minute());
+    const time = hour + ':' + minute;
+    //console.log('time', time);
+    return time;
+  }
+
+
+  // const AgeDropdown = () => {
+  //   if (isAgeOpen === true)
+  //     return (
+  //       <div className={styles.dropdown}>
+  //         {ageEl.map((e, index) => {
+  //           return (
+  //             <div
+  //               className={styles.dropdownEl}
+  //               onClick={() => {
+  //                 setIsAgeOpen(false);
+  //                 setAge(index);
+  //               }}
+  //               key={index}
+  //             >
+  //               <Typo color="black" variant="caption">
+  //                 {index}
+  //               </Typo>
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
+  //     );
+  //   else return <div></div>;
+  // };
 
   const SexDropdown = () => {
     if (isSexOpen === true)
@@ -278,7 +339,7 @@ export default function InputDog(props: InputDogdogInfo) {
   };
 
   const setReportedHandler = () => {
-    reported ? setReported(false) : setReported(true);
+    isMissing ? setIsMissing(false) : setIsMissing(true);
   };
 
   return (
@@ -287,7 +348,8 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => router.push('/')}>완료</Typo>
+          {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { router.push('/'); onComplete(); }}>완료</Typo> */}
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo>
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -324,7 +386,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 </Typo>
               </div>
               <div className={styles.imageBoxWrapper}>
-                {img?.map((imageItem, index) => {
+                {imgUrlList?.map((imageItem, index) => {
                   const url = URL.createObjectURL(imageItem);
                   return (
                     <div className={styles.imageBox} key={url}>
@@ -346,7 +408,7 @@ export default function InputDog(props: InputDogdogInfo) {
           </div>
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.petName} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
+            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -355,9 +417,21 @@ export default function InputDog(props: InputDogdogInfo) {
               color="black"
               className={styles.contentTitle}
             >
-              나이
+              생년월일
             </Typo>
-            <div className={styles.ageBoxWrapper}>
+
+            <DatePicker
+              locale={locale}
+              placeholder=""
+              format={dateFormat}
+              className={styles.antPickerStyle}
+              defaultValue={dayjs(dogInfo?.birth, dateFormat)}
+              onChange={(e) => { setBirth(onParseDate(e)) }}
+
+            />
+
+
+            {/* <div className={styles.ageBoxWrapper}>
               <div>
                 <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
                   <input type="hidden" value={age} />
@@ -367,7 +441,9 @@ export default function InputDog(props: InputDogdogInfo) {
                 </div>
                 <AgeDropdown />
               </div>
-            </div>
+            </div> */}
+
+
           </div>
 
           <div className={styles.contentEl}>
@@ -433,7 +509,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
           <div className={styles.contentEl}>
             <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setMemo(e.target.value)} />
+            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setNote(e.target.value)} />
           </div>
 
           <div className={styles.contentEl}>
@@ -447,14 +523,14 @@ export default function InputDog(props: InputDogdogInfo) {
                 type="checkbox"
                 name="reported"
                 className={styles.customCheckBox}
-                defaultChecked={dogInfo?.missed}
+                defaultChecked={isMissing}
                 onClick={() => setReportedHandler()}
               />
               <Typo color="red" variant="t3" className={styles.text}>
                 실종 신고하기
               </Typo>
             </label>
-            {reported ? (
+            {isMissing ? (
               <>
                 <div className={styles.reportedSection}>
                   <div className={styles.reportedContentEl}>
@@ -464,7 +540,7 @@ export default function InputDog(props: InputDogdogInfo) {
                         실종 장소
                       </Typo>
                     </div>
-                    <AddressDropdown pageTitle="inputDog" addrTextReturn={addrTextReturn} address1={addr1} address2={addr2} address3={addr3} />
+                    <AddressDropdown pageTitle="inputDog" addrTextReturnThree={addrTextReturnThree} address1={addr1} address2={addr2} address3={addr3} />
                   </div>
                   <div className={styles.reportedContentEl}>
                     <div className={styles.reportedContentTitle} />
@@ -473,7 +549,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       placeholder="상세 주소를 입력해주세요"
                       onChange={(e) => setAddr4(e.target.value)}
                       className={styles.addrDetailBox}
-                      defaultValue={dogInfo?.missDetail}
+                      defaultValue={dogInfo?.missingDetailedLocation}
                     />
                   </div>
 
@@ -490,6 +566,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       format={dateFormat}
                       className={styles.antPickerStyle}
                       defaultValue={dayjs(dogInfo?.missDate, dateFormat)}
+                      onChange={(e) => { setMissDate(onParseDate(e)) }}
                     />
                   </div>
 
@@ -505,6 +582,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       format={timeFormat}
                       className={styles.antPickerStyle}
                       defaultValue={dayjs(dogInfo?.missTime, timeFormat)}
+                      onChange={(e) => { setMissTime(onParseTime(e)) }}
                     />
                   </div>
                   <div className={styles.reportedContentEl}>
@@ -522,6 +600,7 @@ export default function InputDog(props: InputDogdogInfo) {
                       name="dog_disease"
                       placeholder="전달사항을 남겨주세요( 분홍색 하네스를 착용함 등 )"
                       defaultValue={dogInfo?.etc}
+                      onChange={(e) => setEtc(e.target.value)}
                       className={styles.etcBox}
                     />
                   </div>

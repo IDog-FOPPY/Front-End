@@ -5,7 +5,7 @@ let uid = localStorage.getItem('foppy_user_uid');
 let authorization = undefined;
 
 if (token) {
-  token = 'Bearer ' + token;
+  //token = 'Bearer ' + token;
   console.log('token', token);
   authorization = { "Authorization": token };
 }
@@ -21,14 +21,10 @@ interface loginProps {
   email: string;
   password: string;
 }
-export async function login({ email, password }: loginProps) {
+
+export async function login(props: loginProps) {
   try {
-    const res = await axios.get("/user/login", {
-      params: {
-        email,
-        password,
-      },
-    });
+    const res = await axios.post("/user/login", props);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -60,6 +56,7 @@ export async function signup({ email, nickName, password, phone }: signupProps) 
   }
 }
 
+
 // 전체 반려견 조회 -> 수정 필요
 export async function getDogs() {
   try {
@@ -82,6 +79,7 @@ interface createDogProps {
     breed: string;
     note: string;
     disease: string;
+    neutered: boolean;
   },
   file: string[];
 }
@@ -94,18 +92,53 @@ export async function createDog(props: createDogProps) {
     console.log(err);
     return {};
   }
+
+
 }
 
-// 반려견 정보 조회 -> 수정 필요
+
+// 반려견 수정
+interface updateDogProps {
+  name: string;
+  birth: string;
+  sex: string;
+  breed: string;
+  note: string;
+  disease: string;
+  neutered: boolean;
+  isMissing?: boolean;
+  missingCity?: string;
+  missingGu?: string;
+  missingDong?: string;
+  missingDetailedLocation?: string;
+  missDate?: string;
+  missTime?: string;
+  etc?: string;
+
+}
+export async function updateDog(petId: string | null | undefined, props: updateDogProps) {
+  try {
+    const res = await axios.patch(`/dog/${petId}`, props);
+    console.log("수정성공", res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
+
+
+// 반려견 정보 조회 -> 수정 완료!
 interface getMyDogProps {
   petId: number;
 }
 export async function getMyDog({ petId }: getMyDogProps) {
   try {
-    const res = await axios.get(`/PetDogs/getDetail/${petId}`, {
+    const res = await axios.get(`/dog/${petId}`, {
       params: {},
     });
-    return res.data;
+    //console.log('getmydog', res.data.data);
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
@@ -124,7 +157,7 @@ interface getStrayDogsProps {
 
 export async function getStrayDogs(props: getStrayDogsProps) {
   try {
-    const res = await axios.get("/stray", {params: props});
+    const res = await axios.get("/stray", { params: props });
     return res.data;
   } catch (err) {
     console.log(err);
@@ -144,4 +177,3 @@ export async function postNoseIdent(img: File) {
     return {};
   }
 }
-
