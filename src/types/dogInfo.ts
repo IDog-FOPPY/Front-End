@@ -10,9 +10,12 @@ export interface DogInfo {
   disease?: string;
   neutered?: boolean;
   note?: string;
-  // imgUrlList?: StaticImageData;
-  //imgUrlList?: string[];
-  imgUrlList?: File[] | undefined;
+
+  //이 경우 string이라서 등록페이지에서 사진업로드 불가능
+  imgUrlList?: string;
+
+  // 이 경우 등록페이지에서 사진업로드 가능
+  // imgUrlList?: File[] | undefined;
 
   isMissing?: boolean;
   missingCity?: string;
