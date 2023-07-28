@@ -171,7 +171,8 @@ export async function postNoseIdent(img: File) {
   try {
     let formData = new FormData();
     formData.append("file", img);
-    const res = await axios.post("StrayDogs/noseIdent", formData);
+    const res = await axios.post("/stray", formData);
+    console.log("res", res);
     return res.data;
   } catch (err) {
     console.log(err);
