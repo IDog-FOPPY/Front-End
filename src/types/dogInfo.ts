@@ -11,7 +11,8 @@ export interface DogInfo {
   neutered?: boolean;
   note?: string;
   // imgUrlList?: StaticImageData;
-  imgUrlList?: string;
+  //imgUrlList?: string[];
+  imgUrlList?: File[] | undefined;
 
   isMissing?: boolean;
   missingCity?: string;

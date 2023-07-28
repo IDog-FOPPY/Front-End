@@ -99,7 +99,13 @@ export default function InputDog(props: InputDogdogInfo) {
   const [missTime, setMissTime] = useState(dogInfo?.missTime);
   const [etc, setEtc] = useState(dogInfo?.etc);
 
-  const [file, setFile] = useState<string[]>([]);
+
+
+
+  const [imgList, setImageList] = useState<string[]>();
+
+
+
 
   useEffect(() => {
     if (imgUrlList) setImgNum(imgUrlList.length);
@@ -121,6 +127,9 @@ export default function InputDog(props: InputDogdogInfo) {
     setAddr2(dogInfo?.missingGu);
     setAddr3(dogInfo?.missingDong);
     setAddr4(dogInfo?.missingDetailedLocation);
+
+
+    //setImageList(dogInfo?.imgUrlList);
 
   }, [dogInfo])
 
@@ -147,13 +156,13 @@ export default function InputDog(props: InputDogdogInfo) {
           note: note,
           disease: disease,
           neutered: neutered === true ? true : false,
-        }, file: file
+        }, file: imgUrlList
       })
       // console.log("반려견 등록 성공", {
       //   petName: name,
       //   petSex: sex === '여아' ? true : false,
       //   petBreed: breed,
-      //   petOld: age,
+      //   petOld: age
       //   disease: disease,
       //   neutered: neutered,
       //   note: memo,
@@ -390,8 +399,11 @@ export default function InputDog(props: InputDogdogInfo) {
                 </Typo>
               </div>
               <div className={styles.imageBoxWrapper}>
+
                 {imgUrlList?.map((imageItem, index) => {
                   const url = URL.createObjectURL(imageItem);
+                  console.log('url', url);
+                  console.log('imgUrlList', imgUrlList);
                   return (
                     <div className={styles.imageBox} key={url}>
                       <div
@@ -407,6 +419,31 @@ export default function InputDog(props: InputDogdogInfo) {
                     </div>
                   );
                 })}
+
+
+
+
+
+                {/* {imgList?.map((imageItem, index) => {
+                  //const url = URL.createObjectURL(imageItem);
+                  //console.log('url', url);
+                  return (
+                    <div className={styles.imageBox} key={imageItem}>
+                      <div
+                        style={{ backgroundImage: `url(${imageItem})` }}
+                        className={styles.image}
+                      />
+                      <div
+                        className={styles.removeBtn}
+                        onClick={() => removeImage(index)}
+                      >
+                        X
+                      </div>
+                    </div>
+                  );
+                })} */}
+
+
               </div>
             </div>
           </div>

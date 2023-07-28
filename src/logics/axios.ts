@@ -16,6 +16,41 @@ export const axios = Axios.create({
   headers: authorization,
 });
 
+
+
+// import Axios from "axios";
+
+// let token = localStorage.getItem("foppy_auth_token");
+// let uid = localStorage.getItem("foppy_user_uid");
+// let authorization = undefined;
+// let authWithFormData = undefined;
+
+// if (token) {
+//   //token = 'Bearer ' + token;
+//   console.log("token", token);
+//   authorization = { Authorization: token };
+//   authWithFormData = {
+//     Authorization: token,
+//     "Content-Type": "multipart/form-data",
+//   };
+// }
+
+// export const axios = Axios.create({
+//   baseURL: "http://3.38.247.212:8080/api",
+//   // timeout: 30000,
+//   headers: authorization,
+// });
+
+// export const axiosFormData = Axios.create({
+//   baseURL: "http://3.38.247.212:8080/api",
+//   // timeout: 30000,
+//   headers: authWithFormData,
+// });
+
+
+
+
+
 // 로그인
 interface loginProps {
   email: string;
@@ -74,7 +109,9 @@ export async function getDogs() {
 
 // 반려견 등록
 interface createDogProps {
+
   request: {
+    [index: string]: any;
     name: string;
     birth: string;
     sex: string;
@@ -83,11 +120,43 @@ interface createDogProps {
     disease: string;
     neutered: boolean;
   };
-  file: string[];
+  file: File[];
 }
 export async function createDog(props: createDogProps) {
+
+  //const request = new FormData();
+  const request = props.request;
+
+  //const file = new FormData();
+  const file = props.file;
+
+  const formRequest = new FormData();
+
+
+  //Append request fields to formData
+  Object.keys(JSON.stringify(props.request)).forEach(key => {
+    JSON.stringify(props.request[key])
+  });
+
+
+  //Append files to formData
+  // for (let i = 0; i < props.file.length; i++) {
+  //   file.append("file", props.file[i]);
+  // }
+
+
+  // Object.keys(request).forEach(key => {
+  //   formRequest.append("request", new Blob([JSON.stringify(request)], {
+  //     type: "applicaion/json"
+  //   }));
+  // })
+
+  formRequest.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
+  formRequest.append("file", new Blob(file, { type: "multipart/form-data" }));
+
+
   try {
-    const res = await axios.post(`/dog/create`, props);
+    const res = await axios.post(`/dog/create`, formRequest);
     console.log("등록성공", res);
     return res.data;
   } catch (err) {
