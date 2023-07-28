@@ -130,21 +130,15 @@ export async function createDog(props: createDogProps) {
 
   //const file = new FormData();
   const file = props.file;
-
   const formRequest = new FormData();
 
-
-  //Append request fields to formData
   // Object.keys(JSON.stringify(props.request)).forEach(key => {
   //   JSON.stringify(props.request[key])
   // });
 
-
-  //Append files to formData
   // for (let i = 0; i < props.file.length; i++) {
   //   file.append("file", props.file[i]);
   // }
-
 
   // Object.keys(request).forEach(key => {
   //   formRequest.append("request", new Blob([JSON.stringify(request)], {
@@ -152,8 +146,8 @@ export async function createDog(props: createDogProps) {
   //   }));
   // })
 
-  await formRequest.append("request", new Blob([requestString], { type: "application/json" }));
-  await formRequest.append("file", new Blob(file, { type: "multipart/form-data" }));
+  formRequest.append("request", new Blob([requestString], { type: "application/json" }));
+  formRequest.append("file", new Blob(file, { type: "multipart/form-data" }));
 
 
   try {

@@ -101,7 +101,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
 
 
-
+  //edit 페이지 이미지 받아오는 임시 변수
   const [imgList, setImageList] = useState<string[]>();
 
 
