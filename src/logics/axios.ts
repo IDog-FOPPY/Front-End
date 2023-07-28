@@ -65,7 +65,7 @@ export async function signup({
 export async function getDogs() {
   try {
     const res = await axios.get(`/dog`, {});
-    return res.data;
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
