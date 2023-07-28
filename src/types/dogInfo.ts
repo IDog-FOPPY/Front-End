@@ -2,8 +2,8 @@ import { StaticImageData } from "next/image";
 
 export interface DogInfo {
   //img?: StaticImageData;
-  id: number;
-  name?: string;
+  id?: number;
+  name?: string | undefined;
   sex?: string; // (true 여자 false 남자)
   breed?: string;
   birth?: string;
@@ -11,7 +11,7 @@ export interface DogInfo {
   neutered?: boolean;
   note?: string;
   // imgUrlList?: StaticImageData;
-  imgUrl: string;
+  imgUrlList?: string;
 
   isMissing?: boolean;
   missingCity?: string;
