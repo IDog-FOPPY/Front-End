@@ -1,22 +1,22 @@
 import Axios from "axios";
 
-let token = localStorage.getItem('foppy_auth_token');
-let uid = localStorage.getItem('foppy_user_uid');
+let token = localStorage.getItem("foppy_auth_token");
+let uid = localStorage.getItem("foppy_user_uid");
 let authorization = undefined;
 
 if (token) {
   //token = 'Bearer ' + token;
-  console.log('token', token);
-  authorization = { "Authorization": token };
+  console.log("token", token);
+  authorization = { Authorization: token };
 }
 
 export const axios = Axios.create({
-  baseURL: 'http://3.38.247.212:8080/api',
+  baseURL: "http://3.38.247.212:8080/api",
   // timeout: 30000,
   headers: authorization,
 });
 
-// 로그인 
+// 로그인
 interface loginProps {
   email: string;
   password: string;
@@ -32,14 +32,19 @@ export async function login(props: loginProps) {
   }
 }
 
-// 회원가입 
+// 회원가입
 interface signupProps {
   email: string;
   nickName: string;
   password: string;
   phone: string;
 }
-export async function signup({ email, nickName, password, phone }: signupProps) {
+export async function signup({
+  email,
+  nickName,
+  password,
+  phone,
+}: signupProps) {
   try {
     const res = await axios.post("/user/signup", {
       params: {
@@ -56,13 +61,10 @@ export async function signup({ email, nickName, password, phone }: signupProps) 
   }
 }
 
-
-// 전체 반려견 조회 -> 수정 필요
+// 내 반려견 조회
 export async function getDogs() {
   try {
-    // const res = await axios.get(`/v1/member/getPet/${uid}`, {
-    const res = await axios.post(`/user/get`, {
-    });
+    const res = await axios.get(`/dog`, {});
     return res.data;
   } catch (err) {
     console.log(err);
@@ -80,7 +82,7 @@ interface createDogProps {
     note: string;
     disease: string;
     neutered: boolean;
-  },
+  };
   file: string[];
 }
 export async function createDog(props: createDogProps) {
@@ -92,10 +94,7 @@ export async function createDog(props: createDogProps) {
     console.log(err);
     return {};
   }
-
-
 }
-
 
 // 반려견 수정
 interface updateDogProps {
@@ -114,9 +113,11 @@ interface updateDogProps {
   missDate?: string;
   missTime?: string;
   etc?: string;
-
 }
-export async function updateDog(petId: string | null | undefined, props: updateDogProps) {
+export async function updateDog(
+  petId: string | null | undefined,
+  props: updateDogProps
+) {
   try {
     const res = await axios.patch(`/dog/${petId}`, props);
     console.log("수정성공", res);
@@ -127,8 +128,7 @@ export async function updateDog(petId: string | null | undefined, props: updateD
   }
 }
 
-
-// 반려견 정보 조회 -> 수정 완료!
+// 반려견 정보 조회
 interface getMyDogProps {
   petId: number;
 }
@@ -137,14 +137,12 @@ export async function getMyDog({ petId }: getMyDogProps) {
     const res = await axios.get(`/dog/${petId}`, {
       params: {},
     });
-    //console.log('getmydog', res.data.data);
     return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
   }
 }
-
 
 // 유기견 조회
 interface getStrayDogsProps {
@@ -157,8 +155,11 @@ interface getStrayDogsProps {
 
 export async function getStrayDogs(props: getStrayDogsProps) {
   try {
-    const res = await axios.get("/stray", { params: props });
-    return res.data;
+    const res = await axios.get("/dog/missing?page=0&size=10", {
+      params: props,
+    });
+    console.log("getStrayDogs", res);
+    return res.data.data.content;
   } catch (err) {
     console.log(err);
     return {};
@@ -169,7 +170,7 @@ export async function getStrayDogs(props: getStrayDogsProps) {
 export async function postNoseIdent(img: File) {
   try {
     let formData = new FormData();
-    formData.append('file', img);
+    formData.append("file", img);
     const res = await axios.post("StrayDogs/noseIdent", formData);
     return res.data;
   } catch (err) {
