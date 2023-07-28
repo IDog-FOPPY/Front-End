@@ -98,13 +98,13 @@ export async function createDog(props: createDogProps) {
 
 // 반려견 수정
 interface updateDogProps {
-  name: string;
-  birth: string;
-  sex: string;
-  breed: string;
-  note: string;
-  disease: string;
-  neutered: boolean;
+  name: string | undefined;
+  birth: string | undefined;
+  sex: string | undefined;
+  breed: string | undefined;
+  note: string | undefined;
+  disease: string | undefined;
+  neutered: boolean | undefined;
   isMissing?: boolean;
   missingCity?: string;
   missingGu?: string;
