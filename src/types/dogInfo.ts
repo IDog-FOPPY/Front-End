@@ -2,6 +2,7 @@ import { StaticImageData } from "next/image";
 
 export interface DogInfo {
   //img?: StaticImageData;
+  id: number;
   name?: string;
   sex?: string; // (true 여자 false 남자)
   breed?: string;
@@ -9,7 +10,8 @@ export interface DogInfo {
   disease?: string;
   neutered?: boolean;
   note?: string;
-  imgUrlList?: StaticImageData;
+  // imgUrlList?: StaticImageData;
+  imgUrl: string;
 
   isMissing?: boolean;
   missingCity?: string;
@@ -19,6 +21,4 @@ export interface DogInfo {
   missTime?: string;
   missDate?: string;
   etc?: string;
-
-
 }
