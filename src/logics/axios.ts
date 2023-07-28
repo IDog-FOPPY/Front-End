@@ -100,7 +100,7 @@ export async function signup({
 export async function getDogs() {
   try {
     const res = await axios.get(`/dog`, {});
-    return res.data;
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
@@ -240,7 +240,8 @@ export async function postNoseIdent(img: File) {
   try {
     let formData = new FormData();
     formData.append("file", img);
-    const res = await axios.post("StrayDogs/noseIdent", formData);
+    const res = await axios.post("/stray", formData);
+    console.log("res", res);
     return res.data;
   } catch (err) {
     console.log(err);
