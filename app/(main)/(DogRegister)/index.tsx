@@ -45,7 +45,7 @@ const DogCard = (props: DogCardProps) => {
 
   return (
     <div className={styles.dogCard}>
-      <img alt="dog-image" src={dog.imgUrl} className={styles.dogImg} />
+      <img alt="dog-image" src={dog.imgUrlList} className={styles.dogImg} />
       <div className={styles.dogInfo}>
         <div className={styles.headerSection}>
           <Typo variant="t1" bold color="black">

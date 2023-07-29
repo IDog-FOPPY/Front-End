@@ -80,13 +80,13 @@ export default function InputDog(props: InputDogdogInfo) {
   ];
   const [isSexOpen, setIsSexOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
-  const [name, setName] = useState(dogInfo?.name);
-  const [birth, setBirth] = useState(dogInfo?.birth);
+  const [name, setName] = useState<string>();
+  const [birth, setBirth] = useState<string>();
   const [sex, setSex] = useState<string>();
   const [neutered, setNeutered] = useState(dogInfo?.neutered);
   const [breed, setBreed] = useState<string>();
-  const [note, setNote] = useState(dogInfo?.note ?? "");
-  const [disease, setDisease] = useState(dogInfo?.disease ?? "");
+  const [note, setNote] = useState<string>();
+  const [disease, setDisease] = useState<string>();
   const [isMissing, setIsMissing] = useState(dogInfo?.isMissing);
   //const [img, setImage] = useState<File[]>([]);
   const [imgUrlList, setImgUrlList] = useState<File[]>([]);
@@ -99,7 +99,13 @@ export default function InputDog(props: InputDogdogInfo) {
   const [missTime, setMissTime] = useState(dogInfo?.missTime);
   const [etc, setEtc] = useState(dogInfo?.etc);
 
-  const [file, setFile] = useState<string[]>([]);
+
+
+  //edit 페이지 이미지 받아오는 임시 변수
+  const [imgList, setImageList] = useState<string[]>();
+
+
+
 
   useEffect(() => {
     if (imgUrlList) setImgNum(imgUrlList.length);
@@ -111,12 +117,19 @@ export default function InputDog(props: InputDogdogInfo) {
 
   useEffect(() => {
     setSex(dogInfo?.sex === 'FEMALE' ? '여아' : '남아');
+    setName(dogInfo?.name);
     setBreed(dogInfo?.breed);
+    setBirth(dogInfo?.birth);
+    setDisease(dogInfo?.disease);
+    setNote(dogInfo?.note);
     setIsMissing(dogInfo?.isMissing === true ? true : false);
     setAddr1(dogInfo?.missingCity);
     setAddr2(dogInfo?.missingGu);
     setAddr3(dogInfo?.missingDong);
     setAddr4(dogInfo?.missingDetailedLocation);
+
+
+    //setImageList(dogInfo?.imgUrlList);
 
   }, [dogInfo])
 
@@ -133,7 +146,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
   const onComplete = async () => {
     console.log(name, sex, breed, birth, neutered, isMissing);
-    if (name && sex && breed && birth && pageTitle === "반려견 등록하기") {
+    if (name && birth && sex && breed && note && disease && pageTitle === "반려견 등록하기") {
       const res = await createDog({
         request: {
           name: name,
@@ -143,13 +156,13 @@ export default function InputDog(props: InputDogdogInfo) {
           note: note,
           disease: disease,
           neutered: neutered === true ? true : false,
-        }, file: file
+        }, file: imgUrlList
       })
       // console.log("반려견 등록 성공", {
       //   petName: name,
       //   petSex: sex === '여아' ? true : false,
       //   petBreed: breed,
-      //   petOld: age,
+      //   petOld: age
       //   disease: disease,
       //   neutered: neutered,
       //   note: memo,
@@ -161,7 +174,7 @@ export default function InputDog(props: InputDogdogInfo) {
       // }, res);
 
     }
-    else if (name && sex && breed && birth && note && pageTitle === "반려견 수정하기") {
+    else if (pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
         name: name,
         birth: birth,
@@ -348,8 +361,8 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { router.push('/'); onComplete(); }}>완료</Typo> */}
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { router.push('/'); onComplete(); }}>완료</Typo>
+          {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo> */}
         </div>
         <div className={styles.contentLayout}>
           <div className={styles.contentEl}>
@@ -386,8 +399,11 @@ export default function InputDog(props: InputDogdogInfo) {
                 </Typo>
               </div>
               <div className={styles.imageBoxWrapper}>
+
                 {imgUrlList?.map((imageItem, index) => {
                   const url = URL.createObjectURL(imageItem);
+                  console.log('url', url);
+                  console.log('imgUrlList', imgUrlList);
                   return (
                     <div className={styles.imageBox} key={url}>
                       <div
@@ -403,6 +419,31 @@ export default function InputDog(props: InputDogdogInfo) {
                     </div>
                   );
                 })}
+
+
+
+
+
+                {/* {imgList?.map((imageItem, index) => {
+                  //const url = URL.createObjectURL(imageItem);
+                  //console.log('url', url);
+                  return (
+                    <div className={styles.imageBox} key={imageItem}>
+                      <div
+                        style={{ backgroundImage: `url(${imageItem})` }}
+                        className={styles.image}
+                      />
+                      <div
+                        className={styles.removeBtn}
+                        onClick={() => removeImage(index)}
+                      >
+                        X
+                      </div>
+                    </div>
+                  );
+                })} */}
+
+
               </div>
             </div>
           </div>

@@ -16,6 +16,41 @@ export const axios = Axios.create({
   headers: authorization,
 });
 
+
+
+// import Axios from "axios";
+
+// let token = localStorage.getItem("foppy_auth_token");
+// let uid = localStorage.getItem("foppy_user_uid");
+// let authorization = undefined;
+// let authWithFormData = undefined;
+
+// if (token) {
+//   //token = 'Bearer ' + token;
+//   console.log("token", token);
+//   authorization = { Authorization: token };
+//   authWithFormData = {
+//     Authorization: token,
+//     "Content-Type": "multipart/form-data",
+//   };
+// }
+
+// export const axios = Axios.create({
+//   baseURL: "http://3.38.247.212:8080/api",
+//   // timeout: 30000,
+//   headers: authorization,
+// });
+
+// export const axiosFormData = Axios.create({
+//   baseURL: "http://3.38.247.212:8080/api",
+//   // timeout: 30000,
+//   headers: authWithFormData,
+// });
+
+
+
+
+
 // 로그인
 interface loginProps {
   email: string;
@@ -74,7 +109,9 @@ export async function getDogs() {
 
 // 반려견 등록
 interface createDogProps {
+
   request: {
+    [index: string]: any;
     name: string;
     birth: string;
     sex: string;
@@ -83,11 +120,38 @@ interface createDogProps {
     disease: string;
     neutered: boolean;
   };
-  file: string[];
+  file: File[];
 }
 export async function createDog(props: createDogProps) {
+
+  //const request = new FormData();
+  const request = props.request;
+  const requestString = JSON.stringify(request);
+
+  //const file = new FormData();
+  const file = props.file;
+  const formRequest = new FormData();
+
+  // Object.keys(JSON.stringify(props.request)).forEach(key => {
+  //   JSON.stringify(props.request[key])
+  // });
+
+  // for (let i = 0; i < props.file.length; i++) {
+  //   file.append("file", props.file[i]);
+  // }
+
+  // Object.keys(request).forEach(key => {
+  //   formRequest.append("request", new Blob([JSON.stringify(request)], {
+  //     type: "applicaion/json"
+  //   }));
+  // })
+
+  formRequest.append("request", new Blob([requestString], { type: "application/json" }));
+  formRequest.append("file", new Blob(file, { type: "multipart/form-data" }));
+
+
   try {
-    const res = await axios.post(`/dog/create`, props);
+    const res = await axios.post(`/dog/create`, formRequest);
     console.log("등록성공", res);
     return res.data;
   } catch (err) {
@@ -98,13 +162,13 @@ export async function createDog(props: createDogProps) {
 
 // 반려견 수정
 interface updateDogProps {
-  name: string;
-  birth: string;
-  sex: string;
-  breed: string;
-  note: string;
-  disease: string;
-  neutered: boolean;
+  name: string | undefined;
+  birth: string | undefined;
+  sex: string | undefined;
+  breed: string | undefined;
+  note: string | undefined;
+  disease: string | undefined;
+  neutered: boolean | undefined;
   isMissing?: boolean;
   missingCity?: string;
   missingGu?: string;
