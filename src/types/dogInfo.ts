@@ -12,7 +12,9 @@ export interface DogInfo {
   note?: string;
 
   //이 경우 string이라서 등록페이지에서 사진업로드 불가능
-  imgUrlList: string;
+  imgUrlList?: string;
+
+  imgUrl?: string;
 
   // 이 경우 등록페이지에서 사진업로드 가능
   // imgUrlList?: File[] | undefined;
