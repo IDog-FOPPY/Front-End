@@ -146,33 +146,19 @@ export default function InputDog(props: InputDogdogInfo) {
 
   const onComplete = async () => {
     console.log(name, sex, breed, birth, neutered, isMissing);
-    if (name && birth && sex && breed && note && disease && pageTitle === "반려견 등록하기") {
+    if (name && birth && sex && breed && pageTitle === "반려견 등록하기") {
       const res = await createDog({
         request: {
           name: name,
           birth: birth,
           sex: sex === '여아' ? 'FEMALE' : 'MALE',
           breed: breed,
-          note: note,
-          disease: disease,
+          note: note || '',
+          disease: disease || '',
           neutered: neutered === true ? true : false,
         }, file: imgUrlList
-      })
-      // console.log("반려견 등록 성공", {
-      //   petName: name,
-      //   petSex: sex === '여아' ? true : false,
-      //   petBreed: breed,
-      //   petOld: age
-      //   disease: disease,
-      //   neutered: neutered,
-      //   note: memo,
-      //   missed: reported,
-      //   missCity: addr1,
-      //   missGu: addr2,
-      //   missDong: addr3,
-      //   missDetail: addr4,
-      // }, res);
-
+      });
+      router.push('/');
     }
     else if (pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
@@ -361,7 +347,7 @@ export default function InputDog(props: InputDogdogInfo) {
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { router.push('/'); onComplete(); }}>완료</Typo>
+          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
           {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo> */}
         </div>
         <div className={styles.contentLayout}>

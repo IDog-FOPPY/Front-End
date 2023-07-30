@@ -123,32 +123,14 @@ interface createDogProps {
   file: File[];
 }
 export async function createDog(props: createDogProps) {
-
-  //const request = new FormData();
   const request = props.request;
   const requestString = JSON.stringify(request);
-
-  //const file = new FormData();
-  const file = props.file;
   const formRequest = new FormData();
 
-  // Object.keys(JSON.stringify(props.request)).forEach(key => {
-  //   JSON.stringify(props.request[key])
-  // });
-
-  // for (let i = 0; i < props.file.length; i++) {
-  //   file.append("file", props.file[i]);
-  // }
-
-  // Object.keys(request).forEach(key => {
-  //   formRequest.append("request", new Blob([JSON.stringify(request)], {
-  //     type: "applicaion/json"
-  //   }));
-  // })
-
   formRequest.append("request", new Blob([requestString], { type: "application/json" }));
-  formRequest.append("file", new Blob(file, { type: "multipart/form-data" }));
-
+  for (let i = 0; i < props.file.length; i++) {
+    formRequest.append("file", props.file[i]);
+  }
 
   try {
     const res = await axios.post(`/dog/create`, formRequest);
