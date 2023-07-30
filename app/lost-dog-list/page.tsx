@@ -40,9 +40,8 @@ export default function LostDogList() {
       })
       setDogs(res);
     }
-
   }
-
+  
   useEffect(() => {
     const getData = async () => {
 
@@ -189,7 +188,7 @@ export default function LostDogList() {
       </div>
       <div className={styles.dogList}>
         {dogs.map((dog: DogInfo) => {
-          return <DogCard dog={dog} key={dog.petId} />
+          return <DogCard dog={dog} key={dog.id} />
         })}
       </div>
     </div>
