@@ -32,16 +32,17 @@ export default function LostDogList() {
   const onComplete = async () => {
     //console.log(name, sex, breed, age, neutered, reported);
     if (addr2 && breed && missDate) {
-      setDateFormat(missDate.format("YYYY-MM-DD"))
+      // console.log('dateFormat',dateFormat)
+      // setDateFormat(missDate.format("YYYY-MM-DD"))
       const res = await getStrayDogs({
         breed: breed,
-        addr2: addr2,
-        dateFormat: dateFormat
+        missingGu: addr2,
+        startDate: missDate.format("YYYY-MM-DD")
       })
       setDogs(res);
     }
   }
-  
+
   useEffect(() => {
     const getData = async () => {
 
