@@ -1,13 +1,14 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 // import Link from 'next/link';
 import Typo from "@components/core/Typo";
 import ArrowRightBlue from "@assets/svg/main/arrow-right-blue.svg";
 import Emergency from "@assets/svg/main/emergency.svg";
-import styles from "./styles.module.scss";
 import { postNoseIdent } from "@src/logics/axios";
-import { useRouter } from "next/navigation";
+import styles from "./styles.module.scss";
+
 export default function InputImageButton() {
   const [img, setImage] = useState<FileList | null>();
   const router = useRouter();
@@ -22,11 +23,17 @@ export default function InputImageButton() {
       const post = async () => {
         const res = await postNoseIdent(img[0]);
         // const res = {dogID:[6,7,6], top_3:[]}; // 임시
-        // if(res?.dogID.length > 0){
-        //   router.push(`/noseid-match-fail`);
-        // }else{
-
-        // }
+        console.log('res',res.data);
+        if (res?.data?.length > 0) {
+          console.log('success!');
+          const dogList = res.data.map((el: any) => {
+            return el.dog_id
+          });
+          router.push(`/noseid-match-success?petId=${dogList}`)
+        } else {
+          console.log('fail!');
+          router.push(`/noseid-match-fail`);
+        }
       };
       post();
     }

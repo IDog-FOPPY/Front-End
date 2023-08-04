@@ -31,13 +31,7 @@ export default function LoginPage() {
       if (res?.data.token) {
         localStorage.setItem('foppy_auth_token', res.data?.token);
         localStorage.setItem('foppy_user_uid', res.data?.userId);
-        //router.push('/');
-
-
-        //로그인테스트
-        router.push('/add-my-dog');
-
-
+        router.push('/');
       } else {
         // console.log('error!');
         setIsPopupOpen(true);
