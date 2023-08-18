@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.chattingIcon {
+  margin-right: 10px;
+}
+
 .drawer {
   width: 100vw;
   height: 100vh;
@@ -28,6 +32,7 @@
       bottom: 0;
       right: -100%;
     }
+
     100% {
       left: 0;
       right: 0;
@@ -106,6 +111,7 @@
   .menuList {
     margin-top: 50px;
     padding-left: 20px;
+
     .menu {
       display: flex;
       margin-bottom: 20px;

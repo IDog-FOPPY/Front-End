@@ -7,7 +7,9 @@ export default function MainPage() {
     <>
       <HeroBanner />
       <DogRegister />
-      <Lost />
+
+      {/* <Lost /> */}
+
     </>
   );
 }

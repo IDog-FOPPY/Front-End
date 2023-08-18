@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Typo from "@components/core/Typo";
 import DrawerIcon from "@assets/svg/drawer.svg";
+import ChattingIcon from "@assets/svg/main/chatting.svg";
+
 import PencilIcon from "@assets/svg/drawer/pencil.svg";
 import FootprintIcon from "@assets/svg/drawer/footprint.svg";
 import DogIcon from "@assets/svg/drawer/dog.svg";
@@ -25,12 +27,21 @@ export default function PageHeader() {
 
   return (
     <>
-      <div className={styles.headerContainer} onClick={() => setOpen(true)}>
+      <div className={styles.headerContainer} >
+        <Link href="/chatting-list">
+          <ChattingIcon
+            className={styles.chattingIcon}
+            width="36px"
+            height="36px"
+          />
+        </Link>
+
         <DrawerIcon
           className={styles.drawerIcon}
           viewBox="0 0 20 14"
           width="24px"
           height="24px"
+          onClick={() => setOpen(true)}
         />
       </div>
       {open && (
