@@ -27,13 +27,13 @@ export default function LoginPage() {
         password: pw,
       })
       console.log('res', res);
-      console.log('res.data.token', res.data.token);
-      if (res?.data.token) {
-        localStorage.setItem('foppy_auth_token', res.data?.token);
+      console.log('res.data.token', res.data.accessToken);
+      if (res?.data.accessToken) {
+        localStorage.setItem('foppy_auth_token', res.data?.accessToken);
         localStorage.setItem('foppy_user_uid', res.data?.userId);
         router.push('/');
       } else {
-        // console.log('error!');
+        console.log('error!');
         setIsPopupOpen(true);
       }
     }
