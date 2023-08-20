@@ -99,21 +99,9 @@ export default function InputDog(props: InputDogdogInfo) {
   const [missTime, setMissTime] = useState(dogInfo?.missTime);
   const [etc, setEtc] = useState(dogInfo?.etc);
 
-
-
-  //edit 페이지 이미지 받아오는 임시 변수
-  const [imgList, setImageList] = useState<string[]>();
-
-
-
-
   useEffect(() => {
     if (imgUrlList) setImgNum(imgUrlList.length);
   }, [imgUrlList]);
-
-  // useEffect(() => { console.log('name', name) }, [name]);
-
-  // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
 
   useEffect(() => {
     setSex(dogInfo?.sex === 'FEMALE' ? '여아' : '남아');
@@ -129,7 +117,7 @@ export default function InputDog(props: InputDogdogInfo) {
     setAddr4(dogInfo?.missingDetailedLocation);
 
 
-    //setImageList(dogInfo?.imgUrlList);
+    // setImgUrlList(dogInfo?.imgUrlList);
 
   }, [dogInfo])
 
@@ -444,17 +432,16 @@ export default function InputDog(props: InputDogdogInfo) {
               color="black"
               className={styles.contentTitle}
             >
-              생년월일
+              {console.log(dayjs(dogInfo?.birth, dateFormat))}
+              생년월일 
             </Typo>
-
             <DatePicker
               locale={locale}
-              placeholder=""
+              placeholder={dogInfo?.birth}
               format={dateFormat}
               className={styles.antPickerStyle}
-              defaultValue={dayjs(dogInfo?.birth, dateFormat)}
+              // defaultValue={dayjs(dogInfo?.birth, dateFormat)}
               onChange={(e) => { setBirth(onParseDate(e)) }}
-
             />
 
 
