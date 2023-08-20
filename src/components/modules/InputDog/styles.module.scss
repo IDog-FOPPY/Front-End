@@ -331,11 +331,11 @@
 
     .reportedContentEl {
       display: flex;
-      align-items: center;
+      // align-items: center;
       margin-top: 8px;
 
       .reportedContentTitle {
-        width: 60px;
+        min-width: 60px;
         height: 30px;
         display: flex;
         align-items: center;

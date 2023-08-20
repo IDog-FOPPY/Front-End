@@ -45,15 +45,6 @@ export default function AddressDropdown(props: AddressDropdownDogInfo) {
     }
   }, [pageTitle, addrTextReturnThree])
 
-  // useEffect(() => {console.log('addr', addr1, addr2, addr3)}, [addr1, addr2, addr3]);
-
-  // useEffect(() => {
-
-  //   setAddr1(address1);
-  //   setAddr2(address2);
-  //   setAddr3(address3);
-  // }, [addr1, addr2, addr3])
-
   return (
     <>
       <div className={styles.addrDropdownWrapper}>
