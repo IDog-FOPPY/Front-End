@@ -5,7 +5,7 @@ let uid = localStorage.getItem("foppy_user_uid");
 let authorization = undefined;
 
 if (token) {
-  //token = 'Bearer ' + token;
+  token = 'Bearer ' + token;
   console.log("token", token);
   authorization = { Authorization: token };
 }
@@ -60,6 +60,7 @@ interface loginProps {
 export async function login(props: loginProps) {
   try {
     const res = await axios.post("/user/login", props);
+    console.log('login')
     return res.data;
   } catch (err) {
     console.log(err);
@@ -220,6 +221,18 @@ export async function postNoseIdent(img: File) {
     const res = await axios.post("/stray", formData);
     console.log("res", res);
     return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
+
+// 채팅방 목록 조회
+export async function getChattingList() {
+  try {
+    const res = await axios.get(`/chat/rooms`, {});
+    console.log('채팅목록', res);
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};
