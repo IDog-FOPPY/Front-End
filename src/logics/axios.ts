@@ -1,22 +1,12 @@
 import Axios from "axios";
 
-let token = localStorage.getItem("foppy_auth_token");
-let uid = localStorage.getItem("foppy_user_uid");
-let authorization = undefined;
-
-if (token) {
-  token = 'Bearer ' + token;
-  console.log("token", token);
-  authorization = { Authorization: token };
-}
-
 export const axios = Axios.create({
   baseURL: "http://3.38.247.212:8080/api",
   // timeout: 30000,
-  headers: authorization,
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
+  },
 });
-
-
 
 // import Axios from "axios";
 
@@ -47,10 +37,6 @@ export const axios = Axios.create({
 //   headers: authWithFormData,
 // });
 
-
-
-
-
 // 로그인
 interface loginProps {
   email: string;
@@ -60,7 +46,7 @@ interface loginProps {
 export async function login(props: loginProps) {
   try {
     const res = await axios.post("/user/login", props);
-    console.log('login')
+    console.log("login");
     return res.data;
   } catch (err) {
     console.log(err);
@@ -110,7 +96,6 @@ export async function getDogs() {
 
 // 반려견 등록
 interface createDogProps {
-
   request: {
     [index: string]: any;
     name: string;
@@ -128,7 +113,10 @@ export async function createDog(props: createDogProps) {
   const requestString = JSON.stringify(request);
   const formRequest = new FormData();
 
-  formRequest.append("request", new Blob([requestString], { type: "application/json" }));
+  formRequest.append(
+    "request",
+    new Blob([requestString], { type: "application/json" })
+  );
   for (let i = 0; i < props.file.length; i++) {
     formRequest.append("file", props.file[i]);
   }
@@ -231,7 +219,7 @@ export async function postNoseIdent(img: File) {
 export async function getChattingList() {
   try {
     const res = await axios.get(`/chat/rooms`, {});
-    console.log('채팅목록', res);
+    console.log("채팅목록", res);
     return res.data.data;
   } catch (err) {
     console.log(err);
