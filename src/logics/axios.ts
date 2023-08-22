@@ -226,3 +226,33 @@ export async function getChattingList() {
     return {};
   }
 }
+
+// 채팅방 상세정보 조회
+export async function getChatting(
+  id: string | null,
+) {
+  try {
+    const res = await axios.get(`/chat/room/${id}`);
+    console.log("조회성공", res.data.data.chatMessages);
+    return res.data.data.chatMessages;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
+
+//채팅방 생성
+interface newChattingProps {
+  userId: number;
+  dogId: number;
+}
+export async function postNewChatting(props: newChattingProps) {
+  try {
+    const res = await axios.post("/chat/room", props);
+    console.log("채팅방 생성 성공", res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}

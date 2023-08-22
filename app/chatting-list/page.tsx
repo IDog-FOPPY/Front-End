@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import Link from "next/link";
+
 import { getChattingList } from "@src/logics/axios";
 import styles from "./styles.module.scss";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
@@ -83,6 +86,8 @@ const ChattingList = (props: ChattingListProps) => {
 
 export default function ChattingListPage() {
   const [chattings, setChattings] = useState([]);
+  const router = useRouter();
+
   useEffect(() => {
     const getData = async () => {
       setChattings(await getChattingList());
@@ -92,6 +97,18 @@ export default function ChattingListPage() {
     console.log('chattingListPage', token);
     if (token) getData();
   }, []);
+
+  //   const onClick = (id : number) => {
+  //     router.push(
+  // {
+  //   pathname: "/chatting",
+  //   query: {
+  //     chattingState: "old",
+  //     id: id,
+  //   },
+  // },
+  //     );
+  //   };
 
 
 
@@ -107,7 +124,27 @@ export default function ChattingListPage() {
         <div>
 
           {chattings.map((chat: Chatting) => {
-            return <ChattingList chatting={chat} key={chat.id} />;
+            return (
+              <Link
+                href={{
+                  pathname: "/chatting",
+                  query: {
+                    id: chat.id,
+                    state: "old",
+                  },
+                }}
+                // as="/chatting"
+                key={chat.id}
+              >
+                <ChattingList
+                  chatting={chat}
+                  key={chat.id}
+                // onClick={() => onClick(chat.id)}
+                />
+              </Link>
+
+
+            );
           })}
 
         </div>
