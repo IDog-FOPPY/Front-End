@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { getChattingList } from "@src/logics/axios";
 import styles from "./styles.module.scss";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import PFImg from '@assets/png/profileImg.png';
 import Typo from '@components/core/Typo';
 import dayjs from "dayjs";
 
-let uid = parseInt(localStorage.getItem('foppy_user_uid') || '{}');
+const uid = parseInt(localStorage.getItem('foppy_user_uid') || '{}');
+
 
 interface Chatting {
   id: number;
@@ -32,31 +34,49 @@ const ChattingList = (props: ChattingListProps) => {
   const { chatting } = props;
   const d = dayjs(chatting.lastMessageCreatedAt);
   const lastDate = d.format("YY/MM/DD");
+  let partnerNickname = "";
+  let partnerProfileImg = "";
 
-  // 상대방 닉네임 get
+
+
+  // 상대방 닉네임, 프로필 get
   const matchUser = (id: number) => {
     if (id === uid) {
-      return chatting.member2NickName;
+      partnerNickname = chatting.member2NickName;
+      partnerProfileImg = chatting.member2ProfileImgUrl;
     }
     else {
-      return chatting.member1NickName;
+      partnerNickname = chatting.member1NickName;
+      partnerProfileImg = chatting.member1ProfileImgUrl;
+    }
+
+    if (partnerProfileImg === "https://기본프사") {
+      partnerProfileImg = `${PFImg.src}`;
     }
   }
-  const partnerName = matchUser(chatting.member1Id);
+  matchUser(chatting.member1Id);
 
   return (
 
     <div className={styles.chattingList}>
-      <img alt="dog-image" src={chatting.member2ProfileImgUrl} className={styles.profileImg} />
-      {partnerName}
-      {lastDate}
-      {chatting.lastMessage}
+      <img
+        className={styles.partnerProfileImg}
+        alt="dog-image"
+        src={partnerProfileImg}
+      />
+      <div className={styles.chattingInfo}>
+        <div className={styles.chattingInfoUpper}>
+          <Typo variant="t2" bold color="black" >{partnerNickname}</Typo>
+          <Typo variant="caption" color="#d9d9d9" >{lastDate}</Typo>
+        </div>
+        <div className={styles.chattingInfoBottom}>
+          <Typo variant="t2" color="black" className={styles.title}>{chatting.lastMessage}</Typo>
+
+        </div>
+      </div>
+
     </div>
-
-
   )
-
-
 
 }
 
@@ -68,11 +88,11 @@ export default function ChattingListPage() {
       setChattings(await getChattingList());
     };
 
-    const accessToken = localStorage.getItem("foppy_auth_token");
-    if (accessToken) getData();
-    console.log('채팅목록', chattings);
+    const token = localStorage.getItem("foppy_auth_token");
+    console.log('chattingListPage', token);
+    if (token) getData();
   }, []);
-  console.log(localStorage.getItem('foppy_user_uid'));
+
 
 
   return (
@@ -83,16 +103,15 @@ export default function ChattingListPage() {
           <Typo variant="t2" bold color="black" className={styles.title}>채팅</Typo>
           <div className={styles.blank}></div>
         </div>
+
+        <div>
+
+          {chattings.map((chat: Chatting) => {
+            return <ChattingList chatting={chat} key={chat.id} />;
+          })}
+
+        </div>
       </div>
-
-      <div>
-
-        {chattings.map((chat: Chatting) => {
-          return <ChattingList chatting={chat} key={chat.id} />;
-        })}
-
-      </div>
-
 
     </>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Typo from "@components/core/Typo";
 import DrawerIcon from "@assets/svg/drawer.svg";
@@ -19,6 +20,7 @@ import styles from "./styles.module.scss";
 // 현재 모바일 화면 기준
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -28,13 +30,14 @@ export default function PageHeader() {
   return (
     <>
       <div className={styles.headerContainer} >
-        <Link href="/chatting-list">
-          <ChattingIcon
-            className={styles.chattingIcon}
-            width="36px"
-            height="36px"
-          />
-        </Link>
+        {/* <Link href="/chatting-list"> */}
+        <ChattingIcon
+          className={styles.chattingIcon}
+          width="36px"
+          height="36px"
+          onClick={() => router.push('/chatting-list')}
+        />
+        {/* </Link> */}
 
         <DrawerIcon
           className={styles.drawerIcon}
@@ -137,3 +140,4 @@ export default function PageHeader() {
     </>
   );
 }
+

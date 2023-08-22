@@ -16,9 +16,29 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
+    deleteAllCookies();
+    caches.keys().then(function (keyList) {
+      return Promise.all(keyList.map(function (key) {
+        return caches.delete(key);
+      }));
+    });
     localStorage.removeItem('foppy_auth_token');
     localStorage.removeItem('foppy_user_uid');
+
   }, [])
+
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
+
 
   const onComplete = async () => {
     if (id && pw) {
