@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import Typo from '@components/core/Typo';
+import Link from 'next/link'
+
 import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
@@ -189,7 +191,22 @@ export default function LostDogList() {
       </div>
       <div className={styles.dogList}>
         {dogs.map((dog: DogInfo) => {
-          return <DogCard dog={dog} key={dog.id} />
+          return (
+            <Link
+              href={{
+                pathname: "/chatting",
+                query: {
+                  id: dog.id,
+                  state: "new",
+                },
+              }}
+              // as="/chatting"
+              key={dog.id}
+            >
+              <DogCard dog={dog} key={dog.id} />
+            </Link>
+
+          )
         })}
       </div>
     </div>
