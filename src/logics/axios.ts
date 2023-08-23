@@ -8,7 +8,7 @@ export const axios = Axios.create({
     // chat1
     // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzE1MjQwLCJleHAiOjE2OTI3MTg4NDB9.4SJpIOpfU7dMUINpMm-Pi1bFTTdjuVctlQeVtAxga0Y"
     // chat2
-    Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQyIiwiaWF0IjoxNjkyNzE1NjUyLCJleHAiOjE2OTI3MTkyNTJ9.7BVtjtR4qf1AiTiy508hZY8ZrdQ-wBeHQ8sgQJSwuTU"
+    Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzk1ODY0LCJleHAiOjE2OTI3OTk0NjR9.WBpUosK5VIqLCCUd0dsL9MAa8xX_h6olxBh5HM006Ro"
   },
 });
 
@@ -233,7 +233,7 @@ export async function getChattingList() {
 
 // 채팅방 상세정보 조회
 export async function getChatting(
-  id: string | null,
+  id: number,
 ) {
   try {
     const res = await axios.get(`/chat/room/${id}`);

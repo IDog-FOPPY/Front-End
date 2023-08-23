@@ -92,7 +92,22 @@ export default function Lost() {
       <div className={styles.dogContainer}>
         <div className={styles.dogList}>
           {dogs.map((dog: DogInfo) => {
-            return <DogCard dog={dog} key={dog.id} />;
+            return (
+              <Link
+                href={{
+                  pathname: "/chatting",
+                  query: {
+                    id: dog.id,
+                    state: "new",
+                  },
+                }}
+                // as="/chatting"
+                key={dog.id}
+              >
+                <DogCard dog={dog} key={dog.id} />
+              </Link>
+
+            );
           })}
         </div>
       </div>
