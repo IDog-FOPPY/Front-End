@@ -19,40 +19,40 @@ export default function ChattingPage() {
   //const [chatting, setChatting] = useState([]);
 
 
-  // if (state === "old") {
-  //   console.log("기존채팅방get 방ID는", id);
-  //   const chatting = await getChatting(id);
-  // }
-  // else if (state === "new") {
-  //   console.log("새 채팅방 post 개 ID는", id);
-  //   if (uid && id) {
-  //     await postNewChatting({
-  //       userId: uid,
-  //       dogId: id,
-  //     })
+  if (state === "old") {
+    console.log("기존채팅방get 방ID는", id);
+    const chatting = async () => await getChatting(id);
+  }
+  else if (state === "new") {
+    console.log("새 채팅방 post 개 ID는", id);
+    if (uid && id) {
+      async () => await postNewChatting({
+        userId: uid,
+        dogId: id,
+      })
+    }
+  }
+  else console.log("err");
+
+
+
+
+  // useEffect(() => {
+  //   if (state === "old") {
+  //     console.log("기존채팅방get 방ID는", id);
+  //     const chatting = async () => await getChatting(id);
   //   }
-  // }
-  // else console.log("err");
-
-
-
-
-  useEffect(() => {
-    if (state === "old") {
-      console.log("기존채팅방get 방ID는", id);
-      const chatting = async () => await getChatting(id);
-    }
-    else if (state === "new") {
-      console.log("새 채팅방 post 개 ID는", id);
-      if (uid && id) {
-        async () => await postNewChatting({
-          userId: uid,
-          dogId: id,
-        })
-      }
-    }
-    else console.log("err");
-  }, []);
+  //   else if (state === "new") {
+  //     console.log("새 채팅방 post 개 ID는", id);
+  //     if (uid && id) {
+  //       async () => await postNewChatting({
+  //         userId: uid,
+  //         dogId: id,
+  //       })
+  //     }
+  //   }
+  //   else console.log("err");
+  // }, []);
 
 
   // if (state === "old") {
