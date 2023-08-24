@@ -56,6 +56,8 @@ export async function login(props: loginProps) {
     console.log(err);
     return {};
   }
+
+
 }
 
 // 회원가입
@@ -65,26 +67,18 @@ interface signupProps {
   password: string;
   phone: string;
 }
-export async function signup({
-  email,
-  nickName,
-  password,
-  phone,
-}: signupProps) {
-  try {
-    const res = await axios.post("/user/signup", {
-      params: {
-        email,
-        nickName,
-        password,
-        phone,
-      },
-    });
-    return res.data;
-  } catch (err) {
-    console.log(err);
-    return {};
-  }
+export async function signup(props: signupProps) {
+  // try {
+  //   console.log("회원가입 props", props)
+  //   const res = await axios.post("/user/signup", props);
+  //   console.log("signup");
+  //   return res.data;
+  // } catch (err) {
+  //   console.log(err);
+  //   return {};
+  // }
+  const res = await axios.post("/user/signup", props);
+  return res.data;
 }
 
 // 내 반려견 조회

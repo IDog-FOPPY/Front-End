@@ -76,7 +76,7 @@ export default function LoginPage() {
           </Typo>
         </div>
 
-        <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }}>
+        <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }} onClick={() => router.push('/signup')}>
           회원가입
         </Typo>
         <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }}>
