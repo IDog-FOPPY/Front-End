@@ -1,14 +1,14 @@
 import Axios from "axios";
 
 export const axios = Axios.create({
-  baseURL: "http://3.38.247.212:8080/api",
+  baseURL: "http://13.125.180.85:8080/api",
   // timeout: 30000,
   headers: {
     // Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
     // chat1
     // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzE1MjQwLCJleHAiOjE2OTI3MTg4NDB9.4SJpIOpfU7dMUINpMm-Pi1bFTTdjuVctlQeVtAxga0Y"
     // chat2
-    Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzk1ODY0LCJleHAiOjE2OTI3OTk0NjR9.WBpUosK5VIqLCCUd0dsL9MAa8xX_h6olxBh5HM006Ro"
+    Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQyIiwiaWF0IjoxNjkyODc1NzkwLCJleHAiOjE2OTI4NzkzOTB9.X0fyLMgDHna6RX0kaIFfLDysjsdDxCRLCJ_aKH_xRGo"
   },
 });
 
