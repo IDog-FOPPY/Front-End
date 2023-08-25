@@ -1,0 +1,57 @@
+.pageLayout {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  .logo {
+    width: 200px;
+    height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 60px;
+  }
+
+  .signupBox {
+    width: 300px;
+    margin-bottom: 40px;
+
+    .signupItemTitle {
+      margin-left: 5px;
+    }
+
+    .pwChk {
+      margin-left: 20px;
+      display: inline;
+    }
+
+    .inputBox {
+      width: 100%;
+      height: 35px;
+      border: none;
+      border-bottom: 2px solid #EECD6D;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+
+  .signupBtn {
+    width: 120px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #EECD6D;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+
+}
