@@ -32,7 +32,7 @@ export default function ChattingPage() {
 
           } else if (chatting.member2Id === uid) {
             setSenderId(uid);
-            setReceiverId(chatting.member2Id);
+            setReceiverId(chatting.member1Id);
             setRoomId(id);
 
           }

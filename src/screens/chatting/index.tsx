@@ -14,7 +14,7 @@ export default function ChattingPage(props: { roomId: number, senderId: number, 
   console.log("roomId senderId, receiverId", roomId, senderId, receiverId);
   const client: any = useRef({});
   //const client: MutableRefObject<T> = useRef<T>({});
-  const [chatMessages, setChatMessages] = useState([]);
+  const [showMessages, setShowMessages] = useState([]);
   const [message, setMessage] = useState("");
 
 
@@ -40,7 +40,8 @@ export default function ChattingPage(props: { roomId: number, senderId: number, 
         console.log("frame", frame);
         client.current.subscribe(`/sub/room/${roomId}`, function (result: any) {
           // show(JSON.parse(result.body));
-          console.log("채팅 res", JSON.parse(result.body))
+          console.log("채팅 res", JSON.parse(result.body));
+          setShowMessages(JSON.parse(result.body));
         }
         );
       },
@@ -78,7 +79,8 @@ export default function ChattingPage(props: { roomId: number, senderId: number, 
 
         <input type="text" id="content" placeholder="Text" onChange={(e) => setMessage(e.target.value)} />
         <button id="sendMessage" onClick={() => publish(message)}>Send</button>
-      </div>;
+        {showMessages}
+      </div>
     </>
   )
 
