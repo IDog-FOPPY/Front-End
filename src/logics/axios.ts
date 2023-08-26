@@ -232,7 +232,7 @@ export async function getChatting(
   try {
     const res = await axios.get(`/chat/room/${id}`);
     console.log("조회성공", res.data.data.chatMessages);
-    return res.data.data.chatMessages;
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return {};

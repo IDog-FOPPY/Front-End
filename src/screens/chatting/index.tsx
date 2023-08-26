@@ -7,15 +7,11 @@ import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
 
 const token = "Bearer " + localStorage.getItem("foppy_auth_token");
-// const senderId = parseInt(localStorage.getItem('foppy_user_uid') || '{}'); //jihyun
-// const receiverId = 20;  //mongg
-// //방아이디 19
 
 
-
-export default function ChattingPage(props: { senderId: number, receiverId: number }) {
-  const { senderId, receiverId } = props;
-  console.log("senderId, receiverId", senderId, receiverId);
+export default function ChattingPage(props: { roomId: number, senderId: number, receiverId: number }) {
+  const { roomId, senderId, receiverId } = props;
+  console.log("roomId senderId, receiverId", roomId, senderId, receiverId);
   const client: any = useRef({});
   //const client: MutableRefObject<T> = useRef<T>({});
   const [chatMessages, setChatMessages] = useState([]);
@@ -24,8 +20,7 @@ export default function ChattingPage(props: { senderId: number, receiverId: numb
 
   useEffect(() => {
     connect();
-
-    return () => disconnect();
+    // return () => disconnect();
   }, []);
 
   const connect = () => {
@@ -43,9 +38,9 @@ export default function ChattingPage(props: { senderId: number, receiverId: numb
       heartbeatOutgoing: 4000,
       onConnect: (frame: any) => {
         console.log("frame", frame);
-        client.current.subscribe('/sub/room/19', function (result: any) {
+        client.current.subscribe(`/sub/room/${roomId}`, function (result: any) {
           // show(JSON.parse(result.body));
-          console.log("res", JSON.parse(result.body))
+          console.log("채팅 res", JSON.parse(result.body))
         }
         );
       },

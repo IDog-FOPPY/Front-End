@@ -14,7 +14,7 @@ export default function ChattingPage() {
 
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
-
+  const [roomId, setRoomId] = useState(0);
 
 
   useEffect(() => {
@@ -24,12 +24,17 @@ export default function ChattingPage() {
         if (state === "old") {
           const chatting = await getChatting(id);
           console.log("res", chatting);
-          if (chatting[0].senderId === uid) {
+
+          if (chatting.member1Id === uid) {
             setSenderId(uid);
-            setReceiverId(chatting[0].receiverId);
-          } else if (chatting[0].receiverId === uid) {
+            setReceiverId(chatting.member2Id);
+            setRoomId(id);
+
+          } else if (chatting.member2Id === uid) {
             setSenderId(uid);
-            setReceiverId(chatting[0].senderId);
+            setReceiverId(chatting.member2Id);
+            setRoomId(id);
+
           }
           else console.log("err");
 
@@ -40,9 +45,10 @@ export default function ChattingPage() {
               userId: uid,
               dogId: id,
             });
-            console.log("res", chatting);
+            console.log("새채팅생성 res", chatting);
             setSenderId(chatting.data.senderId);
             setReceiverId(chatting.data.receiverId);
+            setRoomId(chatting.data.roomId);
           }
         }
       };
@@ -55,5 +61,5 @@ export default function ChattingPage() {
   }, []);
 
 
-  return <Chatting senderId={senderId} receiverId={receiverId} />;
+  return <Chatting roomId={roomId} senderId={senderId} receiverId={receiverId} />;
 }
