@@ -48,8 +48,8 @@ const ChattingList = (props: ChattingListProps) => {
       setPartnerNickname(chatting.member1NickName);
       setPartnerProfileImg(chatting.member1ProfileImgUrl !== "https://기본프사" ? chatting.member1ProfileImgUrl : PFImg.src);
     }
-  },[chatting.member1Id]);
-  
+  }, [chatting.member1Id]);
+
   return (
 
     <div className={styles.chattingList}>
@@ -71,10 +71,10 @@ const ChattingList = (props: ChattingListProps) => {
   )
 }
 
-export default function ChattingListPage({chattings} : {chattings: any}) {
- 
+export default function ChattingListPage({ chattings }: { chattings: any }) {
+
   console.log('chattings', chattings);
- 
+
   const router = useRouter();
 
   //   const onClick = (id : number) => {
