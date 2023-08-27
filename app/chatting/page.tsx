@@ -5,6 +5,9 @@ import { getChatting } from "@src/logics/axios";
 import { postNewChatting } from "@src/logics/axios";
 import Chatting from "@src/screens/chatting";
 
+
+
+
 export default function ChattingPage() {
   const state = useSearchParams().get("state");
   const id = parseInt(useSearchParams().get("id") || "{}");
@@ -15,51 +18,63 @@ export default function ChattingPage() {
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
   const [roomId, setRoomId] = useState(0);
+  const [senderProfileImg, setSenderProfileImg] = useState("");
+  const [receiverProfileImg, setReceiverProfileImg] = useState("");
+  const [senderNickname, setSenderNickname] = useState("");
+  const [receiverNickname, setReceiverNickname] = useState("");
 
 
-  useEffect(() => {
-    try {
+  try {
 
-      const getData = async () => {
-        if (state === "old") {
-          const chatting = await getChatting(id);
-          console.log("res", chatting);
+    const getData = async () => {
+      if (state === "old") {
+        const chatting = await getChatting(id);
+        console.log("res", chatting);
+        setRoomId(id);
+        setSenderId(uid);
+        if (chatting.member1Id === uid) {
+          setSenderProfileImg(chatting.member1ProfileImgUrl);
+          setSenderNickname(chatting.member1Nickname);
 
-          if (chatting.member1Id === uid) {
-            setSenderId(uid);
-            setReceiverId(chatting.member2Id);
-            setRoomId(id);
+          setReceiverId(chatting.member2Id);
+          setReceiverProfileImg(chatting.member2ProfileImgUrl);
+          setReceiverNickname(chatting.member2Nickname);
 
-          } else if (chatting.member2Id === uid) {
-            setSenderId(uid);
-            setReceiverId(chatting.member1Id);
-            setRoomId(id);
 
-          }
-          else console.log("err");
+        } else if (chatting.member2Id === uid) {
+          setSenderProfileImg(chatting.member2ProfileImgUrl);
+          setSenderNickname(chatting.member2Nickname);
 
-        } else if (state === "new") {
-          if (uid && id) {
-            console.log("새채팅생성");
-            const chatting = await postNewChatting({
-              userId: uid,
-              dogId: id,
-            });
-            console.log("새채팅생성 res", chatting);
-            setSenderId(chatting.data.senderId);
-            setReceiverId(chatting.data.receiverId);
-            setRoomId(chatting.data.roomId);
-          }
+          setReceiverId(chatting.member1Id);
+          setReceiverProfileImg(chatting.member1ProfileImgUrl);
+          setReceiverNickname(chatting.member1Nickname);
+
+
         }
-      };
-      getData();
+        else console.log("err");
+
+      } else if (state === "new") {
+        if (uid && id) {
+          console.log("새채팅생성");
+          const chatting = await postNewChatting({
+            userId: uid,
+            dogId: id,
+          });
+          console.log("새채팅생성 res", chatting);
+          setSenderId(chatting.data.senderId);
+          setReceiverId(chatting.data.receiverId);
+          setRoomId(chatting.data.roomId);
+        }
+      }
+    };
+    getData();
 
 
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  } catch (err) {
+    console.log(err);
+  }
 
 
-  return <Chatting roomId={roomId} senderId={senderId} receiverId={receiverId} />;
+
+  return <Chatting roomId={roomId} senderId={senderId} receiverId={receiverId} senderProfileImg={senderProfileImg} receiverProfileImg={receiverProfileImg} senderNickname={senderNickname} receiverNickname={receiverNickname} />;
 }

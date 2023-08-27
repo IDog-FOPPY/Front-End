@@ -6,27 +6,42 @@ import SockJS from "sockjs-client";
 import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
 
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import Send from '@assets/svg/messageSend.svg';
+
+
+
 const token = "Bearer " + localStorage.getItem("foppy_auth_token");
 
 
-export default function ChattingPage(props: { roomId: number, senderId: number, receiverId: number }) {
-  const { roomId, senderId, receiverId } = props;
-  console.log("roomId senderId, receiverId", roomId, senderId, receiverId);
+interface ChattingProps {
+  roomId: number;
+  senderId: number;
+  receiverId: number;
+  senderProfileImg: string;
+  receiverProfileImg: string;
+  senderNickname: string;
+  receiverNickname: string;
+}
+
+
+export default function ChattingPage(props: ChattingProps) {
+
+  const { roomId, senderId, receiverId, senderProfileImg, receiverProfileImg, senderNickname, receiverNickname } = props;
+
+  console.log("chatting props", props);
   const client: any = useRef({});
-  //const client: MutableRefObject<T> = useRef<T>({});
   const [showMessages, setShowMessages] = useState([]);
   const [message, setMessage] = useState("");
 
 
   useEffect(() => {
     connect();
-    // return () => disconnect();
+    return () => disconnect();
   }, []);
-
   const connect = () => {
     client.current = new StompJs.Client({
-      //brokerURL: "/ws/chat", // 웹소켓 서버로 직접 접속
-      webSocketFactory: () => new SockJS("http://13.125.180.85:8080/ws/chat"), // proxy를 통한 접속
+      webSocketFactory: () => new SockJS("http://13.125.180.85:8080/ws/chat"),
       connectHeaders: {
         'Authorization': token,
       },
@@ -52,12 +67,9 @@ export default function ChattingPage(props: { roomId: number, senderId: number, 
 
     client.current.activate();
   };
-
   const disconnect = () => {
     client.current.deactivate();
   };
-
-
   const publish = (message: string) => {
     if (!client.current.connected) {
       return;
@@ -75,11 +87,66 @@ export default function ChattingPage(props: { roomId: number, senderId: number, 
 
   return (
     <>
-      <div>
 
-        <input type="text" id="content" placeholder="Text" onChange={(e) => setMessage(e.target.value)} />
-        <button id="sendMessage" onClick={() => publish(message)}>Send</button>
-        {showMessages}
+      <div className={styles.pageLayout}>
+        <div className={styles.header}>
+          <div className={styles.backBtn}><ArrowLeft /></div>
+          <Typo variant="t2" bold color="black" className={styles.title}>{receiverNickname}</Typo>
+          <div className={styles.blank}></div>
+        </div>
+
+        <div className={styles.showSection}>
+          dddd
+
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
+
+
+
+
+
+
+
+
+
+
+          {showMessages}
+        </div>
+
+        <div className={styles.sendSection}>
+          <input
+            type="text"
+            id="content"
+            placeholder="메세지 보내기"
+            className={styles.sendBox}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <div className={styles.sendBtn} onClick={() => publish(message)}><Send /></div>
+
+        </div>
+
       </div>
     </>
   )
