@@ -14,7 +14,7 @@ import Send from '@assets/svg/messageSend.svg';
 const token = "Bearer " + localStorage.getItem("foppy_auth_token");
 
 
-interface ChattingProps {
+interface Chatting {
   roomId: number;
   senderId: number;
   receiverId: number;
@@ -22,19 +22,47 @@ interface ChattingProps {
   receiverProfileImg: string;
   senderNickname: string;
   receiverNickname: string;
+  existingChat: object[];
+}
+
+interface ShowChatting {
+  existingChat: object[];
+  receiverId: number;
+  receiverProfileImg: string;
 }
 
 
-export default function ChattingPage(props: ChattingProps) {
 
-  const { roomId, senderId, receiverId, senderProfileImg, receiverProfileImg, senderNickname, receiverNickname } = props;
+const ShowChatting = (props: ShowChatting) => {
+  const { existingChat, receiverId, receiverProfileImg } = props;
+  //console.log(existingChat[0]);
+
+
+  return (
+
+    <div className={styles.chattingList}>
+      ddd
+    </div>
+  )
+}
+
+
+
+
+export default function ChattingPage(props: Chatting) {
+
+  const { roomId, senderId, receiverId, senderProfileImg, receiverProfileImg, senderNickname, receiverNickname, existingChat } = props;
 
   console.log("chatting props", props);
+
+
+
   const client: any = useRef({});
+
+  //상대방이 보낸 메세지 받는 변수
   const [showMessages, setShowMessages] = useState([]);
+  //내가 보낸 메세지
   const [message, setMessage] = useState("");
-
-
   useEffect(() => {
     connect();
     return () => disconnect();
@@ -79,7 +107,6 @@ export default function ChattingPage(props: ChattingProps) {
       destination: "/pub/send",
       body: JSON.stringify({ 'content': message, 'senderId': senderId, 'receiverId': receiverId }),
     });
-
     setMessage("");
   };
 
@@ -96,42 +123,7 @@ export default function ChattingPage(props: ChattingProps) {
         </div>
 
         <div className={styles.showSection}>
-          dddd
-
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-          <Typo variant="h3" bold color="black" className={styles.title}>dd</Typo>
-
-
-
-
-
-
-
-
-
-
+          <ShowChatting existingChat={existingChat} receiverId={receiverId} receiverProfileImg={receiverProfileImg} />
           {showMessages}
         </div>
 
@@ -141,6 +133,7 @@ export default function ChattingPage(props: ChattingProps) {
             id="content"
             placeholder="메세지 보내기"
             className={styles.sendBox}
+            //defaultValue={message}
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className={styles.sendBtn} onClick={() => publish(message)}><Send /></div>
