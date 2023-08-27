@@ -16,11 +16,27 @@ import CsIcon from "@assets/svg/drawer/cs.svg";
 import FaqIcon from "@assets/svg/drawer/faq.svg";
 import LogoutIcon from "@assets/svg/drawer/logout.svg";
 import styles from "./styles.module.scss";
+import { getDogs } from "@src/logics/axios";
+import Image from "next/image";
+import { DogInfo } from "@src/types/dogInfo";
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const [dogs, setDogs] = useState([]);
+
+  console.log(dogs);
+
+  useEffect(() => {
+    const getData = async () => {
+      setDogs(await getDogs());
+    };
+
+    const token = localStorage.getItem("foppy_auth_token");
+    if (token) getData();
+  }, []);
 
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
@@ -29,13 +45,13 @@ export default function PageHeader() {
 
   return (
     <>
-      <div className={styles.headerContainer} >
+      <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
         <ChattingIcon
           className={styles.chattingIcon}
           width="36px"
           height="36px"
-          onClick={() => router.push('/chatting-list')}
+          onClick={() => router.push("/chatting-list")}
         />
         {/* </Link> */}
 
@@ -56,36 +72,26 @@ export default function PageHeader() {
           </div>
           <div className={styles.dogListContainer}>
             <div className={styles.dogList}>
-              {/* dogs.map 필요 */}
-              <div className={styles.dogCard}>
-                <div className={styles.dogCircle}>
-                  <img
-                    src="https://s3.ap-northeast-2.amazonaws.com/foppy/dog/f7bacd42-fe40-464d-8acb-ee9ac1a33df2.jpg"
-                    className={styles.dogImg}
-                  />
-                  <PencilIcon className={styles.pencilIcon} />
-                </div>
-              </div>{" "}
-              {/* dogs.map 필요 */}
-              <div className={styles.dogCard}>
-                <div className={styles.dogCircle}>
-                  <img
-                    src="https://s3.ap-northeast-2.amazonaws.com/foppy/dog/f7bacd42-fe40-464d-8acb-ee9ac1a33df2.jpg"
-                    className={styles.dogImg}
-                  />
-                  <PencilIcon className={styles.pencilIcon} />
-                </div>
-              </div>{" "}
-              {/* dogs.map 필요 */}
-              <div className={styles.dogCard}>
-                <div className={styles.dogCircle}>
-                  <img
-                    src="https://s3.ap-northeast-2.amazonaws.com/foppy/dog/f7bacd42-fe40-464d-8acb-ee9ac1a33df2.jpg"
-                    className={styles.dogImg}
-                  />
-                  <PencilIcon className={styles.pencilIcon} />
-                </div>
-              </div>
+              {dogs.map((dog: DogInfo) => {
+                return (
+                  <div className={styles.dogCard} key={dog?.id}>
+                    <div className={styles.dogCircle}>
+                      <img
+                        alt="dog"
+                        src={dog?.imgUrl}
+                        className={styles.dogImg}
+                      />
+                      {/* <Image
+                      alt="dog"
+                      src={dog?.imgUrl}
+                      width={130}
+                      height={130}
+                    /> */}
+                      <PencilIcon className={styles.pencilIcon} />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -140,4 +146,3 @@ export default function PageHeader() {
     </>
   );
 }
-
