@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import * as StompJs from "@stomp/stompjs";
+import StompJs from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
@@ -56,6 +56,7 @@ export default function ChattingPage(props: Chatting) {
   console.log("chatting props", props);
 
 
+  // ------------------------------------------------------------
 
   const client: any = useRef({});
 
@@ -81,7 +82,7 @@ export default function ChattingPage(props: Chatting) {
       heartbeatOutgoing: 4000,
       onConnect: (frame: any) => {
         console.log("frame", frame);
-        client.current.subscribe(`/sub/room/${roomId}`, function (result: any) {
+        client.current.subscribe('/sub/room/' + roomId, function (result: any) {
           // show(JSON.parse(result.body));
           console.log("채팅 res", JSON.parse(result.body));
           setShowMessages(JSON.parse(result.body));
@@ -109,6 +110,16 @@ export default function ChattingPage(props: Chatting) {
     });
     setMessage("");
   };
+
+
+
+  // ------------------------------------------------------------
+
+
+
+
+
+
 
 
 
