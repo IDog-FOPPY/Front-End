@@ -129,68 +129,68 @@ export default function ChattingPage(props: Chatting) {
     }
   ];
   const [lastMsg, setLastMsg] = useState<number>();
-  //const [id, setId] = useState(roomId);
+  const [id, setId] = useState(roomId);
 
   // ------------------------------------------------------------
 
-  // const client: any = useRef({});
+  const client: any = useRef({});
 
-  // //상대방이 보낸 메세지 받는 변수
-  // const [showMessages, setShowMessages] = useState([]);
-  // //내가 보낸 메세지
-  // const [message, setMessage] = useState("");
+  //상대방이 보낸 메세지 받는 변수
+  const [showMessages, setShowMessages] = useState([]);
+  //내가 보낸 메세지
+  const [message, setMessage] = useState("");
 
-  // useEffect(() => {
-  //   console.log("roomId", roomId);
-  //   connect();
-  //   return () => disconnect();
-  // }, [roomId]);
-  // const connect = () => {
+  useEffect(() => {
+    console.log("roomId", roomId);
+    connect();
+    return () => disconnect();
+  }, [roomId]);
+  const connect = () => {
 
 
-  //   //console.log(id);
-  //   client.current = new StompJs.Client({
-  //     webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
-  //     connectHeaders: {
-  //       'Authorization': token,
-  //     },
-  //     debug: function (str) {
-  //       console.log(str);
-  //     },
-  //     reconnectDelay: 5000,
-  //     heartbeatIncoming: 4000,
-  //     heartbeatOutgoing: 4000,
-  //     onConnect: (frame: any) => {
-  //       console.log("frame", frame);
-  //       client.current.subscribe('/sub/room/' + roomId, function (result: any) {
-  //         // show(JSON.parse(result.body));
-  //         console.log("채팅 res", JSON.parse(result.body));
-  //         setShowMessages(JSON.parse(result.body));
-  //       }
-  //       );
-  //     },
-  //     onStompError: (frame) => {
-  //       console.error(frame);
-  //     },
-  //   });
+    //console.log(id);
+    client.current = new StompJs.Client({
+      webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
+      connectHeaders: {
+        'Authorization': token,
+      },
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      onConnect: (frame: any) => {
+        console.log("frame", frame);
+        client.current.subscribe('/sub/room/' + roomId, function (result: any) {
+          // show(JSON.parse(result.body));
+          console.log("채팅 res", JSON.parse(result.body));
+          setShowMessages(JSON.parse(result.body));
+        }
+        );
+      },
+      onStompError: (frame) => {
+        console.error(frame);
+      },
+    });
 
-  //   client.current.activate();
-  // };
-  // const disconnect = () => {
-  //   client.current.deactivate();
-  // };
-  // const publish = (message: string) => {
-  //   if (!client.current.connected) {
-  //     return;
-  //   }
+    client.current.activate();
+  };
+  const disconnect = () => {
+    client.current.deactivate();
+  };
+  const publish = (message: string) => {
+    if (!client.current.connected) {
+      return;
+    }
 
-  //   client.current.publish({
-  //     destination: "/pub/send",
-  //     body: JSON.stringify({ 'roomId': roomId, 'content': message }),
-  //   });
-  //   console.log('roomId', roomId, 'content', message);
-  //   setMessage("");
-  // };
+    client.current.publish({
+      destination: "/pub/send",
+      body: JSON.stringify({ 'roomId': roomId, 'content': message }),
+    });
+    console.log('roomId', roomId, 'content', message);
+    setMessage("");
+  };
 
   // ------------------------------------------------------------
 
@@ -219,18 +219,26 @@ export default function ChattingPage(props: Chatting) {
           {/* {showMessages} */}
         </div>
 
-        {/* <div className={styles.sendSection}>
+        <div className={styles.sendSection}>
           <input
             type="text"
             id="content"
             placeholder="메세지 보내기"
             className={styles.sendBox}
             //defaultValue={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {setMessage(e.target.value);}}
           />
-          <div className={styles.sendBtn} onClick={() => publish(message)}><Send /></div>
-        </div> */}
-
+          <div 
+            className={styles.sendBtn} 
+            onClick={() => {
+              publish(message);
+              const inputEl = document.getElementById('content'); 
+              if(inputEl) (inputEl as HTMLInputElement).value = "";
+            }}
+          >
+            <Send />
+          </div>
+        </div>
       </div>
     </>
   )
