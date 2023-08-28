@@ -5,6 +5,7 @@ import * as StompJs from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
+import PFImg from '@assets/png/profileImg.png';
 
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Send from '@assets/svg/messageSend.svg';
@@ -16,7 +17,6 @@ const token = "Bearer " + localStorage.getItem("foppy_auth_token");
 
 interface Chatting {
   roomId: number;
-
   receiverProfileImg: string;
   receiverNickname: string;
   existingChat: object[];
@@ -33,12 +33,21 @@ interface ShowChattingProps {
 const ShowChatting = (props: ShowChattingProps) => {
   const { content, receiverProfileImg, receiverNickname } = props;
   //console.log(existingChat[0]);
+  const [profileImg, setProfileImg] = useState(receiverProfileImg);
 
+  useEffect(() => {
+    setProfileImg(receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src);
+
+  }, []);
 
   return (
 
     <div className={styles.chattingList}>
-
+      <img
+        className={styles.profileImg}
+        alt="dog-image"
+        src={profileImg}
+      />
     </div>
   )
 }
@@ -141,14 +150,14 @@ export default function ChattingPage(props: Chatting) {
         <div className={styles.showSection}>
 
 
-          {/* 
-          {existingChat.map((el:ShowChattingProps) => {
+
+          {existingChat.map((el: ShowChattingProps) => {
             return (
 
-                          <ShowChatting content={el.content} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
+              <ShowChatting content={el.content} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
 
             );
-          })} */}
+          })}
 
 
 
