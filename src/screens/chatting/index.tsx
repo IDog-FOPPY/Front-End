@@ -9,6 +9,7 @@ import PFImg from '@assets/png/profileImg.png';
 
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Send from '@assets/svg/messageSend.svg';
+import { useRouter } from "next/navigation";
 
 const token = "Bearer " + localStorage.getItem("foppy_auth_token");
 
@@ -61,6 +62,7 @@ export default function ChattingPage(props: Chatting) {
 
   // const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
   const { roomId, receiverProfileImg, receiverNickname } = props;
+  const router = useRouter();
   const existingChat = [
     {
         "messageId": 1,
@@ -196,7 +198,7 @@ export default function ChattingPage(props: Chatting) {
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
-          <div className={styles.backBtn}><ArrowLeft /></div>
+          <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black" className={styles.title}>{receiverNickname}</Typo>
           <div className={styles.blank}></div>
         </div>
