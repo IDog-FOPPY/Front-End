@@ -34,7 +34,7 @@ const ShowChatting = (props: ShowChattingProps) => {
   const { content, receiverProfileImg, receiverNickname } = props;
   //console.log(existingChat[0]);
   const [profileImg, setProfileImg] = useState(receiverProfileImg);
-
+  console.log("showChattingProps", props);
   useEffect(() => {
     setProfileImg(receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src);
 
@@ -150,14 +150,14 @@ export default function ChattingPage(props: Chatting) {
         <div className={styles.showSection}>
 
 
-
+          {/* 
           {existingChat.map((el: ShowChattingProps) => {
             return (
 
-              <ShowChatting content={el.content} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
+              <ShowChatting content={el.content} receiverProfileImg={el.receiverProfileImg} receiverNickname={el.receiverNickname} key={el.content} />
 
             );
-          })}
+          })} */}
 
 
 
