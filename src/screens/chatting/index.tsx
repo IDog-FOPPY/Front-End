@@ -6,7 +6,7 @@ import SockJS from "sockjs-client";
 import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
 import PFImg from '@assets/png/profileImg.png';
-
+import dayjs from 'dayjs';
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Send from '@assets/svg/messageSend.svg';
 import { useRouter } from "next/navigation";
@@ -33,102 +33,57 @@ interface ShowChattingProps {
   receiverNickname: string;
   receiverProfileImg: string;
   senderId: number;
+  createdAt: string;
   showImg: boolean;
+
 }
 
 const ShowChatting = (props: ShowChattingProps) => {
-  const { content, receiverProfileImg, receiverNickname, senderId, showImg } = props;
+  const { content, receiverProfileImg, receiverNickname, senderId, createdAt, showImg } = props;
   const myId = localStorage.getItem("foppy_user_uid");
+
 
   return (
     <div className={styles.chattingList}>
-      {showImg && myId && senderId !== parseInt(myId) &&
-        <img
-        className={styles.profileImg}
-        alt="dog-image"
-        src={receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src}
-        />
-      }
-      {/* 임시 출력 */}
+
       {myId && senderId === parseInt(myId) ?
-       <Typo variant="t3" color="black">{content}</Typo> 
-       : <Typo variant="t3" color="red">{content}</Typo>
+        <div className={styles.senderSection}>
+
+          <Typo variant="t2" color="white" className={styles.messageBox}>{content}</Typo>
+          <Typo variant="t3" color="#d9d9d9" >{createdAt}</Typo>
+
+
+
+        </div>
+        :
+        <div className={styles.receiverSection}>
+          {showImg ?
+            <img
+              className={styles.profileImg}
+              alt="dog-image"
+              src={receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src}
+            />
+            :
+            <div className={styles.blank} />
+          }
+          <Typo variant="t2" color="black" className={styles.messageBox}>{content}</Typo>
+          <Typo variant="t3" color="#d9d9d9">{createdAt}</Typo>
+
+        </div>
       }
+
+
     </div>
   )
 }
 
 export default function ChattingPage(props: Chatting) {
 
-  // const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
-  const { roomId, receiverProfileImg, receiverNickname } = props;
+  const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
+
   const router = useRouter();
-  const existingChat = [
-    {
-        "messageId": 1,
-        "content": "아녕하셍",
-        "roomId": 3,
-        "senderId": 13,
-        "createdAt": "2023-08-28T12:50:40.724060"
-    },
-    {
-        "messageId": 3,
-        "content": "안녕",
-        "roomId": 3,
-        "senderId": 17,
-        "createdAt": "2023-08-28T12:52:08.573627"
-    },
-    {
-        "messageId": 4,
-        "content": "머하세요?",
-        "roomId": 3,
-        "senderId": 13,
-        "createdAt": "2023-08-28T12:50:40.724060"
-    },
-    {
-        "messageId": 5,
-        "content": "아몬드 먹어요",
-        "roomId": 3,
-        "senderId": 17,
-        "createdAt": "2023-08-28T12:52:08.573627"
-    },
-    {
-        "messageId": 6,
-        "content": "맛있어여?",
-        "roomId": 3,
-        "senderId": 13,
-        "createdAt": "2023-08-28T12:50:40.724060"
-    },
-    {
-        "messageId": 7,
-        "content": "네^^",
-        "roomId": 3,
-        "senderId": 17,
-        "createdAt": "2023-08-28T12:52:08.573627"
-    },
-    {
-      "messageId": 8,
-      "content": "네^^",
-      "roomId": 3,
-      "senderId": 17,
-      "createdAt": "2023-08-28T12:52:08.573627"
-    },
-    {
-        "messageId": 9,
-        "content": "단백질 앤 지방",
-        "roomId": 3,
-        "senderId": 13,
-        "createdAt": "2023-08-28T12:50:40.724060"
-    },
-    {
-        "messageId": 10,
-        "content": "ㅅㄱ여",
-        "roomId": 3,
-        "senderId": 13,
-        "createdAt": "2023-08-28T12:52:08.573627"
-    }
-  ];
-  const [lastMsg, setLastMsg] = useState<number>();
+
+
   const [id, setId] = useState(roomId);
 
   // ------------------------------------------------------------
@@ -203,16 +158,19 @@ export default function ChattingPage(props: Chatting) {
           <div className={styles.blank}></div>
         </div>
 
-        <div className={styles.showSection}>          
+        <div className={styles.showSection}>
           {existingChat.map((el: ChatEl, index: number) => {
             return (
-              <ShowChatting 
-                content={el.content} 
-                receiverProfileImg={receiverProfileImg} 
-                receiverNickname={receiverNickname} 
-                key={el.messageId} 
-                senderId={el.senderId} 
+              <ShowChatting
+                content={el.content}
+                receiverProfileImg={receiverProfileImg}
+                receiverNickname={receiverNickname}
+                key={el.messageId}
+                senderId={el.senderId}
+                createdAt={dayjs(el.createdAt).format("HH:mm")}
                 showImg={index === 0 || index > 0 && el.senderId !== existingChat[index - 1].senderId}
+              // showTime={index === 1 || index < existingChat.length && el.senderId !== existingChat[index + 1].senderId}
+
               />
             );
           })}
@@ -226,14 +184,14 @@ export default function ChattingPage(props: Chatting) {
             placeholder="메세지 보내기"
             className={styles.sendBox}
             //defaultValue={message}
-            onChange={(e) => {setMessage(e.target.value);}}
+            onChange={(e) => { setMessage(e.target.value); }}
           />
-          <div 
-            className={styles.sendBtn} 
+          <div
+            className={styles.sendBtn}
             onClick={() => {
               publish(message);
-              const inputEl = document.getElementById('content'); 
-              if(inputEl) (inputEl as HTMLInputElement).value = "";
+              const inputEl = document.getElementById('content');
+              if (inputEl) (inputEl as HTMLInputElement).value = "";
             }}
           >
             <Send />
