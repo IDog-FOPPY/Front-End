@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import StompJs from "@stomp/stompjs";
+import * as StompJs from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import styles from "./styles.module.scss";
 import Typo from "@components/core/Typo";
@@ -16,25 +16,22 @@ const token = "Bearer " + localStorage.getItem("foppy_auth_token");
 
 interface Chatting {
   roomId: number;
-  senderId: number;
-  receiverId: number;
-  senderProfileImg: string;
+
   receiverProfileImg: string;
-  senderNickname: string;
   receiverNickname: string;
   existingChat: object[];
 }
 
 interface ShowChatting {
   existingChat: object[];
-  receiverId: number;
+  receiverNickname: string;
   receiverProfileImg: string;
 }
 
 
 
 const ShowChatting = (props: ShowChatting) => {
-  const { existingChat, receiverId, receiverProfileImg } = props;
+  const { existingChat, receiverProfileImg, receiverNickname } = props;
   //console.log(existingChat[0]);
 
 
@@ -51,10 +48,11 @@ const ShowChatting = (props: ShowChatting) => {
 
 export default function ChattingPage(props: Chatting) {
 
-  const { roomId, senderId, receiverId, senderProfileImg, receiverProfileImg, senderNickname, receiverNickname, existingChat } = props;
+  const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
+  //const [id, setId] = useState(roomId);
+
 
   console.log("chatting props", props);
-
 
   // ------------------------------------------------------------
 
@@ -64,13 +62,18 @@ export default function ChattingPage(props: Chatting) {
   const [showMessages, setShowMessages] = useState([]);
   //내가 보낸 메세지
   const [message, setMessage] = useState("");
+
   useEffect(() => {
+    console.log("roomId", roomId);
     connect();
     return () => disconnect();
-  }, []);
+  }, [roomId]);
   const connect = () => {
+
+
+    //console.log(id);
     client.current = new StompJs.Client({
-      webSocketFactory: () => new SockJS("http://13.125.180.85:8080/ws/chat"),
+      webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
       connectHeaders: {
         'Authorization': token,
       },
@@ -106,8 +109,9 @@ export default function ChattingPage(props: Chatting) {
 
     client.current.publish({
       destination: "/pub/send",
-      body: JSON.stringify({ 'content': message, 'senderId': senderId, 'receiverId': receiverId }),
+      body: JSON.stringify({ 'roomId': roomId, 'content': message }),
     });
+    console.log('roomId', roomId, 'content', message);
     setMessage("");
   };
 
@@ -134,7 +138,7 @@ export default function ChattingPage(props: Chatting) {
         </div>
 
         <div className={styles.showSection}>
-          <ShowChatting existingChat={existingChat} receiverId={receiverId} receiverProfileImg={receiverProfileImg} />
+          <ShowChatting existingChat={existingChat} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
           {showMessages}
         </div>
 

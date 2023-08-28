@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 export const axios = Axios.create({
-  baseURL: "http://13.125.180.85:8080/api",
+  baseURL: "http://54.180.158.62:8080/api",
   // timeout: 30000,
   headers: {
     Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
@@ -237,7 +237,6 @@ export async function getChatting(id: number) {
 
 //채팅방 생성
 interface newChattingProps {
-  userId: number;
   dogId: number;
 }
 export async function postNewChatting(props: newChattingProps) {

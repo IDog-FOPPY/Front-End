@@ -14,16 +14,21 @@ import dayjs from "dayjs";
 const uid = parseInt(localStorage.getItem('foppy_user_uid') || '{}');
 
 interface Chatting {
-  id: number;
-  member1Id: number;
-  member2Id: number;
-  member1NickName: string;
-  member2NickName: string;
-  member1ProfileImgUrl: string;
-  member2ProfileImgUrl: string
-
-  lastMessageCreatedAt: string;
+  roomId: number;
   lastMessage: string;
+  lastMessageCreatedAt: string;
+  members: [
+    {
+      id: number;
+      nickName: string;
+      profileImgUrl: string;
+    },
+    {
+      id: number;
+      nickName: string;
+      profileImgUrl: string;
+    },
+  ]
 }
 
 interface ChattingListProps {
@@ -38,17 +43,18 @@ const ChattingList = (props: ChattingListProps) => {
   const [partnerProfileImg, setPartnerProfileImg] = useState('');
 
 
+
   useEffect(() => {
     // 상대방 닉네임, 프로필 get
-    if (chatting.member1Id === uid) {
-      setPartnerNickname(chatting.member2NickName);
-      setPartnerProfileImg(chatting.member2ProfileImgUrl !== "https://기본프사" ? chatting.member2ProfileImgUrl : PFImg.src);
+    if (chatting.members[0].id === uid) {
+      setPartnerNickname(chatting.members[1].nickName);
+      setPartnerProfileImg(chatting.members[1].profileImgUrl !== "https://기본프사" ? chatting.members[1].profileImgUrl : PFImg.src);
     }
     else {
-      setPartnerNickname(chatting.member1NickName);
-      setPartnerProfileImg(chatting.member1ProfileImgUrl !== "https://기본프사" ? chatting.member1ProfileImgUrl : PFImg.src);
+      setPartnerNickname(chatting.members[0].nickName);
+      setPartnerProfileImg(chatting.members[0].profileImgUrl !== "https://기본프사" ? chatting.members[0].profileImgUrl : PFImg.src);
     }
-  }, [chatting.member1Id]);
+  }, [chatting.members[0].id]);
 
   return (
 
@@ -73,7 +79,8 @@ const ChattingList = (props: ChattingListProps) => {
 
 export default function ChattingListPage({ chattings }: { chattings: any }) {
 
-  console.log('chattings', chattings);
+
+  console.log("-----chattingListProps-----", chattings);
 
   const router = useRouter();
 
@@ -104,16 +111,16 @@ export default function ChattingListPage({ chattings }: { chattings: any }) {
               href={{
                 pathname: "/chatting",
                 query: {
-                  id: chat.id,
+                  id: chat.roomId,
                   state: "old",
                 },
               }}
               // as="/chatting"
-              key={chat.id}
+              key={chat.roomId}
             >
               <ChattingList
                 chatting={chat}
-                key={chat.id}
+                key={chat.roomId}
               // onClick={() => onClick(chat.id)}
               />
             </Link>

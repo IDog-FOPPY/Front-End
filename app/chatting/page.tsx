@@ -6,22 +6,9 @@ import { postNewChatting } from "@src/logics/axios";
 import Chatting from "@src/screens/chatting";
 
 
-interface Chatting {
-  roomId: number;
-  senderId: number;
-  receiverId: number;
-  senderProfileImg: string;
-  receiverProfileImg: string;
-  senderNickname: string;
-  receiverNickname: string;
-  existingChat: object[];
-}
 
-interface ChattingProps {
-  chatting: Chatting;
-}
 
-export default function ChattingPage(props: ChattingProps) {
+export default function ChattingPage() {
 
 
 
@@ -29,14 +16,9 @@ export default function ChattingPage(props: ChattingProps) {
   const id = parseInt(useSearchParams().get("id") || "{}");
   const uid = parseInt(localStorage.getItem("foppy_user_uid") || "{}");
 
-  // console.log("state, id, uid", state, id, uid);
 
-  const [senderId, setSenderId] = useState(0);
-  const [receiverId, setReceiverId] = useState(0);
   const [roomId, setRoomId] = useState(0);
-  const [senderProfileImg, setSenderProfileImg] = useState("");
   const [receiverProfileImg, setReceiverProfileImg] = useState("");
-  const [senderNickname, setSenderNickname] = useState("");
   const [receiverNickname, setReceiverNickname] = useState("");
   const [existingChat, setExistingChat] = useState<Object[]>([]);
 
@@ -51,45 +33,29 @@ export default function ChattingPage(props: ChattingProps) {
         if (state === "old") {
           const chatting = await getChatting(id);
           console.log("res", chatting);
-          setRoomId(id);
-          setSenderId(uid);
+          setRoomId(chatting.id);
           setExistingChat(chatting.chatMessages);
-          if (chatting.member1Id === uid) {
-            setSenderProfileImg(chatting.member1ProfileImgUrl);
-            setSenderNickname(chatting.member1NickName);
+          if (chatting.members[0].id === uid) {
+            setReceiverProfileImg(chatting.members[1].profileImgUrl);
+            setReceiverNickname(chatting.members[1].nickName);
 
-            setReceiverId(chatting.member2Id);
-            setReceiverProfileImg(chatting.member2ProfileImgUrl);
-            setReceiverNickname(chatting.member2NickName);
-
-
-          } else if (chatting.member2Id === uid) {
-            setSenderProfileImg(chatting.member2ProfileImgUrl);
-            setSenderNickname(chatting.member2NickName);
-
-            setReceiverId(chatting.member1Id);
-            setReceiverProfileImg(chatting.member1ProfileImgUrl);
-            setReceiverNickname(chatting.member1NickName);
-
-
+          } else if (chatting.members[1].id === uid) {
+            setReceiverProfileImg(chatting.members[0].profileImgUrl);
+            setReceiverNickname(chatting.members[0].nickName);
           }
           else console.log("err");
 
         } else if (state === "new") {
-          if (uid && id) {
+          if (id) {
             console.log("새채팅생성");
             const chatting = await postNewChatting({
-              userId: uid,
               dogId: id,
             });
             console.log("새채팅생성 res", chatting);
-            setSenderId(chatting.data.senderId);
-            setReceiverId(chatting.data.receiverId);
+
             setRoomId(chatting.data.roomId);
-
-            // setSenderNickname(chatting.member2NickName);
-
-            // setReceiverNickname(chatting.member2NickName);
+            setReceiverProfileImg(chatting.data.otherUsers[0].profileImgUrl);
+            setReceiverNickname(chatting.data.otherUsers[0].nickName);
 
           }
         }
@@ -105,6 +71,7 @@ export default function ChattingPage(props: ChattingProps) {
 
 
 
-
-  return <Chatting roomId={roomId} senderId={senderId} receiverId={receiverId} senderProfileImg={senderProfileImg} receiverProfileImg={receiverProfileImg} senderNickname={senderNickname} receiverNickname={receiverNickname} existingChat={existingChat} />;
+  // 메시지 전송시 roomId만 필요
+  // 화면 출력 위해 receiver nickName, profileImg 필요
+  return <Chatting roomId={roomId} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} existingChat={existingChat} />;
 }
