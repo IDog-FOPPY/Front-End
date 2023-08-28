@@ -32,13 +32,13 @@ interface ShowChatting {
 
 const ShowChatting = (props: ShowChatting) => {
   const { existingChat, receiverProfileImg, receiverNickname } = props;
-  //console.log(existingChat[0]);
+  console.log(existingChat[0]);
 
 
   return (
 
     <div className={styles.chattingList}>
-      ddd
+
     </div>
   )
 }

@@ -22,52 +22,68 @@ export default function ChattingPage() {
   const [receiverNickname, setReceiverNickname] = useState("");
   const [existingChat, setExistingChat] = useState<Object[]>([]);
 
+  const [didMount, setDidMount] = useState(false)
 
-
+  var mountCount = 0;
+  useEffect(() => {
+    console.log('mount: ', mountCount)
+    mountCount++
+    setDidMount(true)
+    return () => {
+      console.log('unmount')
+    }
+  }, [])
 
 
   useEffect(() => {
+    console.log('didMount: ', didMount)
+    if (didMount) {
 
-    try {
-      const getData = async () => {
-        if (state === "old") {
-          const chatting = await getChatting(id);
-          console.log("res", chatting);
-          setRoomId(chatting.id);
-          setExistingChat(chatting.chatMessages);
-          if (chatting.members[0].id === uid) {
-            setReceiverProfileImg(chatting.members[1].profileImgUrl);
-            setReceiverNickname(chatting.members[1].nickName);
+      try {
+        const getData = async () => {
+          if (state === "old") {
+            const chatting = await getChatting(id);
+            console.log("res", chatting);
+            setRoomId(id);
+            setExistingChat(chatting.chatMessages);
+            if (chatting.members[0].id === uid) {
+              setReceiverProfileImg(chatting.members[1].profileImgUrl);
+              setReceiverNickname(chatting.members[1].nickName);
 
-          } else if (chatting.members[1].id === uid) {
-            setReceiverProfileImg(chatting.members[0].profileImgUrl);
-            setReceiverNickname(chatting.members[0].nickName);
+            } else if (chatting.members[1].id === uid) {
+              setReceiverProfileImg(chatting.members[0].profileImgUrl);
+              setReceiverNickname(chatting.members[0].nickName);
+            }
+            else console.log("err");
+
+          } else if (state === "new") {
+            if (id) {
+              console.log("새채팅생성", id);
+              const chatting = await postNewChatting({
+                dogId: id,
+              });
+              console.log("새채팅생성 res", chatting);
+
+              setRoomId(chatting.data.roomId);
+              setReceiverProfileImg(chatting.data.otherUsers[0].profileImgUrl);
+              setReceiverNickname(chatting.data.otherUsers[0].nickName);
+
+            }
           }
-          else console.log("err");
-
-        } else if (state === "new") {
-          if (id) {
-            console.log("새채팅생성");
-            const chatting = await postNewChatting({
-              dogId: id,
-            });
-            console.log("새채팅생성 res", chatting);
-
-            setRoomId(chatting.data.roomId);
-            setReceiverProfileImg(chatting.data.otherUsers[0].profileImgUrl);
-            setReceiverNickname(chatting.data.otherUsers[0].nickName);
-
-          }
-        }
-      };
-      getData();
+        };
+        getData();
 
 
-    } catch (err) {
-      console.log(err);
+      } catch (err) {
+        console.log(err);
+      }
+
+
+
+
     }
 
-  }, []);
+  }, [didMount]);
 
 
 
