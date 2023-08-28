@@ -22,17 +22,17 @@ interface Chatting {
   existingChat: object[];
 }
 
-interface ShowChatting {
-  existingChat: object[];
+interface ShowChattingProps {
+  content: string;
   receiverNickname: string;
   receiverProfileImg: string;
 }
 
 
 
-const ShowChatting = (props: ShowChatting) => {
-  const { existingChat, receiverProfileImg, receiverNickname } = props;
-  console.log(existingChat[0]);
+const ShowChatting = (props: ShowChattingProps) => {
+  const { content, receiverProfileImg, receiverNickname } = props;
+  //console.log(existingChat[0]);
 
 
   return (
@@ -53,6 +53,7 @@ export default function ChattingPage(props: Chatting) {
 
 
   console.log("chatting props", props);
+  console.log("existingChat", existingChat);
 
   // ------------------------------------------------------------
 
@@ -138,7 +139,19 @@ export default function ChattingPage(props: Chatting) {
         </div>
 
         <div className={styles.showSection}>
-          <ShowChatting existingChat={existingChat} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
+
+
+          {/* 
+          {existingChat.map((el:ShowChattingProps) => {
+            return (
+
+                          <ShowChatting content={el.content} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} />
+
+            );
+          })} */}
+
+
+
           {showMessages}
         </div>
 
