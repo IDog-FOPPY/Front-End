@@ -8,7 +8,7 @@ export const axios = Axios.create({
     // chat1
     // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzE1MjQwLCJleHAiOjE2OTI3MTg4NDB9.4SJpIOpfU7dMUINpMm-Pi1bFTTdjuVctlQeVtAxga0Y"
     // chat2
-    //Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImppaHl1biIsImlhdCI6MTY5MzAyOTYzMCwiZXhwIjoxNjkzMDMzMjMwfQ.-bqmsNwPTzxa23ZzWIccSiT1bp99Be6zoSzhsRX_mNo"
+    // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImppaHl1biIsImlhdCI6MTY5Mjk0NzU2MiwiZXhwIjoxNjkyOTUxMTYyfQ.n4AYGOUMg5KYpnNzY8bPiQpKfTT1ajej7HiHCi35yns"
   },
 });
 
@@ -56,8 +56,6 @@ export async function login(props: loginProps) {
     console.log(err);
     return {};
   }
-
-
 }
 
 // 회원가입
@@ -226,9 +224,7 @@ export async function getChattingList() {
 }
 
 // 채팅방 상세정보 조회
-export async function getChatting(
-  id: number,
-) {
+export async function getChatting(id: number) {
   try {
     const res = await axios.get(`/chat/room/${id}`);
     console.log("조회성공", res.data.data.chatMessages);
