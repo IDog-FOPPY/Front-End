@@ -1,26 +1,21 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getChatting } from "@src/logics/axios";
 import { postNewChatting } from "@src/logics/axios";
-import Chatting from "@src/screens/chatting";
-
-
-
+import Chatting, { ChatEl } from "@src/screens/chatting";
 
 export default function ChattingPage() {
-
-
 
   const state = useSearchParams().get("state");
   const id = parseInt(useSearchParams().get("id") || "{}");
   const uid = parseInt(localStorage.getItem("foppy_user_uid") || "{}");
 
-
   const [roomId, setRoomId] = useState(0);
   const [receiverProfileImg, setReceiverProfileImg] = useState("");
   const [receiverNickname, setReceiverNickname] = useState("");
-  const [existingChat, setExistingChat] = useState<Object[]>([]);
+  const [existingChat, setExistingChat] = useState<ChatEl[]>([]);
 
   const [didMount, setDidMount] = useState(false)
 
@@ -72,20 +67,11 @@ export default function ChattingPage() {
           }
         };
         getData();
-
-
       } catch (err) {
         console.log(err);
       }
-
-
-
-
     }
-
   }, [didMount]);
-
-
 
   // 메시지 전송시 roomId만 필요
   // 화면 출력 위해 receiver nickName, profileImg 필요

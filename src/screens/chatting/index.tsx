@@ -10,136 +10,120 @@ import PFImg from '@assets/png/profileImg.png';
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Send from '@assets/svg/messageSend.svg';
 
-
-
 const token = "Bearer " + localStorage.getItem("foppy_auth_token");
-
 
 interface Chatting {
   roomId: number;
   receiverProfileImg: string;
   receiverNickname: string;
-  existingChat: object[];
+  existingChat: ChatEl[];
+}
+
+export interface ChatEl {
+  messageId: number;
+  content: string;
+  roomId: number;
+  senderId: number;
+  createdAt: string;
 }
 
 interface ShowChattingProps {
   content: string;
   receiverNickname: string;
   receiverProfileImg: string;
+  senderId: number;
 }
 
-
-
 const ShowChatting = (props: ShowChattingProps) => {
-  const { content, receiverProfileImg, receiverNickname } = props;
-  //console.log(existingChat[0]);
-  const [profileImg, setProfileImg] = useState(receiverProfileImg);
-  console.log("showChattingProps", props);
-  useEffect(() => {
-    setProfileImg(receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src);
-
-  }, []);
+  const { content, receiverProfileImg, receiverNickname, senderId } = props;
+  const myId = localStorage.getItem("foppy_user_uid");
 
   return (
-
     <div className={styles.chattingList}>
       <img
         className={styles.profileImg}
         alt="dog-image"
-        src={profileImg}
+        src={receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src}
       />
+      {/* 임시 출력 */}
+      {myId && senderId === parseInt(myId) ?
+       <Typo variant="t3" color="black">{content}</Typo> 
+       : <Typo variant="t3" color="red">{content}</Typo>
+      }
     </div>
   )
 }
-
-
-
 
 export default function ChattingPage(props: Chatting) {
 
   const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
   //const [id, setId] = useState(roomId);
 
-
-  console.log("chatting props", props);
-  console.log("existingChat", existingChat);
-
   // ------------------------------------------------------------
 
-  const client: any = useRef({});
+  // const client: any = useRef({});
 
-  //상대방이 보낸 메세지 받는 변수
-  const [showMessages, setShowMessages] = useState([]);
-  //내가 보낸 메세지
-  const [message, setMessage] = useState("");
+  // //상대방이 보낸 메세지 받는 변수
+  // const [showMessages, setShowMessages] = useState([]);
+  // //내가 보낸 메세지
+  // const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    console.log("roomId", roomId);
-    connect();
-    return () => disconnect();
-  }, [roomId]);
-  const connect = () => {
-
-
-    //console.log(id);
-    client.current = new StompJs.Client({
-      webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
-      connectHeaders: {
-        'Authorization': token,
-      },
-      debug: function (str) {
-        console.log(str);
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-      onConnect: (frame: any) => {
-        console.log("frame", frame);
-        client.current.subscribe('/sub/room/' + roomId, function (result: any) {
-          // show(JSON.parse(result.body));
-          console.log("채팅 res", JSON.parse(result.body));
-          setShowMessages(JSON.parse(result.body));
-        }
-        );
-      },
-      onStompError: (frame) => {
-        console.error(frame);
-      },
-    });
-
-    client.current.activate();
-  };
-  const disconnect = () => {
-    client.current.deactivate();
-  };
-  const publish = (message: string) => {
-    if (!client.current.connected) {
-      return;
-    }
-
-    client.current.publish({
-      destination: "/pub/send",
-      body: JSON.stringify({ 'roomId': roomId, 'content': message }),
-    });
-    console.log('roomId', roomId, 'content', message);
-    setMessage("");
-  };
+  // useEffect(() => {
+  //   console.log("roomId", roomId);
+  //   connect();
+  //   return () => disconnect();
+  // }, [roomId]);
+  // const connect = () => {
 
 
+  //   //console.log(id);
+  //   client.current = new StompJs.Client({
+  //     webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
+  //     connectHeaders: {
+  //       'Authorization': token,
+  //     },
+  //     debug: function (str) {
+  //       console.log(str);
+  //     },
+  //     reconnectDelay: 5000,
+  //     heartbeatIncoming: 4000,
+  //     heartbeatOutgoing: 4000,
+  //     onConnect: (frame: any) => {
+  //       console.log("frame", frame);
+  //       client.current.subscribe('/sub/room/' + roomId, function (result: any) {
+  //         // show(JSON.parse(result.body));
+  //         console.log("채팅 res", JSON.parse(result.body));
+  //         setShowMessages(JSON.parse(result.body));
+  //       }
+  //       );
+  //     },
+  //     onStompError: (frame) => {
+  //       console.error(frame);
+  //     },
+  //   });
+
+  //   client.current.activate();
+  // };
+  // const disconnect = () => {
+  //   client.current.deactivate();
+  // };
+  // const publish = (message: string) => {
+  //   if (!client.current.connected) {
+  //     return;
+  //   }
+
+  //   client.current.publish({
+  //     destination: "/pub/send",
+  //     body: JSON.stringify({ 'roomId': roomId, 'content': message }),
+  //   });
+  //   console.log('roomId', roomId, 'content', message);
+  //   setMessage("");
+  // };
 
   // ------------------------------------------------------------
-
-
-
-
-
-
-
-
 
   return (
     <>
-
       <div className={styles.pageLayout}>
         <div className={styles.header}>
           <div className={styles.backBtn}><ArrowLeft /></div>
@@ -147,24 +131,16 @@ export default function ChattingPage(props: Chatting) {
           <div className={styles.blank}></div>
         </div>
 
-        <div className={styles.showSection}>
-
-
-          {/* 
-          {existingChat.map((el: ShowChattingProps) => {
+        <div className={styles.showSection}>          
+          {existingChat.map((el: ChatEl) => {
             return (
-
-              <ShowChatting content={el.content} receiverProfileImg={el.receiverProfileImg} receiverNickname={el.receiverNickname} key={el.content} />
-
+              <ShowChatting content={el.content} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} key={el.messageId} senderId={el.senderId} />
             );
-          })} */}
-
-
-
-          {showMessages}
+          })}
+          {/* {showMessages} */}
         </div>
 
-        <div className={styles.sendSection}>
+        {/* <div className={styles.sendSection}>
           <input
             type="text"
             id="content"
@@ -174,8 +150,7 @@ export default function ChattingPage(props: Chatting) {
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className={styles.sendBtn} onClick={() => publish(message)}><Send /></div>
-
-        </div>
+        </div> */}
 
       </div>
     </>
