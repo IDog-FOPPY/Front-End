@@ -24,7 +24,7 @@ import { DogInfo } from "@src/types/dogInfo";
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const token = localStorage.getItem("foppy_auth_token");
   const [dogs, setDogs] = useState([]);
 
   console.log(dogs);
@@ -34,7 +34,6 @@ export default function PageHeader() {
       setDogs(await getDogs());
     };
 
-    const token = localStorage.getItem("foppy_auth_token");
     if (token) getData();
   }, []);
 
@@ -47,12 +46,13 @@ export default function PageHeader() {
     <>
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
-        <ChattingIcon
-          className={styles.chattingIcon}
-          width="36px"
-          height="36px"
-          onClick={() => router.push("/chatting-list")}
-        />
+        {token && 
+          <ChattingIcon
+            className={styles.chattingIcon}
+            width="36px"
+            height="36px"
+            onClick={() => router.push("/chatting-list")}
+          />}
         {/* </Link> */}
 
         <DrawerIcon

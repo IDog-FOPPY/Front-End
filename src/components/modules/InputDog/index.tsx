@@ -333,7 +333,7 @@ export default function InputDog(props: InputDogdogInfo) {
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
-          <div className={styles.backBtn}><ArrowLeft /></div>
+          <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
           <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
           {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo> */}
@@ -432,7 +432,6 @@ export default function InputDog(props: InputDogdogInfo) {
               color="black"
               className={styles.contentTitle}
             >
-              {console.log(dayjs(dogInfo?.birth, dateFormat))}
               생년월일 
             </Typo>
             <DatePicker

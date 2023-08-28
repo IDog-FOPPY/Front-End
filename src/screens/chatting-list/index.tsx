@@ -99,7 +99,7 @@ export default function ChattingListPage({ chattings }: { chattings: any }) {
   return (
     <div className={styles.pageLayout}>
       <div className={styles.header}>
-        <div className={styles.backBtn}><ArrowLeft /></div>
+        <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
         <Typo variant="t2" bold color="black" className={styles.title}>채팅</Typo>
         <div className={styles.blank}></div>
       </div>
