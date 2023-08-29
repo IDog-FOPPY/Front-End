@@ -39,13 +39,10 @@ interface ShowChattingProps {
 }
 
 export interface ShowChatEl {
-
+  senderId: number;
   content: string;
   roomId: number;
-
 }
-
-
 
 
 const ShowChatting = (props: ShowChattingProps) => {
@@ -91,12 +88,7 @@ export default function ChattingPage(props: Chatting) {
 
   const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
   const myId = localStorage.getItem("foppy_user_uid");
-
   const router = useRouter();
-
-
-
-  const [id, setId] = useState(roomId);
 
 
   // ------------------------------------------------------------
@@ -106,47 +98,29 @@ export default function ChattingPage(props: Chatting) {
 
   //내가 보낸 메세지
   const [message, setMessage] = useState("");
+
+
   //res로 오는 메세지 받는 변수
-  const [chatMessage, setChatMessage] = useState<ShowChatEl>();
-  //const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
-  let chatMessageList: ShowChatEl[] = [];
-  const [messageList, setMessageList] = useState<ShowChatEl[]>([]);
+  const [chatMessage, setChatMessage] = useState<ShowChatEl>({ content: "", roomId: 0, senderId: 0 });
+  const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
+
   const sendSectionRef = useRef<HTMLDivElement>(null);
-
-
   const scrollToBottom = () => {
     if (sendSectionRef.current) {
       sendSectionRef.current.scrollTop = sendSectionRef.current.scrollHeight;
     }
   };
 
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [scroll]);
+  useEffect(() => {
+    console.log("ChatMEssage", chatMessage);
+    chatMessage.roomId === 0 ? null :
+      setChatMessageList([...chatMessageList, chatMessage]);
+  }, [chatMessage]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessageList]);
 
-
-  // useEffect(() => {
-  //   if (chatMessage) {
-  //     setChatMessageList([...chatMessageList, chatMessage]);
-  //   }
-  // }, [chatMessage]);
-
-  const receiveRes = (res: ShowChatEl) => {
-    let chatMessage: ShowChatEl = { content: "", roomId: 0 };
-    chatMessage.content = res.content;
-    chatMessage.roomId = res.roomId;
-    console.log("receiveRes 내부 chatMessage", chatMessage);
-    //setChatMessageList([...chatMessageList, chatMessage]);
-    chatMessageList.push(chatMessage);
-    setMessageList(chatMessageList);
-    console.log("receiveRes 내부 chatMessageList", chatMessageList);
-    console.log("messageList", messageList);
-  }
-
-  // useEffect(()=>{
-
-  // },[])
 
   useEffect(() => {
     console.log("roomId", roomId);
@@ -173,12 +147,7 @@ export default function ChattingPage(props: Chatting) {
         console.log("frame", frame);
         client.current.subscribe('/sub/room/' + roomId, function (result: any) {
           console.log("채팅 res", JSON.parse(result.body));
-
-          // setChatMessage(JSON.parse(result.body));
-
-          receiveRes(JSON.parse(result.body));
-          console.log("chatMessage", chatMessage);
-
+          setChatMessage(JSON.parse(result.body));
         }
         );
       },
@@ -201,8 +170,6 @@ export default function ChattingPage(props: Chatting) {
       destination: "/pub/send",
       body: JSON.stringify({ 'roomId': roomId, 'content': message, 'senderId': myId }),
     });
-    //console.log('roomId', roomId, 'content', message);
-    //setMessage("");
   };
 
   // ------------------------------------------------------------
@@ -233,23 +200,27 @@ export default function ChattingPage(props: Chatting) {
                   senderId={el.senderId}
                   createdAt={dayjs(el.createdAt).format("HH:mm")}
                   showImg={index === 0 || index > 0 && el.senderId !== existingChat[index - 1].senderId}
-                // showTime={index === 1 || index < existingChat.length && el.senderId !== existingChat[index + 1].senderId}
-
                 />
               );
             })}
 
-            {chatMessageList.map((el: ShowChatEl) => {
+            {chatMessageList.map((el: ShowChatEl, index: number) => {
               return (
-                <div>{el.content}</div>
+                <>
+                  <ShowChatting
+                    content={el.content}
+                    receiverProfileImg={receiverProfileImg}
+                    receiverNickname={receiverNickname}
+                    key={el.content}
+                    senderId={el.senderId}
+                    createdAt={dayjs().format("HH:mm")}
+                    showImg={index === 0 || index > 0 && el.senderId !== chatMessageList[index - 1].senderId}
+                  />
+                </>
               );
             })}
-
-
           </>
-
         </div>
-
         <div className={styles.sendSection}>
           <input
             type="text"
@@ -258,7 +229,6 @@ export default function ChattingPage(props: Chatting) {
             className={styles.sendBox}
             //defaultValue={message}
             onChange={(e) => { setMessage(e.target.value); }}
-
           />
           <div
             className={styles.sendBtn}
