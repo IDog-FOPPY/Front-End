@@ -90,6 +90,7 @@ const ShowChatting = (props: ShowChattingProps) => {
 export default function ChattingPage(props: Chatting) {
 
   const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
+  const myId = localStorage.getItem("foppy_user_uid");
 
   const router = useRouter();
 
@@ -107,10 +108,9 @@ export default function ChattingPage(props: Chatting) {
   const [message, setMessage] = useState("");
   //res로 오는 메세지 받는 변수
   const [chatMessage, setChatMessage] = useState<ShowChatEl>();
-  const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
-
-
-
+  //const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
+  let chatMessageList: ShowChatEl[] = [];
+  const [messageList, setMessageList] = useState<ShowChatEl[]>([]);
   const sendSectionRef = useRef<HTMLDivElement>(null);
 
 
@@ -137,10 +137,16 @@ export default function ChattingPage(props: Chatting) {
     chatMessage.content = res.content;
     chatMessage.roomId = res.roomId;
     console.log("receiveRes 내부 chatMessage", chatMessage);
-    setChatMessageList([...chatMessageList, chatMessage]);
+    //setChatMessageList([...chatMessageList, chatMessage]);
+    chatMessageList.push(chatMessage);
+    setMessageList(chatMessageList);
     console.log("receiveRes 내부 chatMessageList", chatMessageList);
+    console.log("messageList", messageList);
   }
 
+  // useEffect(()=>{
+
+  // },[])
 
   useEffect(() => {
     console.log("roomId", roomId);
@@ -153,7 +159,7 @@ export default function ChattingPage(props: Chatting) {
 
     //console.log(id);
     client.current = new StompJs.Client({
-      webSocketFactory: () => new SockJS("http://54.180.158.62:8080/ws/chat"),
+      webSocketFactory: () => new SockJS("http://3.36.48.247:8080/ws/chat"),
       connectHeaders: {
         'Authorization': token,
       },
@@ -193,7 +199,7 @@ export default function ChattingPage(props: Chatting) {
 
     client.current.publish({
       destination: "/pub/send",
-      body: JSON.stringify({ 'roomId': roomId, 'content': message }),
+      body: JSON.stringify({ 'roomId': roomId, 'content': message, 'senderId': myId }),
     });
     //console.log('roomId', roomId, 'content', message);
     //setMessage("");
@@ -230,6 +236,12 @@ export default function ChattingPage(props: Chatting) {
                 // showTime={index === 1 || index < existingChat.length && el.senderId !== existingChat[index + 1].senderId}
 
                 />
+              );
+            })}
+
+            {chatMessageList.map((el: ShowChatEl) => {
+              return (
+                <div>{el.content}</div>
               );
             })}
 
