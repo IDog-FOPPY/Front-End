@@ -105,10 +105,25 @@ export default function ChattingPage(props: Chatting) {
   //내가 보낸 메세지
   const [message, setMessage] = useState("");
   //res로 오는 메세지 받는 변수
-  //const [chatMessage, setChatMessage] = useState<ShowChatEl>();
-  var chatMessage: ShowChatEl = { content: "", roomId: 0 };
-  const [receive, setReceive] = useState(0);
+  const [chatMessage, setChatMessage] = useState<ShowChatEl>();
   const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
+
+  // useEffect(() => {
+  //   if (chatMessage) {
+  //     setChatMessageList([...chatMessageList, chatMessage]);
+  //   }
+  // }, [chatMessage]);
+
+
+  const receiveRes = (res: ShowChatEl) => {
+    let chatMessage: ShowChatEl = { content: "", roomId: 0 };
+    chatMessage.content = res.content;
+    chatMessage.roomId = res.roomId;
+    console.log("receiveRes 내부 chatMessage", chatMessage);
+    setChatMessageList([...chatMessageList, chatMessage]);
+    console.log("receiveRes 내부 chatMessageList", chatMessageList);
+  }
+
 
   useEffect(() => {
     console.log("roomId", roomId);
@@ -135,9 +150,12 @@ export default function ChattingPage(props: Chatting) {
         client.current.subscribe('/sub/room/' + roomId, function (result: any) {
           console.log("채팅 res", JSON.parse(result.body));
 
+          // setChatMessage(JSON.parse(result.body));
 
-          receiveRes(JSON.parse(result.body))
-          setReceive(+1);
+          receiveRes(JSON.parse(result.body));
+          console.log("chatMessage", chatMessage);
+
+
         }
         );
       },
@@ -160,27 +178,14 @@ export default function ChattingPage(props: Chatting) {
       destination: "/pub/send",
       body: JSON.stringify({ 'roomId': roomId, 'content': message }),
     });
-    console.log('roomId', roomId, 'content', message);
-    setMessage("");
+    //console.log('roomId', roomId, 'content', message);
+    //setMessage("");
   };
 
   // ------------------------------------------------------------
 
-  const receiveRes = (res: ShowChatEl) => {
-    // setChatMessage(res);
-    // console.log("chatMessage  ", chatMessage);
-    // console.log("res", res);
-    chatMessage.content = res.content;
-    chatMessage.roomId = res.roomId;
 
-  }
-  useEffect(() => {
-    if (chatMessage) {
-      setChatMessageList([...chatMessageList, chatMessage]);
-      console.log("chatMessage List  ", chatMessageList);
 
-    }
-  }, [receive]);
 
 
   return (
