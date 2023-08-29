@@ -38,6 +38,16 @@ interface ShowChattingProps {
 
 }
 
+export interface ShowChatEl {
+
+  content: string;
+  roomId: number;
+
+}
+
+
+
+
 const ShowChatting = (props: ShowChattingProps) => {
   const { content, receiverProfileImg, receiverNickname, senderId, createdAt, showImg } = props;
   const myId = localStorage.getItem("foppy_user_uid");
@@ -86,14 +96,19 @@ export default function ChattingPage(props: Chatting) {
 
   const [id, setId] = useState(roomId);
 
+
   // ------------------------------------------------------------
 
   const client: any = useRef({});
 
-  //상대방이 보낸 메세지 받는 변수
-  const [showMessages, setShowMessages] = useState([]);
+
   //내가 보낸 메세지
   const [message, setMessage] = useState("");
+  //res로 오는 메세지 받는 변수
+  //const [chatMessage, setChatMessage] = useState<ShowChatEl>();
+  var chatMessage: ShowChatEl = { content: "", roomId: 0 };
+  const [receive, setReceive] = useState(0);
+  const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
 
   useEffect(() => {
     console.log("roomId", roomId);
@@ -118,9 +133,11 @@ export default function ChattingPage(props: Chatting) {
       onConnect: (frame: any) => {
         console.log("frame", frame);
         client.current.subscribe('/sub/room/' + roomId, function (result: any) {
-          // show(JSON.parse(result.body));
           console.log("채팅 res", JSON.parse(result.body));
-          setShowMessages(JSON.parse(result.body));
+
+
+          receiveRes(JSON.parse(result.body))
+          setReceive(+1);
         }
         );
       },
@@ -149,6 +166,23 @@ export default function ChattingPage(props: Chatting) {
 
   // ------------------------------------------------------------
 
+  const receiveRes = (res: ShowChatEl) => {
+    // setChatMessage(res);
+    // console.log("chatMessage  ", chatMessage);
+    // console.log("res", res);
+    chatMessage.content = res.content;
+    chatMessage.roomId = res.roomId;
+
+  }
+  useEffect(() => {
+    if (chatMessage) {
+      setChatMessageList([...chatMessageList, chatMessage]);
+      console.log("chatMessage List  ", chatMessageList);
+
+    }
+  }, [receive]);
+
+
   return (
     <>
       <div className={styles.pageLayout}>
@@ -159,22 +193,27 @@ export default function ChattingPage(props: Chatting) {
         </div>
 
         <div className={styles.showSection}>
-          {existingChat.map((el: ChatEl, index: number) => {
-            return (
-              <ShowChatting
-                content={el.content}
-                receiverProfileImg={receiverProfileImg}
-                receiverNickname={receiverNickname}
-                key={el.messageId}
-                senderId={el.senderId}
-                createdAt={dayjs(el.createdAt).format("HH:mm")}
-                showImg={index === 0 || index > 0 && el.senderId !== existingChat[index - 1].senderId}
-              // showTime={index === 1 || index < existingChat.length && el.senderId !== existingChat[index + 1].senderId}
 
-              />
-            );
-          })}
-          {/* {showMessages} */}
+          <>
+            {existingChat.map((el: ChatEl, index: number) => {
+              return (
+                <ShowChatting
+                  content={el.content}
+                  receiverProfileImg={receiverProfileImg}
+                  receiverNickname={receiverNickname}
+                  key={el.messageId}
+                  senderId={el.senderId}
+                  createdAt={dayjs(el.createdAt).format("HH:mm")}
+                  showImg={index === 0 || index > 0 && el.senderId !== existingChat[index - 1].senderId}
+                // showTime={index === 1 || index < existingChat.length && el.senderId !== existingChat[index + 1].senderId}
+
+                />
+              );
+            })}
+
+
+          </>
+
         </div>
 
         <div className={styles.sendSection}>
@@ -185,6 +224,7 @@ export default function ChattingPage(props: Chatting) {
             className={styles.sendBox}
             //defaultValue={message}
             onChange={(e) => { setMessage(e.target.value); }}
+
           />
           <div
             className={styles.sendBtn}
