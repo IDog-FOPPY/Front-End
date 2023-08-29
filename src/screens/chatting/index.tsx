@@ -94,6 +94,7 @@ export default function ChattingPage(props: Chatting) {
   const router = useRouter();
 
 
+
   const [id, setId] = useState(roomId);
 
 
@@ -108,12 +109,28 @@ export default function ChattingPage(props: Chatting) {
   const [chatMessage, setChatMessage] = useState<ShowChatEl>();
   const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
 
+
+
+  const sendSectionRef = useRef<HTMLDivElement>(null);
+
+
+  const scrollToBottom = () => {
+    if (sendSectionRef.current) {
+      sendSectionRef.current.scrollTop = sendSectionRef.current.scrollHeight;
+    }
+  };
+
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [scroll]);
+
+
+
   // useEffect(() => {
   //   if (chatMessage) {
   //     setChatMessageList([...chatMessageList, chatMessage]);
   //   }
   // }, [chatMessage]);
-
 
   const receiveRes = (res: ShowChatEl) => {
     let chatMessage: ShowChatEl = { content: "", roomId: 0 };
@@ -128,6 +145,7 @@ export default function ChattingPage(props: Chatting) {
   useEffect(() => {
     console.log("roomId", roomId);
     connect();
+    scrollToBottom();
     return () => disconnect();
   }, [roomId]);
   const connect = () => {
@@ -154,7 +172,6 @@ export default function ChattingPage(props: Chatting) {
 
           receiveRes(JSON.parse(result.body));
           console.log("chatMessage", chatMessage);
-
 
         }
         );
@@ -197,7 +214,7 @@ export default function ChattingPage(props: Chatting) {
           <div className={styles.blank}></div>
         </div>
 
-        <div className={styles.showSection}>
+        <div ref={sendSectionRef} className={styles.showSection}>
 
           <>
             {existingChat.map((el: ChatEl, index: number) => {
