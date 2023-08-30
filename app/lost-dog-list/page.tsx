@@ -29,19 +29,24 @@ export default function LostDogList() {
   const [dateFormat, setDateFormat] = useState("");
 
   const [dogs, setDogs] = useState([]);
-
+  //const [dogs, setDogs] = useState<DogInfo[]>([]);
 
   const onComplete = async () => {
-    //console.log(name, sex, breed, age, neutered, reported);
-    if (addr2 && breed && missDate) {
-      // console.log('dateFormat',dateFormat)
-      // setDateFormat(missDate.format("YYYY-MM-DD"))
-      const res = await getStrayDogs({
+    if (missDate === undefined) {
+      setDogs(await getStrayDogs({
+        breed: breed,
+        missingGu: addr2,
+        startDate: undefined
+      }))
+    }
+    else {
+
+      setDogs(await getStrayDogs({
         breed: breed,
         missingGu: addr2,
         startDate: missDate.format("YYYY-MM-DD")
-      })
-      setDogs(res);
+      }))
+
     }
   }
 
@@ -190,24 +195,25 @@ export default function LostDogList() {
         }
       </div>
       <div className={styles.dogList}>
-        {dogs.map((dog: DogInfo) => {
-          return (
-            <Link
-              href={{
-                pathname: "/chatting",
-                query: {
-                  id: dog.id,
-                  state: "new",
-                },
-              }}
-              // as="/chatting"
-              key={dog.id}
-            >
-              <DogCard dog={dog} key={dog.id} />
-            </Link>
+        {dogs &&
+          dogs.map((dog: DogInfo) => {
+            return (
+              <Link
+                href={{
+                  pathname: "/chatting",
+                  query: {
+                    id: dog.id,
+                    state: "new",
+                  },
+                }}
+                // as="/chatting"
+                key={dog.id}
+              >
+                <DogCard dog={dog} key={dog.id} />
+              </Link>
 
-          )
-        })}
+            )
+          })}
       </div>
     </div>
   )
