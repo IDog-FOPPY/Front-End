@@ -185,12 +185,51 @@ interface getStrayDogsProps {
 }
 
 export async function getStrayDogs(props: getStrayDogsProps) {
+  const { missingGu, startDate, breed } = props;
   try {
-    const res = await axios.get("/dog/missing?page=0&size=10", {
-      params: props,
-    });
-    console.log("getStrayDogs", res);
-    return res.data.data.content;
+    if (missingGu !== undefined) {
+      if (startDate !== undefined) {
+        if (breed !== undefined) {  // missingGu & startDate & breed
+          const res = await axios.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&startDate=${startDate}&breed=${breed}`);
+          return res.data.data.content;
+        }
+        else { //missingGu & startDate
+          const res = await axios.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&startDate=${startDate}`);
+          return res.data.data.content;
+        }
+      }
+      else {
+        if (breed !== undefined) {  //missingGu & breed
+          const res = await axios.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&breed=${breed}`);
+          return res.data.data.content;
+        }
+        else { //missingGu
+          const res = await axios.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}`);
+          return res.data.data.content;
+        }
+      }
+    }
+
+    else if (startDate !== undefined) {
+      if (breed !== undefined) { //startDate & breed
+        const res = await axios.get(`/dog/missing?page=0&size=10&startDate=${startDate}&breed=${breed}`);
+        return res.data.data.content;
+      }
+      else { //startDate
+        const res = await axios.get(`/dog/missing?page=0&size=10&startDate=${startDate}`);
+        return res.data.data.content;
+      }
+    }
+
+    else if (breed !== undefined) {  //breed
+      const res = await axios.get(`/dog/missing?page=0&size=10&breed=${breed}`);
+      return res.data.data.content;
+    }
+    else {
+      const res = await axios.get(`/dog/missing?page=0&size=10`);
+      return res.data.data.content;
+    }
+
   } catch (err) {
     console.log(err);
     return {};
