@@ -353,46 +353,58 @@ export default function InputDog(props: InputDogdogInfo) {
               </Typo>
             </div>
             <div className={styles.imageBoxSection}>
-              <div className={styles.addImageBox}>
-                <input
-                  multiple
-                  type="file"
-                  onChange={onLoadFile}
-                  accept="image/*"
-                />
-                <Album />
-                <Typo variant="footnote" color="#606060">
-                  <Typo
-                    variant="footnote"
-                    color="#0074DD"
-                    style={{ display: "inline" }}
-                  >
-                    {imgNum}
+              {pageTitle !== "반려견 수정하기" && 
+                <div className={styles.addImageBox}>
+                  <input
+                    multiple
+                    type="file"
+                    onChange={onLoadFile}
+                    accept="image/*"
+                  />
+                  <Album />
+                  <Typo variant="footnote" color="#606060">
+                    <Typo
+                      variant="footnote"
+                      color="#0074DD"
+                      style={{ display: "inline" }}
+                    >
+                      {imgNum}
+                    </Typo>
+                    /10
                   </Typo>
-                  /10
-                </Typo>
-              </div>
+                </div>
+              }
               <div className={styles.imageBoxWrapper}>
 
-                {imgUrlList?.map((imageItem, index) => {
-                  const url = URL.createObjectURL(imageItem);
-                  console.log('url', url);
-                  console.log('imgUrlList', imgUrlList);
-                  return (
-                    <div className={styles.imageBox} key={url}>
-                      <div
-                        style={{ backgroundImage: `url(${url})` }}
-                        className={styles.image}
-                      />
-                      <div
-                        className={styles.removeBtn}
-                        onClick={() => removeImage(index)}
-                      >
-                        X
+                {pageTitle === "반려견 수정하기" ? 
+                  dogInfo?.imgUrlList?.map((img: string) => {
+                    return (
+                      <div className={styles.imageBox}>
+                        <img src={img} className={styles.image} />
                       </div>
-                    </div>
-                  );
-                })}
+                    )
+                  })
+                  :
+                  imgUrlList?.map((imageItem, index) => {
+                    const url = URL.createObjectURL(imageItem);
+                    console.log('url', url);
+                    console.log('imgUrlList', imgUrlList);
+                    return (
+                      <div className={styles.imageBox} key={url}>
+                        <div
+                          style={{ backgroundImage: `url(${url})` }}
+                          className={styles.image}
+                        />
+                        <div
+                          className={styles.removeBtn}
+                          onClick={() => removeImage(index)}
+                        >
+                          X
+                        </div>
+                      </div>
+                    );
+                  })
+                }
 
 
 
