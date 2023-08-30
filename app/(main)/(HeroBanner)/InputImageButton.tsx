@@ -23,7 +23,7 @@ export default function InputImageButton() {
       const post = async () => {
         const res = await postNoseIdent(img[0]);
         // const res = {dogID:[6,7,6], top_3:[]}; // 임시
-        console.log('res',res.data);
+        console.log('res', res.data);
         if (res?.data?.length > 0) {
           console.log('success!');
           const dogList = res.data.map((el: any) => {
@@ -50,6 +50,7 @@ export default function InputImageButton() {
             variant="footnote"
             color="#0074DD"
             className={styles.textFootnote}
+            bold
           >
             비문 조회하러 가기 <ArrowRightBlue />
           </Typo>

@@ -3,6 +3,40 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 100px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: inherit;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  // padding: 0 16px;
+  margin: 0 auto;
+  background-color: $white;
+  min-height: 100vh;
+  padding-bottom: 30px;
+
+  @include mobile {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @include laptop {
+    padding-left: 136px;
+    padding-right: 136px;
+  }
+
+  @include desktop {
+    padding-left: 360px;
+    padding-right: 360px;
+  }
 
 
   .logo {

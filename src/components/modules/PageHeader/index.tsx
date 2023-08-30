@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import { getDogs } from "@src/logics/axios";
 import Image from "next/image";
 import { DogInfo } from "@src/types/dogInfo";
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
@@ -46,7 +47,8 @@ export default function PageHeader() {
     <>
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
-        {token && 
+        <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
+        {token &&
           <ChattingIcon
             className={styles.chattingIcon}
             width="36px"

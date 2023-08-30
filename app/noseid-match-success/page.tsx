@@ -8,12 +8,14 @@ import logo from '@assets/Logo.png';
 import { getMyDog } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
+import Link from "next/link";
+
 
 interface DogCardProps {
   dog: DogInfo;
 }
 
-function DogCard (props: DogCardProps) {
+function DogCard(props: DogCardProps) {
   const { dog } = props;
 
   return (
@@ -48,7 +50,7 @@ function DogCard (props: DogCardProps) {
   )
 }
 
-export default function NoseIdMatchSuccessPage () {
+export default function NoseIdMatchSuccessPage() {
 
   const [dogs, setDogs] = useState<DogInfo[]>();
   const petId = useSearchParams().get("petId")?.split(',');
@@ -57,8 +59,8 @@ export default function NoseIdMatchSuccessPage () {
     if (petId && petId.length > 0) {
       const getDogs = () => {
         const temp: DogInfo[] = [];
-        petId.map(async(v) => {
-          if(v.length > 0){ 
+        petId.map(async (v) => {
+          if (v.length > 0) {
             const appendDog = await getMyDog({ petId: parseInt(v) });
             temp.push(appendDog);
             setDogs(temp);
@@ -70,11 +72,11 @@ export default function NoseIdMatchSuccessPage () {
   }, [])
 
   useEffect(() => {
-    console.log('dogs',dogs)
-  },[dogs])
+    console.log('dogs', dogs)
+  }, [dogs])
 
   return (
-    <div>
+    <div className={styles.pageLayout}>
       <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
       <Typo variant="h6" color="black" bold className={styles.title}>
         비문이 유사한 강아지를 찾았어요!
@@ -85,7 +87,24 @@ export default function NoseIdMatchSuccessPage () {
       <Typo variant="caption" color="#606060" className={styles.subTitle} style={{ textDecoration: "underline" }}>
         비문 유사도가 높은 순서대로 정렬되어 있어요
       </Typo>
-      {dogs?.map(dog => <DogCard dog={dog} key={dog.name} />)}
+
+      {dogs?.map(dog => {
+        return (
+          <Link
+            href={{
+              pathname: "/chatting",
+              query: {
+                id: petId,
+                state: "new",
+              },
+            }}
+          //key={el.id}
+          >
+            <DogCard dog={dog} key={dog.name} />
+          </Link>
+        )
+      }
+      )}
     </div>
   )
 }
