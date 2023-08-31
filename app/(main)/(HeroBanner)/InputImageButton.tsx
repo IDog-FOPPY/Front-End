@@ -24,16 +24,23 @@ export default function InputImageButton() {
         const res = await postNoseIdent(img[0]);
         // const res = {dogID:[6,7,6], top_3:[]}; // 임시
         console.log('res', res.data);
-        if (res?.data?.length > 0) {
+        if (res.data[0].code === 200) {
           console.log('success!');
           const dogList = res.data.map((el: any) => {
             return el.dog_id
           });
           router.push(`/noseid-match-success?petId=${dogList}`)
-        } else {
-          console.log('fail!');
+        }
+        else if (res.data[0].code === 404) {
+          console.log('nose match fail!');
           router.push(`/noseid-match-fail`);
         }
+        else if (res.data[0].code === 400) {
+          console.log('cannot find nose!');
+          router.push(`/cannot-find-nose`);
+        }
+        else null;
+
       };
       post();
     }
