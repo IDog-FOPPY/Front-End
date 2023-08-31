@@ -168,7 +168,8 @@ export default function InputDog(props: InputDogdogInfo) {
         etc: etc
 
 
-      })
+      });
+      router.push('/');
 
       console.log("반려견 수정 성공", {
         name: name,
@@ -353,7 +354,7 @@ export default function InputDog(props: InputDogdogInfo) {
               </Typo>
             </div>
             <div className={styles.imageBoxSection}>
-              {pageTitle !== "반려견 수정하기" && 
+              {pageTitle !== "반려견 수정하기" &&
                 <div className={styles.addImageBox}>
                   <input
                     multiple
@@ -376,7 +377,7 @@ export default function InputDog(props: InputDogdogInfo) {
               }
               <div className={styles.imageBoxWrapper}>
 
-                {pageTitle === "반려견 수정하기" ? 
+                {pageTitle === "반려견 수정하기" ?
                   dogInfo?.imgUrlList?.map((img: string) => {
                     return (
                       <div className={styles.imageBox}>
@@ -444,7 +445,7 @@ export default function InputDog(props: InputDogdogInfo) {
               color="black"
               className={styles.contentTitle}
             >
-              생년월일 
+              생년월일
             </Typo>
             <DatePicker
               locale={locale}
