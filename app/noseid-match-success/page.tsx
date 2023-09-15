@@ -20,7 +20,7 @@ function DogCard(props: DogCardProps) {
 
   return (
     <div className={styles.dogCard}>
-      {dog.imgUrlList.length > 0 && <img className={styles.dogImg} src={dog.imgUrlList[0]} />}
+      {dog.imgUrlList && dog.imgUrlList.length > 0 && <img className={styles.dogImg} src={dog.imgUrlList[0]} />}
       {/* <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.img.src})` }} /> */}
       {/* <div className={styles.dogImg} /> */}
       <div className={styles.contentSection}>
