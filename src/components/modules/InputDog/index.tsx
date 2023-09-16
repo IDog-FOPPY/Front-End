@@ -380,7 +380,7 @@ export default function InputDog(props: InputDogdogInfo) {
                 {pageTitle === "반려견 수정하기" ?
                   dogInfo?.imgUrlList?.map((img: string) => {
                     return (
-                      <div className={styles.imageBox}>
+                      <div className={styles.imageBox} key={img}>
                         <img src={img} className={styles.image} />
                       </div>
                     )
