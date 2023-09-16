@@ -146,7 +146,7 @@ export default function InputDog(props: InputDogdogInfo) {
           neutered: neutered === true ? true : false,
         }, file: imgUrlList
       });
-      router.push('/');
+      router.push('/main');
     }
     else if (pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
@@ -169,7 +169,7 @@ export default function InputDog(props: InputDogdogInfo) {
 
 
       });
-      router.push('/');
+      router.push('/main');
 
       console.log("반려견 수정 성공", {
         name: name,

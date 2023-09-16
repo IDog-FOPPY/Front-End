@@ -51,7 +51,7 @@ export default function LoginPage() {
       if (res?.data.accessToken) {
         localStorage.setItem('foppy_auth_token', res.data?.accessToken);
         localStorage.setItem('foppy_user_uid', res.data?.userId);
-        router.push('/');
+        router.push('/main');
       } else {
         console.log('error!');
         setIsPopupOpen(true);
