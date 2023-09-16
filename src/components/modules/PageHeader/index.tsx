@@ -25,7 +25,7 @@ import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const token = localStorage.getItem("foppy_auth_token");
+  const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
   const [dogs, setDogs] = useState([]);
 
   console.log(dogs);
