@@ -53,7 +53,7 @@ function DogCard(props: DogCardProps) {
 export default function NoseIdMatchSuccessPage() {
 
   const [dogs, setDogs] = useState<DogInfo[]>();
-  const petId = useSearchParams().get("petId")?.split(',');
+  const petId = typeof window !== 'undefined' ? useSearchParams().get("petId")?.split(',') : null;
 
   useEffect(() => {
     if (petId && petId.length > 0) {

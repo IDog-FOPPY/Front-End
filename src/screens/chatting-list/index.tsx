@@ -11,7 +11,7 @@ import PFImg from '@assets/png/profileImg.png';
 import Typo from '@components/core/Typo';
 import dayjs from "dayjs";
 
-const uid = parseInt(localStorage.getItem('foppy_user_uid') || '{}');
+const uid = typeof window !== 'undefined' ? parseInt(localStorage.getItem('foppy_user_uid') || '{}') : null;
 
 interface Chatting {
   roomId: number;
