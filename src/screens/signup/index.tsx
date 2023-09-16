@@ -27,7 +27,7 @@ export default function SignupPage() {
           nickName: name,
           phone: phone
         })
-        router.push('/login');
+        router.push('/');
 
         console.log('res', res);
       }
