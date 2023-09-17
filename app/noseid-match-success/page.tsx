@@ -10,7 +10,7 @@ import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
 import Link from "next/link";
 
-
+var i = 0;
 interface DogCardProps {
   dog: DogInfo;
 }
@@ -73,6 +73,7 @@ export default function NoseIdMatchSuccessPage() {
 
   useEffect(() => {
     console.log('dogs', dogs)
+    console.log('petId', petId);
   }, [dogs])
 
   return (
@@ -89,12 +90,20 @@ export default function NoseIdMatchSuccessPage() {
       </Typo>
 
       {dogs?.map(dog => {
+
+
+        console.log("petId[" + i + "]", petId ? petId[i] : null);
+        //console.log("map횟수", i++);
+        i++;
+
         return (
+
+
           <Link
             href={{
               pathname: "/chatting",
               query: {
-                id: petId,
+                id: petId ? petId[i - 1] : null,
                 state: "new",
               },
             }}
@@ -103,6 +112,7 @@ export default function NoseIdMatchSuccessPage() {
             <DogCard dog={dog} key={dog.name} />
           </Link>
         )
+
       }
       )}
     </div>
