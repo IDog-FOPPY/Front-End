@@ -61,16 +61,39 @@ export default function NoseIdMatchSuccessPage() {
 
   useEffect(() => {
     if (petId && petId.length > 0) {
-      const getDogs = () => {
+
+
+      // map 사용할경우 순서보장 안됨
+
+      // const getDogs = () => {
+      //   const temp: DogInfo[] = [];
+      //   petId.map(async (v) => {
+      //     if (v.length > 0) {
+      //       const appendDog = await getMyDog({ petId: parseInt(v) });
+
+      //       temp.push(appendDog);
+      //       console.log("v ==> ", v, "temp ==> ", temp);
+      //     }
+      //     setDogs(temp);
+      //   });
+
+      // }
+
+
+
+      // for문 사용하면 속도는 느리지만 순서보장됨
+      const getDogs = async () => {
         const temp: DogInfo[] = [];
-        petId.map(async (v) => {
-          if (v.length > 0) {
-            const appendDog = await getMyDog({ petId: parseInt(v) });
-            temp.push(appendDog);
-            setDogs(temp);
-          }
-        });
+
+
+        for (let i = 0; i < petId.length; i++) {
+          const appendDog = await getMyDog({ petId: parseInt(petId[i]) });
+          temp.push(appendDog);
+          setDogs(temp);
+        }
       }
+
+
       getDogs();
     }
   }, [])
@@ -79,6 +102,8 @@ export default function NoseIdMatchSuccessPage() {
     console.log('dogs', dogs)
     console.log('petId', petId);
   }, [dogs])
+
+
 
   return (
     <div className={styles.pageLayout}>
@@ -97,8 +122,10 @@ export default function NoseIdMatchSuccessPage() {
 
 
         console.log("petId[" + id + "]", petId ? petId[id] : null);
-        //console.log("map횟수", id++);
+        console.log("map횟수", id);
         id++;
+
+
 
         return (
 
