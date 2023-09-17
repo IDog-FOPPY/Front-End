@@ -10,7 +10,11 @@ import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
 import Link from "next/link";
 
-var i = 0;
+
+// dogId 쿼리에 담기위한 변수
+var id = 0;
+
+
 interface DogCardProps {
   dog: DogInfo;
 }
@@ -92,9 +96,9 @@ export default function NoseIdMatchSuccessPage() {
       {dogs?.map(dog => {
 
 
-        console.log("petId[" + i + "]", petId ? petId[i] : null);
-        //console.log("map횟수", i++);
-        i++;
+        console.log("petId[" + id + "]", petId ? petId[id] : null);
+        //console.log("map횟수", id++);
+        id++;
 
         return (
 
@@ -103,7 +107,7 @@ export default function NoseIdMatchSuccessPage() {
             href={{
               pathname: "/chatting",
               query: {
-                id: petId ? petId[i - 1] : null,
+                id: petId ? petId[id - 1] : null,
                 state: "new",
               },
             }}
