@@ -8,9 +8,9 @@ import Chatting, { ChatEl } from "@src/screens/chatting";
 
 export default function ChattingPage() {
 
-  const state = useSearchParams().get("state");
-  const id = parseInt(useSearchParams().get("id") || "{}");
-  const uid = parseInt(localStorage.getItem("foppy_user_uid") || "{}");
+  const state = typeof window !== 'undefined' ? useSearchParams().get("state") : null;
+  const id = typeof window !== 'undefined' ? parseInt(useSearchParams().get("id") || "{}") : null;
+  const uid = typeof window !== 'undefined' ? parseInt(localStorage.getItem("foppy_user_uid") || "{}") : null;
 
   const [roomId, setRoomId] = useState(0);
   const [receiverProfileImg, setReceiverProfileImg] = useState("");
@@ -36,7 +36,7 @@ export default function ChattingPage() {
 
       try {
         const getData = async () => {
-          if (state === "old") {
+          if (state === "old" && id) {
             const chatting = await getChatting(id);
             console.log("res", chatting);
             setRoomId(id);

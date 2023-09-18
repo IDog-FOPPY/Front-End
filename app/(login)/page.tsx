@@ -28,14 +28,16 @@ export default function LoginPage() {
   }, [])
 
   function deleteAllCookies() {
-    const cookies = document.cookie.split(";");
-
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i];
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    const cookies = typeof window !== 'undefined' ? document.cookie.split(";") : null;
+    if (cookies !== null) {
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        typeof window !== 'undefined' ? document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT" : null;
+      }
     }
+
   }
 
 
@@ -49,9 +51,9 @@ export default function LoginPage() {
       console.log('res', res);
       console.log('res.data.token', res.data.accessToken);
       if (res?.data.accessToken) {
-        localStorage.setItem('foppy_auth_token', res.data?.accessToken);
-        localStorage.setItem('foppy_user_uid', res.data?.userId);
-        router.push('/');
+        typeof window !== 'undefined' ? localStorage.setItem('foppy_auth_token', res.data?.accessToken) : null;
+        typeof window !== 'undefined' ? localStorage.setItem('foppy_user_uid', res.data?.userId) : null;
+        router.push('/main');
       } else {
         console.log('error!');
         setIsPopupOpen(true);

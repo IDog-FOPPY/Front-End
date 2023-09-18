@@ -11,7 +11,7 @@ import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 import Send from '@assets/svg/messageSend.svg';
 import { useRouter } from "next/navigation";
 
-const token = "Bearer " + localStorage.getItem("foppy_auth_token");
+const token = typeof window !== 'undefined' ? "Bearer " + localStorage.getItem("foppy_auth_token") : null;
 
 interface Chatting {
   roomId: number;
@@ -47,7 +47,7 @@ export interface ShowChatEl {
 
 const ShowChatting = (props: ShowChattingProps) => {
   const { content, receiverProfileImg, receiverNickname, senderId, createdAt, showImg } = props;
-  const myId = localStorage.getItem("foppy_user_uid");
+  const myId = typeof window !== 'undefined' ? localStorage.getItem("foppy_user_uid") : null;
 
 
   return (
@@ -87,7 +87,7 @@ const ShowChatting = (props: ShowChattingProps) => {
 export default function ChattingPage(props: Chatting) {
 
   const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
-  const myId = localStorage.getItem("foppy_user_uid");
+  const myId = typeof window !== 'undefined' ? localStorage.getItem("foppy_user_uid") : null;
   const router = useRouter();
 
 
@@ -130,31 +130,44 @@ export default function ChattingPage(props: Chatting) {
   }, [roomId]);
   const connect = () => {
 
+    if (token) {
 
-    //console.log(id);
-    client.current = new StompJs.Client({
-      webSocketFactory: () => new SockJS("http://3.36.48.247:8080/ws/chat"),
-      connectHeaders: {
-        'Authorization': token,
-      },
-      debug: function (str) {
-        console.log(str);
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-      onConnect: (frame: any) => {
-        console.log("frame", frame);
-        client.current.subscribe('/sub/room/' + roomId, function (result: any) {
-          console.log("채팅 res", JSON.parse(result.body));
-          setChatMessage(JSON.parse(result.body));
-        }
-        );
-      },
-      onStompError: (frame) => {
-        console.error(frame);
-      },
-    });
+
+
+
+      //console.log(id);
+      client.current = new StompJs.Client({
+        webSocketFactory: () => new SockJS("http://54.180.156.211:8080/ws/chat"),
+        connectHeaders: {
+          'Authorization': token,
+        },
+        debug: function (str) {
+          console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+        onConnect: (frame: any) => {
+          console.log("frame", frame);
+          client.current.subscribe('/sub/room/' + roomId, function (result: any) {
+            console.log("채팅 res", JSON.parse(result.body));
+            setChatMessage(JSON.parse(result.body));
+          }
+          );
+        },
+        onStompError: (frame) => {
+          console.error(frame);
+        },
+      });
+
+
+
+    }
+
+
+
+
+
 
     client.current.activate();
   };

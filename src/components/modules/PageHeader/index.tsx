@@ -19,12 +19,13 @@ import styles from "./styles.module.scss";
 import { getDogs } from "@src/logics/axios";
 import Image from "next/image";
 import { DogInfo } from "@src/types/dogInfo";
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const token = localStorage.getItem("foppy_auth_token");
+  const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
   const [dogs, setDogs] = useState([]);
 
   console.log(dogs);
@@ -46,7 +47,8 @@ export default function PageHeader() {
     <>
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
-        {token && 
+        <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
+        {token &&
           <ChattingIcon
             className={styles.chattingIcon}
             width="36px"

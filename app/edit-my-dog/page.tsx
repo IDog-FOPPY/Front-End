@@ -8,7 +8,7 @@ import InputDog from '@src/components/modules/InputDog';
 export default function EditMyDogPage() {
 
   // id값에 맞는 개 정보 받아와야함
-  const petId = useSearchParams().get("id");
+  const petId = typeof window !== 'undefined' ? useSearchParams().get("id") : null;
   const [dog, setDog] = useState({});
 
   useEffect(() => {

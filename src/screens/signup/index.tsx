@@ -8,7 +8,7 @@ import logo from '@assets/Logo.png';
 import styles from "./styles.module.scss";
 import { signup } from '@src/logics/axios';
 
-export default function signupPage() {
+export default function SignupPage() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [chkPw, setChkPw] = useState("");
@@ -27,7 +27,7 @@ export default function signupPage() {
           nickName: name,
           phone: phone
         })
-        router.push('/login');
+        router.push('/');
 
         console.log('res', res);
       }
