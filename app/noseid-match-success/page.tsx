@@ -61,36 +61,28 @@ export default function NoseIdMatchSuccessPage() {
 
   useEffect(() => {
     if (petId && petId.length > 0) {
-
-
       // map 사용할경우 순서보장 안됨
-
       // const getDogs = () => {
       //   const temp: DogInfo[] = [];
       //   petId.map(async (v) => {
       //     if (v.length > 0) {
       //       const appendDog = await getMyDog({ petId: parseInt(v) });
-
       //       temp.push(appendDog);
       //       console.log("v ==> ", v, "temp ==> ", temp);
       //     }
       //     setDogs(temp);
       //   });
-
       // }
-
-
 
       // for문 사용하면 속도는 느리지만 순서보장됨
       const getDogs = async () => {
         const temp: DogInfo[] = [];
 
-
         for (let i = 0; i < petId.length; i++) {
           const appendDog = await getMyDog({ petId: parseInt(petId[i]) });
           temp.push(appendDog);
-          setDogs(temp);
         }
+          setDogs(temp);
       }
 
 
@@ -98,12 +90,10 @@ export default function NoseIdMatchSuccessPage() {
     }
   }, [])
 
-  useEffect(() => {
-    console.log('dogs', dogs)
-    console.log('petId', petId);
-  }, [dogs])
-
-
+  // useEffect(() => {
+  //   console.log('dogs', dogs)
+  //   console.log('petId', petId);
+  // }, [dogs])
 
   return (
     <div className={styles.pageLayout}>
@@ -119,17 +109,10 @@ export default function NoseIdMatchSuccessPage() {
       </Typo>
 
       {dogs?.map(dog => {
-
-
         console.log("petId[" + id + "]", petId ? petId[id] : null);
         console.log("map횟수", id);
         id++;
-
-
-
         return (
-
-
           <Link
             href={{
               pathname: "/chatting",
@@ -137,8 +120,8 @@ export default function NoseIdMatchSuccessPage() {
                 id: petId ? petId[id - 1] : null,
                 state: "new",
               },
-            }}
-          //key={el.id}
+            }}  
+            key={dog.id}
           >
             <DogCard dog={dog} key={dog.name} />
           </Link>
