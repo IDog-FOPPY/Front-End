@@ -1,30 +1,31 @@
 import { StaticImageData } from "next/image";
 
 export interface DogInfo {
+  //img?: StaticImageData;
   id?: number;
-  img: StaticImageData;
-  // img?:StaticImageData; 이 경우 에러
-
-  name?: string;
-  age?: number;
-  sex?: string;
-  neutered?: boolean;
+  name?: string | undefined;
+  sex?: string; // (true 여자 false 남자)
   breed?: string;
-  memo?: string;
+  birth?: string;
   disease?: string;
-  reported?: boolean;
+  neutered?: boolean;
+  note?: string;
 
-  //실종장소Info 저장 방법 논의필요
-  //시,구,동 따로? 이어서?
-  //이어서 저장할경우 editPage에 뿌릴 때 시구동 분리과정 전처리 필요
-  //따로 저장할경우 유기견게시판에 실종장소 넣을때 {구}{동}{상세}으로 변경해야함
-  //addr1 시
-  //addr2 구
-  //addr3 동
-  //addr4 상세
+  //이 경우 string이라서 등록페이지에서 사진업로드 불가능
+  // imgUrlList?: string[] | undefined;
+  imgUrlList?: string[] | undefined;
 
-  lostDate?: string;
-  lostTime?: string;
-  lostFeat?: string;
+  imgUrl?: string;
 
+  // 이 경우 등록페이지에서 사진업로드 가능
+  // imgUrlList?: File[] | undefined;
+
+  isMissing?: boolean;
+  missingCity?: string;
+  missingGu?: string;
+  missingDong?: string;
+  missingDetailedLocation?: string;
+  missTime?: string;
+  missDate?: string;
+  etc?: string;
 }

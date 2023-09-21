@@ -1,0 +1,87 @@
+.pageLayout {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 100px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: inherit;
+  margin: 0 auto;
+  background-color: $white;
+  min-height: 100vh;
+  padding-bottom: 30px;
+
+
+
+  .logo {
+    width: 200px;
+    height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 80px;
+  }
+
+
+  .loginBox {
+    width: 280px;
+    height: 40px;
+    border: 1px solid #EECD6D;
+    border-radius: 15px;
+    padding: 0px 20px;
+    margin-bottom: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .loginBtn {
+    width: 120px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #EECD6D;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.loginFailedPopupBg {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  .popup {
+    position: fixed;
+    z-index: 2;
+    top: 200px;
+    left: calc(50% - 140px);
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    padding: 35px 20px 30px;
+
+    .searchBtn {
+      display: inline;
+      padding: 10px 25px;
+      background-color: rgba(0, 116, 221, 1);
+      border-radius: 50px;
+      margin-top: 10px;
+    }
+  }
+}
