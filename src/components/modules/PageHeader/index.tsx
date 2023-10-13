@@ -15,21 +15,21 @@ import CommunityIcon from "@assets/svg/drawer/community.svg";
 import CsIcon from "@assets/svg/drawer/cs.svg";
 import FaqIcon from "@assets/svg/drawer/faq.svg";
 import LogoutIcon from "@assets/svg/drawer/logout.svg";
-import PencilIcon from "@assets/svg/header/pencil.svg";
+//import PencilIcon from "@assets/svg/header/pencil.svg";
 import { DogInfo } from "@src/types/dogInfo";
 import styles from "./styles.module.scss";
 import { getDogs } from "@src/logics/axios";
 import Image from "next/image";
-import { DogInfo } from "@src/types/dogInfo";
+//import { DogInfo } from "@src/types/dogInfo";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
 
-const DogList: DogInfo[] = [
-  { id: 0, img: dogEx, name: "코코" },
-  { id: 1, img: dogEx, name: "코코" },
-  { id: 2, img: dogEx, name: "코코" },
-  { id: 3, img: dogEx, name: "코코" },
-  { id: 4, img: dogEx, name: "코코" },
-];
+// const DogList: DogInfo[] = [
+//   { id: 0, img: dogEx, name: "코코" },
+//   { id: 1, img: dogEx, name: "코코" },
+//   { id: 2, img: dogEx, name: "코코" },
+//   { id: 3, img: dogEx, name: "코코" },
+//   { id: 4, img: dogEx, name: "코코" },
+// ];
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
