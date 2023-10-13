@@ -84,17 +84,6 @@ export default function ChattingListPage({ chattings }: { chattings: any }) {
 
   const router = useRouter();
 
-  //   const onClick = (id : number) => {
-  //     router.push(
-  // {
-  //   pathname: "/chatting",
-  //   query: {
-  //     chattingState: "old",
-  //     id: id,
-  //   },
-  // },
-  //     );
-  //   };
 
   return (
     <div className={styles.pageLayout}>
@@ -121,7 +110,6 @@ export default function ChattingListPage({ chattings }: { chattings: any }) {
               <ChattingList
                 chatting={chat}
                 key={chat.roomId}
-              // onClick={() => onClick(chat.id)}
               />
             </Link>
           );

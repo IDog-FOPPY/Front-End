@@ -132,9 +132,6 @@ export default function ChattingPage(props: Chatting) {
 
     if (token) {
 
-
-
-
       //console.log(id);
       client.current = new StompJs.Client({
         webSocketFactory: () => new SockJS("http://54.180.156.211:8080/ws/chat"),
@@ -159,14 +156,7 @@ export default function ChattingPage(props: Chatting) {
           console.error(frame);
         },
       });
-
-
-
     }
-
-
-
-
 
 
     client.current.activate();
@@ -186,10 +176,6 @@ export default function ChattingPage(props: Chatting) {
   };
 
   // ------------------------------------------------------------
-
-
-
-
 
   return (
     <>

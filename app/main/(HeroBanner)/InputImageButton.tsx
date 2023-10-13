@@ -22,7 +22,6 @@ export default function InputImageButton() {
     if (img) {
       const post = async () => {
         const res = await postNoseIdent(img[0]);
-        // const res = {dogID:[6,7,6], top_3:[]}; // 임시
         console.log('res', res.data);
         if (res.data[0].code === 200) {
           console.log('success!');

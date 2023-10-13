@@ -61,18 +61,6 @@ export default function NoseIdMatchSuccessPage() {
 
   useEffect(() => {
     if (petId && petId.length > 0) {
-      // map 사용할경우 순서보장 안됨
-      // const getDogs = () => {
-      //   const temp: DogInfo[] = [];
-      //   petId.map(async (v) => {
-      //     if (v.length > 0) {
-      //       const appendDog = await getMyDog({ petId: parseInt(v) });
-      //       temp.push(appendDog);
-      //       console.log("v ==> ", v, "temp ==> ", temp);
-      //     }
-      //     setDogs(temp);
-      //   });
-      // }
 
       // for문 사용하면 속도는 느리지만 순서보장됨
       const getDogs = async () => {
@@ -82,7 +70,7 @@ export default function NoseIdMatchSuccessPage() {
           const appendDog = await getMyDog({ petId: parseInt(petId[i]) });
           temp.push(appendDog);
         }
-          setDogs(temp);
+        setDogs(temp);
       }
 
 
@@ -120,7 +108,7 @@ export default function NoseIdMatchSuccessPage() {
                 id: petId ? petId[id - 1] : null,
                 state: "new",
               },
-            }}  
+            }}
             key={dog.id}
           >
             <DogCard dog={dog} key={dog.name} />
