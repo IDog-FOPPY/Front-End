@@ -15,6 +15,13 @@ export default function LoginPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const router = useRouter();
 
+  const [isSplash, setIsSplash] = useState(true);
+  useEffect(() => {
+    let timer = setTimeout(() => { setIsSplash(false) }, 3000);
+    return () => { clearTimeout(timer) }
+  }, [isSplash])
+
+
   useEffect(() => {
     deleteAllCookies();
     caches.keys().then(function (keyList) {
@@ -41,7 +48,6 @@ export default function LoginPage() {
   }
 
 
-
   const onComplete = async () => {
     if (id && pw) {
       const res = await login({
@@ -64,7 +70,37 @@ export default function LoginPage() {
   return (
     <>
       <div className={styles.pageLayout}>
-        <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
+        {
+          isSplash ?
+            <div className={styles.splashLogo} style={{ backgroundImage: `url(${logo.src})` }} />
+            :
+            <>
+              <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
+
+              <input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} className={styles.loginBox} />
+              <input type="text" placeholder="비밀번호" value={pw} onChange={(e) => setPw(e.target.value)} className={styles.loginBox} />
+              <Typo color="#606060" variant="caption" style={{ marginLeft: "auto" }}>
+                비회원으로 포마이펫 이용하기
+              </Typo>
+
+              <div className={styles.loginBtn} onClick={onComplete}>
+                <Typo color="white" variant="t3">
+                  로그인하기
+                </Typo>
+              </div>
+
+              <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }} onClick={() => router.push('/signup')}>
+                회원가입
+              </Typo>
+              <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }}>
+                아이디 찾기 / 비밀번호 찾기
+              </Typo>
+
+              {isPopupOpen && <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />}
+            </>
+
+        }
+        {/* <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
 
         <input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} className={styles.loginBox} />
         <input type="text" placeholder="비밀번호" value={pw} onChange={(e) => setPw(e.target.value)} className={styles.loginBox} />
@@ -85,7 +121,8 @@ export default function LoginPage() {
           아이디 찾기 / 비밀번호 찾기
         </Typo>
 
-        {isPopupOpen && <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />}
+        {isPopupOpen && <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />} */}
+
       </div>
     </>
   )
