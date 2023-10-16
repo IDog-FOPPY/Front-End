@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from "react";
+import * as StompJs from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 import { useRouter } from 'next/navigation';
 import Typo from '@components/core/Typo';
 import logo from '@assets/Logo.png';
-import { login } from '@src/logics/axios';
+import { login, getChattingList } from '@src/logics/axios';
 import LoginFailedPopup from './LoginFailedPopup';
 import styles from './styles.module.scss';
 
@@ -48,6 +50,68 @@ export default function LoginPage() {
   }
 
 
+  // 로그인 할 때마다 모든 채팅방에 subscribe 
+  interface Chatting {
+    roomId: number;
+    lastMessage: string;
+    lastMessageCreatedAt: string;
+    members: [
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+    ]
+  }
+  const [chattings, setChattings] = useState([]);
+  const client: any = useRef({});
+  useEffect(() => {
+    console.log("chattingList : ", chattings);
+    connect(chattings);
+  }, [chattings])
+
+  const connect = (chattings: Chatting[]) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
+    console.log("connect 호출, chattings: ", chattings);
+
+    chattings.map((chat: Chatting) => {
+      if (token) {
+        console.log("subscribe roomId : ", chat.roomId);
+        client.current = new StompJs.Client({
+          webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
+          connectHeaders: {
+            'Authorization': token,
+          },
+          debug: function (str) {
+            console.log(str);
+          },
+          reconnectDelay: 5000,
+          heartbeatIncoming: 4000,
+          heartbeatOutgoing: 4000,
+
+          onConnect: (frame: any) => {
+            console.log("frame", frame);
+            client.current.subscribe('/sub/room/' + chat.roomId);
+          },
+          onStompError: (frame) => {
+            console.error(frame);
+          },
+        });
+      }
+
+      client.current.activate();
+    })
+
+  };
+
+
+
+
   const onComplete = async () => {
     if (id && pw) {
       const res = await login({
@@ -59,13 +123,16 @@ export default function LoginPage() {
       if (res?.data.accessToken) {
         typeof window !== 'undefined' ? localStorage.setItem('foppy_auth_token', res.data?.accessToken) : null;
         typeof window !== 'undefined' ? localStorage.setItem('foppy_user_uid', res.data?.userId) : null;
+        setChattings(await getChattingList());
         router.push('/main');
       } else {
         console.log('error!');
         setIsPopupOpen(true);
       }
+
     }
   }
+
 
   return (
     <>
