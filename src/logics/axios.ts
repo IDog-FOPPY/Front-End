@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 export const axios = typeof window !== 'undefined' ? Axios.create({
-  baseURL: "http://54.180.156.211:8080/api",
+  baseURL: "http://3.36.63.57:8080/api",
   // timeout: 30000,
   headers: {
     Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
