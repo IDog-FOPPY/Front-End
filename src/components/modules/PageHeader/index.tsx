@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Typo from "@components/core/Typo";
@@ -19,6 +19,11 @@ import styles from "./styles.module.scss";
 import { getDogs } from "@src/logics/axios";
 import Image from "next/image";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+
+import { getChattingList } from '@src/logics/axios';
+import * as StompJs from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+
 
 
 // 현재 모바일 화면 기준
@@ -43,8 +48,100 @@ export default function PageHeader() {
     else document.body.style.overflow = "auto";
   }, [open]);
 
+
+
+
+
+
+  // 로그인 할 때마다 모든 채팅방에 subscribe 
+  interface Chatting {
+    roomId: number;
+    lastMessage: string;
+    lastMessageCreatedAt: string;
+    members: [
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+    ]
+  }
+
+  interface ShowChatEl {
+    senderId: number;
+    content: string;
+    roomId: number;
+  }
+
+  const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
+  const [chatMessage, setChatMessage] = useState<ShowChatEl>();
+  const client: any = useRef({});
+  useEffect(() => {
+    const getData = async () => {
+      setChattings(await getChattingList());
+    };
+    getData();
+  }, []);
+  useEffect(() => {
+    console.log("chattingList : ", chattings);
+    connect(chattings);
+  }, [chattings])
+  useEffect(() => {
+    console.log("ChatMessage", chatMessage);
+  }, [chatMessage]);
+
+  const connect = (chattings: Chatting[]) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
+    console.log("connect 호출, chattings: ", chattings);
+
+    chattings.map((chat: Chatting) => {
+      if (token) {
+        console.log("subscribe roomId : ", chat.roomId);
+        client.current = new StompJs.Client({
+          webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
+          connectHeaders: {
+            'Authorization': token,
+          },
+          debug: function (str) {
+            console.log(str);
+          },
+          reconnectDelay: 5000,
+          heartbeatIncoming: 4000,
+          heartbeatOutgoing: 4000,
+
+          onConnect: (frame: any) => {
+            console.log("frame", frame);
+            client.current.subscribe('/sub/room/' + chat.roomId, function (result: any) {
+              console.log("알람 res", JSON.parse(result.body));
+              setChatMessage(JSON.parse(result.body));
+            });
+          },
+          onStompError: (frame) => {
+            console.error(frame);
+          },
+        });
+      }
+
+      client.current.activate();
+    })
+
+  };
+
+
+
+
+
+
+
+
   return (
     <>
+      {chatMessage?.content}
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
         <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
