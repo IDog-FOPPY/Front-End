@@ -26,6 +26,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    z-index: 999;
+    background-color: white;
+
 
     .backBtn {
       margin-left: 20px;
@@ -37,6 +41,9 @@
   }
 
   .contentLayout {
+    position: relative;
+    top: 80px;
+
     @include mobile {
       padding: 20px 30px;
     }

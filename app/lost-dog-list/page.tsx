@@ -4,14 +4,12 @@
 import { useEffect, useState } from 'react';
 import Typo from '@components/core/Typo';
 import Link from 'next/link'
-
 import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from '@src/components/modules/AddressDropdown';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
-
 
 import "dayjs/locale/ko";
 import { Dayjs } from "dayjs";
@@ -27,21 +25,25 @@ export default function LostDogList() {
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
   const [dateFormat, setDateFormat] = useState("");
-
   const [dogs, setDogs] = useState([]);
 
 
   const onComplete = async () => {
-    //console.log(name, sex, breed, age, neutered, reported);
-    if (addr2 && breed && missDate) {
-      // console.log('dateFormat',dateFormat)
-      // setDateFormat(missDate.format("YYYY-MM-DD"))
-      const res = await getStrayDogs({
+    if (missDate === undefined) {
+      setDogs(await getStrayDogs({
+        breed: breed,
+        missingGu: addr2,
+        startDate: undefined
+      }))
+    }
+    else {
+
+      setDogs(await getStrayDogs({
         breed: breed,
         missingGu: addr2,
         startDate: missDate.format("YYYY-MM-DD")
-      })
-      setDogs(res);
+      }))
+
     }
   }
 
@@ -56,9 +58,6 @@ export default function LostDogList() {
   useEffect(() => {
     console.log('dogs', dogs)
   }, [dogs])
-
-
-  // missDate.format("YYYY-MM-DD"), addr2, breed, 백에 PUSH
 
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
@@ -190,24 +189,25 @@ export default function LostDogList() {
         }
       </div>
       <div className={styles.dogList}>
-        {dogs.map((dog: DogInfo) => {
-          return (
-            <Link
-              href={{
-                pathname: "/chatting",
-                query: {
-                  id: dog.id,
-                  state: "new",
-                },
-              }}
-              // as="/chatting"
-              key={dog.id}
-            >
-              <DogCard dog={dog} key={dog.id} />
-            </Link>
+        {dogs &&
+          dogs.map((dog: DogInfo) => {
+            return (
+              <Link
+                href={{
+                  pathname: "/chatting",
+                  query: {
+                    id: dog.id,
+                    state: "new",
+                  },
+                }}
+                // as="/chatting"
+                key={dog.id}
+              >
+                <DogCard dog={dog} key={dog.id} />
+              </Link>
 
-          )
-        })}
+            )
+          })}
       </div>
     </div>
   )

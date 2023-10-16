@@ -118,7 +118,7 @@ const DogCard = (props: DogCardProps) => {
 };
 
 export default function DogRegister() {
- 
+
   const [dogs, setDogs] = useState([]);
 
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function DogRegister() {
     };
 
     const token = localStorage.getItem("foppy_auth_token");
-    if(token) getData();
+    if (token) getData();
   }, []);
 
   return (
@@ -159,19 +159,20 @@ export default function DogRegister() {
       </div>
 
       <div className={styles.dogList}>
-        {dogs?.map((el: DogInfo) => {
-          return (
-            <Link
-              href={{
-                pathname: "/edit-my-dog",
-                query: { id: el.id },
-              }}
-              key={el.id}
-            >
-              <DogCard dog={el} key={el.id} />
-            </Link>
-          );
-        })}
+        {dogs.length > 0 &&
+          dogs?.map((el: DogInfo) => {
+            return (
+              <Link
+                href={{
+                  pathname: "/edit-my-dog",
+                  query: { id: el.id },
+                }}
+                key={el.id}
+              >
+                <DogCard dog={el} key={el.id} />
+              </Link>
+            );
+          })}
       </div>
 
       <Link href="/add-my-dog">

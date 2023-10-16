@@ -6,7 +6,6 @@ import Link from "next/link";
 import Typo from "@components/core/Typo";
 import DrawerIcon from "@assets/svg/drawer.svg";
 import ChattingIcon from "@assets/svg/main/chatting.svg";
-
 import PencilIcon from "@assets/svg/drawer/pencil.svg";
 import FootprintIcon from "@assets/svg/drawer/footprint.svg";
 import DogIcon from "@assets/svg/drawer/dog.svg";
@@ -15,16 +14,18 @@ import CommunityIcon from "@assets/svg/drawer/community.svg";
 import CsIcon from "@assets/svg/drawer/cs.svg";
 import FaqIcon from "@assets/svg/drawer/faq.svg";
 import LogoutIcon from "@assets/svg/drawer/logout.svg";
+import { DogInfo } from "@src/types/dogInfo";
 import styles from "./styles.module.scss";
 import { getDogs } from "@src/logics/axios";
 import Image from "next/image";
-import { DogInfo } from "@src/types/dogInfo";
+import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
   const [dogs, setDogs] = useState([]);
 
   console.log(dogs);
@@ -34,7 +35,6 @@ export default function PageHeader() {
       setDogs(await getDogs());
     };
 
-    const token = localStorage.getItem("foppy_auth_token");
     if (token) getData();
   }, []);
 
@@ -47,12 +47,14 @@ export default function PageHeader() {
     <>
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
-        <ChattingIcon
-          className={styles.chattingIcon}
-          width="36px"
-          height="36px"
-          onClick={() => router.push("/chatting-list")}
-        />
+        <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
+        {token &&
+          <ChattingIcon
+            className={styles.chattingIcon}
+            width="36px"
+            height="36px"
+            onClick={() => router.push("/chatting-list")}
+          />}
         {/* </Link> */}
 
         <DrawerIcon

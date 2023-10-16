@@ -1,80 +1,79 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getChatting } from "@src/logics/axios";
 import { postNewChatting } from "@src/logics/axios";
-import Chatting from "@src/screens/chatting";
-
-
-
+import Chatting, { ChatEl } from "@src/screens/chatting";
 
 export default function ChattingPage() {
-  const state = useSearchParams().get("state");
-  const id = parseInt(useSearchParams().get("id") || "{}");
-  const uid = parseInt(localStorage.getItem("foppy_user_uid") || "{}");
 
-  // console.log("state, id, uid", state, id, uid);
+  const state = typeof window !== 'undefined' ? useSearchParams().get("state") : null;
+  const id = typeof window !== 'undefined' ? parseInt(useSearchParams().get("id") || "{}") : null;
+  const uid = typeof window !== 'undefined' ? parseInt(localStorage.getItem("foppy_user_uid") || "{}") : null;
 
-  const [senderId, setSenderId] = useState(0);
-  const [receiverId, setReceiverId] = useState(0);
   const [roomId, setRoomId] = useState(0);
-  const [senderProfileImg, setSenderProfileImg] = useState("");
   const [receiverProfileImg, setReceiverProfileImg] = useState("");
-  const [senderNickname, setSenderNickname] = useState("");
   const [receiverNickname, setReceiverNickname] = useState("");
+  const [existingChat, setExistingChat] = useState<ChatEl[]>([]);
+
+  const [didMount, setDidMount] = useState(false)
+
+  var mountCount = 0;
+  useEffect(() => {
+    console.log('mount: ', mountCount)
+    mountCount++
+    setDidMount(true)
+    return () => {
+      console.log('unmount')
+    }
+  }, [])
 
 
-  try {
+  useEffect(() => {
+    console.log('didMount: ', didMount)
+    if (didMount) {
 
-    const getData = async () => {
-      if (state === "old") {
-        const chatting = await getChatting(id);
-        console.log("res", chatting);
-        setRoomId(id);
-        setSenderId(uid);
-        if (chatting.member1Id === uid) {
-          setSenderProfileImg(chatting.member1ProfileImgUrl);
-          setSenderNickname(chatting.member1Nickname);
+      try {
+        const getData = async () => {
+          if (state === "old" && id) {
+            const chatting = await getChatting(id);
+            console.log("res", chatting);
+            setRoomId(id);
+            setExistingChat(chatting.chatMessages);
+            if (chatting.members[0].id === uid) {
+              setReceiverProfileImg(chatting.members[1].profileImgUrl);
+              setReceiverNickname(chatting.members[1].nickName);
 
-          setReceiverId(chatting.member2Id);
-          setReceiverProfileImg(chatting.member2ProfileImgUrl);
-          setReceiverNickname(chatting.member2Nickname);
+            } else if (chatting.members[1].id === uid) {
+              setReceiverProfileImg(chatting.members[0].profileImgUrl);
+              setReceiverNickname(chatting.members[0].nickName);
+            }
+            else console.log("err");
 
+          } else if (state === "new") {
+            if (id) {
+              console.log("새채팅생성", id);
+              const chatting = await postNewChatting({
+                dogId: id,
+              });
+              console.log("새채팅생성 res", chatting);
 
-        } else if (chatting.member2Id === uid) {
-          setSenderProfileImg(chatting.member2ProfileImgUrl);
-          setSenderNickname(chatting.member2Nickname);
+              setRoomId(chatting.data.roomId);
+              setReceiverProfileImg(chatting.data.otherUsers[0].profileImgUrl);
+              setReceiverNickname(chatting.data.otherUsers[0].nickName);
 
-          setReceiverId(chatting.member1Id);
-          setReceiverProfileImg(chatting.member1ProfileImgUrl);
-          setReceiverNickname(chatting.member1Nickname);
-
-
-        }
-        else console.log("err");
-
-      } else if (state === "new") {
-        if (uid && id) {
-          console.log("새채팅생성");
-          const chatting = await postNewChatting({
-            userId: uid,
-            dogId: id,
-          });
-          console.log("새채팅생성 res", chatting);
-          setSenderId(chatting.data.senderId);
-          setReceiverId(chatting.data.receiverId);
-          setRoomId(chatting.data.roomId);
-        }
+            }
+          }
+        };
+        getData();
+      } catch (err) {
+        console.log(err);
       }
-    };
-    getData();
+    }
+  }, [didMount]);
 
-
-  } catch (err) {
-    console.log(err);
-  }
-
-
-
-  return <Chatting roomId={roomId} senderId={senderId} receiverId={receiverId} senderProfileImg={senderProfileImg} receiverProfileImg={receiverProfileImg} senderNickname={senderNickname} receiverNickname={receiverNickname} />;
+  // 메시지 전송시 roomId만 필요
+  // 화면 출력 위해 receiver nickName, profileImg 필요
+  return <Chatting roomId={roomId} receiverProfileImg={receiverProfileImg} receiverNickname={receiverNickname} existingChat={existingChat} />;
 }

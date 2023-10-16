@@ -146,7 +146,7 @@ export default function InputDog(props: InputDogdogInfo) {
           neutered: neutered === true ? true : false,
         }, file: imgUrlList
       });
-      router.push('/');
+      router.push('/main');
     }
     else if (pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
@@ -168,7 +168,8 @@ export default function InputDog(props: InputDogdogInfo) {
         etc: etc
 
 
-      })
+      });
+      router.push('/main');
 
       console.log("반려견 수정 성공", {
         name: name,
@@ -189,20 +190,7 @@ export default function InputDog(props: InputDogdogInfo) {
         etc: etc
 
       }, res);
-      // console.log("반려견 수정 성공", {
-      //   petName: name,
-      //   petSex: sex === '여아' ? true : false,
-      //   petBreed: breed,
-      //   petOld: age,
-      //   disease: disease,
-      //   neutered: neutered,
-      //   note: memo,
-      //   missed: reported,
-      //   missCity: addr1,
-      //   missGu: addr2,
-      //   missDong: addr3,
-      //   missDetail: addr4,
-      // }, res);
+
     }
     else console.log("error");
   }
@@ -211,7 +199,6 @@ export default function InputDog(props: InputDogdogInfo) {
     setAddr1(str1);
     setAddr2(str2);
     setAddr3(str3);
-    //console.log(addr1, addr2, addr3);
   }
 
   const removeImage = (index: number) => {
@@ -245,35 +232,10 @@ export default function InputDog(props: InputDogdogInfo) {
     const hour = parseDate(e.hour());
     const minute = parseDate(e.minute());
     const time = hour + ':' + minute;
-    //console.log('time', time);
     return time;
   }
 
 
-  // const AgeDropdown = () => {
-  //   if (isAgeOpen === true)
-  //     return (
-  //       <div className={styles.dropdown}>
-  //         {ageEl.map((e, index) => {
-  //           return (
-  //             <div
-  //               className={styles.dropdownEl}
-  //               onClick={() => {
-  //                 setIsAgeOpen(false);
-  //                 setAge(index);
-  //               }}
-  //               key={index}
-  //             >
-  //               <Typo color="black" variant="caption">
-  //                 {index}
-  //               </Typo>
-  //             </div>
-  //           );
-  //         })}
-  //       </div>
-  //     );
-  //   else return <div></div>;
-  // };
 
   const SexDropdown = () => {
     if (isSexOpen === true)
@@ -333,7 +295,7 @@ export default function InputDog(props: InputDogdogInfo) {
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
-          <div className={styles.backBtn}><ArrowLeft /></div>
+          <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
           <Typo variant="t2" bold color="black">{pageTitle}</Typo>
           <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
           {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo> */}
@@ -353,50 +315,58 @@ export default function InputDog(props: InputDogdogInfo) {
               </Typo>
             </div>
             <div className={styles.imageBoxSection}>
-              <div className={styles.addImageBox}>
-                <input
-                  multiple
-                  type="file"
-                  onChange={onLoadFile}
-                  accept="image/*"
-                />
-                <Album />
-                <Typo variant="footnote" color="#606060">
-                  <Typo
-                    variant="footnote"
-                    color="#0074DD"
-                    style={{ display: "inline" }}
-                  >
-                    {imgNum}
+              {pageTitle !== "반려견 수정하기" &&
+                <div className={styles.addImageBox}>
+                  <input
+                    multiple
+                    type="file"
+                    onChange={onLoadFile}
+                    accept="image/*"
+                  />
+                  <Album />
+                  <Typo variant="footnote" color="#606060">
+                    <Typo
+                      variant="footnote"
+                      color="#0074DD"
+                      style={{ display: "inline" }}
+                    >
+                      {imgNum}
+                    </Typo>
+                    /10
                   </Typo>
-                  /10
-                </Typo>
-              </div>
+                </div>
+              }
               <div className={styles.imageBoxWrapper}>
 
-                {imgUrlList?.map((imageItem, index) => {
-                  const url = URL.createObjectURL(imageItem);
-                  console.log('url', url);
-                  console.log('imgUrlList', imgUrlList);
-                  return (
-                    <div className={styles.imageBox} key={url}>
-                      <div
-                        style={{ backgroundImage: `url(${url})` }}
-                        className={styles.image}
-                      />
-                      <div
-                        className={styles.removeBtn}
-                        onClick={() => removeImage(index)}
-                      >
-                        X
+                {pageTitle === "반려견 수정하기" ?
+                  dogInfo?.imgUrlList?.map((img: string) => {
+                    return (
+                      <div className={styles.imageBox} key={img}>
+                        <img src={img} className={styles.image} />
                       </div>
-                    </div>
-                  );
-                })}
-
-
-
-
+                    )
+                  })
+                  :
+                  imgUrlList?.map((imageItem, index) => {
+                    const url = URL.createObjectURL(imageItem);
+                    console.log('url', url);
+                    console.log('imgUrlList', imgUrlList);
+                    return (
+                      <div className={styles.imageBox} key={url}>
+                        <div
+                          style={{ backgroundImage: `url(${url})` }}
+                          className={styles.image}
+                        />
+                        <div
+                          className={styles.removeBtn}
+                          onClick={() => removeImage(index)}
+                        >
+                          X
+                        </div>
+                      </div>
+                    );
+                  })
+                }
 
                 {/* {imgList?.map((imageItem, index) => {
                   //const url = URL.createObjectURL(imageItem);
@@ -432,8 +402,7 @@ export default function InputDog(props: InputDogdogInfo) {
               color="black"
               className={styles.contentTitle}
             >
-              {console.log(dayjs(dogInfo?.birth, dateFormat))}
-              생년월일 
+              생년월일
             </Typo>
             <DatePicker
               locale={locale}
@@ -443,20 +412,6 @@ export default function InputDog(props: InputDogdogInfo) {
               // defaultValue={dayjs(dogInfo?.birth, dateFormat)}
               onChange={(e) => { setBirth(onParseDate(e)) }}
             />
-
-
-            {/* <div className={styles.ageBoxWrapper}>
-              <div>
-                <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
-                  <input type="hidden" value={age} />
-                  <Typo color="black" variant="caption">{age}</Typo>
-                  <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
-                  <DropdownIcon />
-                </div>
-                <AgeDropdown />
-              </div>
-            </div> */}
-
 
           </div>
 
