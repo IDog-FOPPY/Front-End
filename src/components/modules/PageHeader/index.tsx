@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import { getDogs, getUser } from "@src/logics/axios";
 import Image from "next/image";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import Paw from "@assets/svg/main/paw.svg";
 
 import { getChattingList } from '@src/logics/axios';
 import * as StompJs from "@stomp/stompjs";
@@ -35,7 +36,7 @@ export default function PageHeader() {
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
   const [chatMessage, setChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
-  const [isAlert, setIsAlert] = useState(true);
+  const [isAlert, setIsAlert] = useState(false);
   const [senderNickname, setSenderNickname] = useState("");
   console.log(dogs);
   const client: any = useRef({});
@@ -78,6 +79,8 @@ export default function PageHeader() {
     else document.body.style.overflow = "auto";
   }, [open]);
 
+
+
   useEffect(() => {
     console.log("chattingList : ", chattings);
     connect(chattings); // 모든 채팅방 subscribe 시작
@@ -111,9 +114,23 @@ export default function PageHeader() {
 
     return (
       <>
-        <div>
-          {senderNickname}
-          {chatMessage?.content}
+        <div className={styles.alertBox}>
+          {/* {senderNickname}
+          {chatMessage?.content} */}
+          <div className={styles.sender}>
+            <Paw viewBox="0 0 24 24" className={styles.icon} />
+            <Typo variant='t3' bold color="#000000" className={styles.footprint}>
+              {senderNickname}
+            </Typo>
+            <Paw viewBox="0 0 24 24" className={styles.icon} />
+
+          </div>
+
+          <Typo variant='t3' color="#000000" className={styles.footprint}>
+            {chatMessage?.content}
+          </Typo>
+
+
         </div>
 
       </>
@@ -125,50 +142,45 @@ export default function PageHeader() {
 
     const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
     console.log("connect 호출, chattings: ", chattings);
+    chattings.length > 0 &&
+      chattings.map((chat: Chatting) => {
+        if (token) {
+          console.log("subscribe roomId : ", chat.roomId);
+          client.current = new StompJs.Client({
+            webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
+            connectHeaders: {
+              'Authorization': token,
+            },
+            debug: function (str) {
+              console.log(str);
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
 
-    chattings.map((chat: Chatting) => {
-      if (token) {
-        console.log("subscribe roomId : ", chat.roomId);
-        client.current = new StompJs.Client({
-          webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
-          connectHeaders: {
-            'Authorization': token,
-          },
-          debug: function (str) {
-            console.log(str);
-          },
-          reconnectDelay: 5000,
-          heartbeatIncoming: 4000,
-          heartbeatOutgoing: 4000,
+            onConnect: (frame: any) => {
+              console.log("frame", frame);
+              client.current.subscribe('/sub/room/' + chat.roomId, function (result: any) {
+                console.log("알람 res", JSON.parse(result.body));
+                setChatMessage(JSON.parse(result.body));
+              });
+            },
+            onStompError: (frame) => {
+              console.error(frame);
+            },
+          });
+        }
 
-          onConnect: (frame: any) => {
-            console.log("frame", frame);
-            client.current.subscribe('/sub/room/' + chat.roomId, function (result: any) {
-              console.log("알람 res", JSON.parse(result.body));
-              setChatMessage(JSON.parse(result.body));
-            });
-          },
-          onStompError: (frame) => {
-            console.error(frame);
-          },
-        });
-      }
-
-      client.current.activate();
-    })
+        client.current.activate();
+      })
 
   };
 
 
 
-
-
-
-
-
   return (
     <>
-      {isAlert ?
+      {isAlert && chatMessage ?
         <Link
           href={{
             pathname: "/chatting",
