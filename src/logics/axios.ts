@@ -43,7 +43,21 @@ export const axios = typeof window !== 'undefined' ? Axios.create({
 
 
 
-
+// 유저 정보 조회
+interface getUserProps {
+  id?: number;
+}
+export async function getUser({ id }: getUserProps) {
+  try {
+    const res = await axios?.get(`/user/${id}`, {
+      params: {},
+    });
+    return res?.data.data;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
+}
 
 
 
