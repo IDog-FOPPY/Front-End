@@ -14,12 +14,12 @@ export default function CannotFindNosePage() {
       <div className={styles.pageLayout}>
         <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
         <Typo variant="h6" color="black" bold className={styles.title}>
-          비문이 인식되지 않아요
+          개 사진이 아니에요
           <Sadface style={{ marginLeft: "3px" }} />
         </Typo>
-        <Typo variant="t1" color="black" bold >
+        {/* <Typo variant="t1" color="black" bold >
           코를 중심에 두고 얼굴이 나오게 촬영해주세요
-        </Typo>
+        </Typo> */}
         <Link href={{ pathname: '/lost-dog-list' }}>
           <Typo variant="t2" color="#606060" className={styles.subTitle}>
             비문 조회 다시하기
