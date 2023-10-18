@@ -190,20 +190,7 @@ export default function InputDog(props: InputDogdogInfo) {
         etc: etc
 
       }, res);
-      // console.log("반려견 수정 성공", {
-      //   petName: name,
-      //   petSex: sex === '여아' ? true : false,
-      //   petBreed: breed,
-      //   petOld: age,
-      //   disease: disease,
-      //   neutered: neutered,
-      //   note: memo,
-      //   missed: reported,
-      //   missCity: addr1,
-      //   missGu: addr2,
-      //   missDong: addr3,
-      //   missDetail: addr4,
-      // }, res);
+
     }
     else console.log("error");
   }
@@ -212,7 +199,6 @@ export default function InputDog(props: InputDogdogInfo) {
     setAddr1(str1);
     setAddr2(str2);
     setAddr3(str3);
-    //console.log(addr1, addr2, addr3);
   }
 
   const removeImage = (index: number) => {
@@ -246,35 +232,10 @@ export default function InputDog(props: InputDogdogInfo) {
     const hour = parseDate(e.hour());
     const minute = parseDate(e.minute());
     const time = hour + ':' + minute;
-    //console.log('time', time);
     return time;
   }
 
 
-  // const AgeDropdown = () => {
-  //   if (isAgeOpen === true)
-  //     return (
-  //       <div className={styles.dropdown}>
-  //         {ageEl.map((e, index) => {
-  //           return (
-  //             <div
-  //               className={styles.dropdownEl}
-  //               onClick={() => {
-  //                 setIsAgeOpen(false);
-  //                 setAge(index);
-  //               }}
-  //               key={index}
-  //             >
-  //               <Typo color="black" variant="caption">
-  //                 {index}
-  //               </Typo>
-  //             </div>
-  //           );
-  //         })}
-  //       </div>
-  //     );
-  //   else return <div></div>;
-  // };
 
   const SexDropdown = () => {
     if (isSexOpen === true)
@@ -407,10 +368,6 @@ export default function InputDog(props: InputDogdogInfo) {
                   })
                 }
 
-
-
-
-
                 {/* {imgList?.map((imageItem, index) => {
                   //const url = URL.createObjectURL(imageItem);
                   //console.log('url', url);
@@ -455,20 +412,6 @@ export default function InputDog(props: InputDogdogInfo) {
               // defaultValue={dayjs(dogInfo?.birth, dateFormat)}
               onChange={(e) => { setBirth(onParseDate(e)) }}
             />
-
-
-            {/* <div className={styles.ageBoxWrapper}>
-              <div>
-                <div className={styles.ageBox} onClick={() => setIsAgeOpen(true)}>
-                  <input type="hidden" value={age} />
-                  <Typo color="black" variant="caption">{age}</Typo>
-                  <Typo color="#9F9F9F" variant="caption" className={styles.text}>세</Typo>
-                  <DropdownIcon />
-                </div>
-                <AgeDropdown />
-              </div>
-            </div> */}
-
 
           </div>
 

@@ -9,7 +9,6 @@ import Arrow from '@assets/svg/noseMatch/arrow.svg';
 
 export default function CannotFindNosePage() {
 
-
   return (
     <>
       <div className={styles.pageLayout}>
@@ -28,10 +27,6 @@ export default function CannotFindNosePage() {
           <Arrow />
         </Link>
       </div>
-
-
-
-
     </>
 
   )

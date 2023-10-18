@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 100px;
+  justify-content: center;
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
@@ -14,6 +14,27 @@
   padding-bottom: 30px;
 
 
+  @keyframes fadeOut {
+    from {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-200px);
+      opacity: 0;
+    }
+  }
+
+  .splashLogo {
+    width: 200px;
+    height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: fadeOut 3500ms;
+    animation-delay: 500ms;
+  }
 
   .logo {
     width: 200px;
@@ -43,7 +64,7 @@
     height: 40px;
     border-radius: 15px;
     background-color: #EECD6D;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: 40px;
     display: flex;
     align-items: center;

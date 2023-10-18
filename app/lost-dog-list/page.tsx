@@ -4,14 +4,12 @@
 import { useEffect, useState } from 'react';
 import Typo from '@components/core/Typo';
 import Link from 'next/link'
-
 import { getStrayDogs } from '@src/logics/axios';
 import { DogInfo } from '@src/types/dogInfo';
 import styles from './styles.module.scss';
 import Image, { StaticImageData } from 'next/image';
 import AddressDropdown from '@src/components/modules/AddressDropdown';
 import DropdownIcon from '@assets/svg/register/dropdown.svg';
-
 
 import "dayjs/locale/ko";
 import { Dayjs } from "dayjs";
@@ -27,9 +25,8 @@ export default function LostDogList() {
   const [breed, setBreed] = useState("");
   const [missDate, setMissDate] = useState<Dayjs>();
   const [dateFormat, setDateFormat] = useState("");
-
   const [dogs, setDogs] = useState([]);
-  //const [dogs, setDogs] = useState<DogInfo[]>([]);
+
 
   const onComplete = async () => {
     if (missDate === undefined) {
@@ -61,9 +58,6 @@ export default function LostDogList() {
   useEffect(() => {
     console.log('dogs', dogs)
   }, [dogs])
-
-
-  // missDate.format("YYYY-MM-DD"), addr2, breed, 백에 PUSH
 
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);

@@ -6,14 +6,11 @@ interface DogCardProps {
   dog: DogInfo;
 }
 
-export default function DogCard (props: DogCardProps) {
+export default function DogCard(props: DogCardProps) {
   const { dog } = props;
 
   return (
     <div className={styles.dogCard}>
-      {/* 백에서 img 구현 안되 임시 div로 대체 */}
-      {/* <div className={styles.dogImg} style={{ backgroundImage: `url(${dog.image})` }} /> */}
-      {/* <div className={styles.dogImg} /> */}
       <img src={dog.imgUrl} className={styles.dogImg} />
       <div className={styles.contentSection}>
         <div className={styles.contentLeft}>

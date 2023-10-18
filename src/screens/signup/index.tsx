@@ -38,20 +38,6 @@ export default function SignupPage() {
   }
 
 
-  // const onComplete = async () => {
-  //   if (chk && id && pw) {
-  //     const res = await signup({
-  //       email: id,
-  //       password: pw,
-  //       nickName: name,
-  //       phone: phone
-  //     })
-  //     router.push('/login');
-
-  //     console.log('res', res);
-  //   }
-  // }
-
   useEffect(() => {
     pw === chkPw ? setChk(true) : setChk(false);
 

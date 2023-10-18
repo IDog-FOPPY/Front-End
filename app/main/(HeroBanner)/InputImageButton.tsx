@@ -8,8 +8,10 @@ import ArrowRightBlue from "@assets/svg/main/arrow-right-blue.svg";
 import Emergency from "@assets/svg/main/emergency.svg";
 import { postNoseIdent } from "@src/logics/axios";
 import styles from "./styles.module.scss";
+import LoadingScreen from "@src/components/modules/LoadingScreen";
 
 export default function InputImageButton() {
+  const [loading, setLoading] = useState(false);
   const [img, setImage] = useState<FileList | null>();
   const router = useRouter();
 
@@ -21,48 +23,43 @@ export default function InputImageButton() {
   useEffect(() => {
     if (img) {
       const post = async () => {
+        setLoading(true);
         const res = await postNoseIdent(img[0]);
-        // const res = {dogID:[6,7,6], top_3:[]}; // 임시
-        console.log('res', res.data);
+        console.log("res", res.data);
         if (res.data[0].code === 200) {
-          console.log('success!');
+          console.log("success!");
           const dogList = res.data.map((el: any) => {
-            return el.dog_id
+            return el.dog_id;
           });
-          router.push(`/noseid-match-success?petId=${dogList}`)
-        }
-        else if (res.data[0].code === 404) {
-          console.log('nose match fail!');
+          router.push(`/noseid-match-success?petId=${dogList}`);
+        } else if (res.data[0].code === 404) {
+          console.log("nose match fail!");
           router.push(`/noseid-match-fail`);
-        }
-        else if (res.data[0].code === 400) {
-          console.log('cannot find nose!');
+        } else if (res.data[0].code === 400) {
+          console.log("cannot find nose!");
           router.push(`/cannot-find-nose`);
-        }
-        else null;
-
+        } else null;
+        setLoading(false);
       };
       post();
     }
   }, [img]);
 
   return (
-    <div className={styles.lookUpButton}>
-      <input type="file" onChange={onLoadFile} accept="image/*" />
-      <Emergency />
-      <div className={styles.textContainer}>
-        <Typo bold color="#606060" className={styles.text}>
-          유기견을 발견했어요
-          <Typo
-            variant="footnote"
-            color="#0074DD"
-            className={styles.textFootnote}
-            bold
-          >
-            비문 조회하러 가기 <ArrowRightBlue />
+    <>
+      <div className={styles.lookUpButton}>
+        <input type="file" onChange={onLoadFile} accept="image/*" />
+        <Emergency />
+        <div className={styles.textContainer}>
+          <Typo bold color="#606060" className={styles.text}>
+            유기견을 발견했어요
+            <Typo variant="footnote" color="#0074DD" className={styles.textFootnote} bold>
+              비문 조회하러 가기 <ArrowRightBlue />
+            </Typo>
           </Typo>
-        </Typo>
+        </div>
       </div>
-    </div>
+      {loading && <LoadingScreen />}
+    </>
   );
 }
