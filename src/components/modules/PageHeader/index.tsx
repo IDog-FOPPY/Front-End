@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Typo from "@components/core/Typo";
@@ -16,9 +16,15 @@ import FaqIcon from "@assets/svg/drawer/faq.svg";
 import LogoutIcon from "@assets/svg/drawer/logout.svg";
 import { DogInfo } from "@src/types/dogInfo";
 import styles from "./styles.module.scss";
-import { getDogs } from "@src/logics/axios";
+import { getDogs, getUser } from "@src/logics/axios";
 import Image from "next/image";
 import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import Paw from "@assets/svg/main/paw.svg";
+
+import { getChattingList } from '@src/logics/axios';
+import * as StompJs from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+
 
 
 // 현재 모바일 화면 기준
@@ -28,13 +34,43 @@ export default function PageHeader() {
   const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
   const [dogs, setDogs] = useState([]);
 
+  const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
+  const [chatMessage, setChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
+  const [isAlert, setIsAlert] = useState(false);
+  const [senderNickname, setSenderNickname] = useState("");
   console.log(dogs);
+  const client: any = useRef({});
+
+  interface Chatting {
+    roomId: number;
+    lastMessage: string;
+    lastMessageCreatedAt: string;
+    members: [
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+      {
+        id: number;
+        nickName: string;
+        profileImgUrl: string;
+      },
+    ]
+  }
+
+  interface ShowChatEl {
+    senderId?: number;
+    content?: string;
+    roomId?: number;
+  }
+
 
   useEffect(() => {
     const getData = async () => {
       setDogs(await getDogs());
+      setChattings(await getChattingList());
     };
-
     if (token) getData();
   }, []);
 
@@ -43,8 +79,122 @@ export default function PageHeader() {
     else document.body.style.overflow = "auto";
   }, [open]);
 
+
+
+  useEffect(() => {
+    console.log("chattingList : ", chattings);
+    connect(chattings); // 모든 채팅방 subscribe 시작
+  }, [chattings])
+
+  useEffect(() => {
+    setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
+    console.log("ChatMessage", chatMessage);
+    const getData = async () => {
+      let res = await getUser({ id: chatMessage?.senderId })
+      setSenderNickname(res.nickName);
+    };
+    if (chatMessage) getData();
+  }, [chatMessage]);
+
+  useEffect(() => {
+    console.log("senderNickname", senderNickname);
+    // senderNickname 받아오면 alert 타이머 시작
+    let timer = setTimeout(() => {
+      setIsAlert(false);
+    }, 5000);
+    return () => { clearTimeout(timer) }
+  }, [chatMessage]);
+
+
+
+
+
+
+  const Alert = () => {
+
+    return (
+      <>
+        <div className={styles.alertBox}>
+          {/* {senderNickname}
+          {chatMessage?.content} */}
+          <div className={styles.sender}>
+            <Paw viewBox="0 0 24 24" className={styles.icon} />
+            <Typo variant='t3' bold color="#000000" className={styles.footprint}>
+              {senderNickname}
+            </Typo>
+            <Paw viewBox="0 0 24 24" className={styles.icon} />
+
+          </div>
+
+          <Typo variant='t3' color="#000000" className={styles.footprint}>
+            {chatMessage?.content}
+          </Typo>
+
+
+        </div>
+
+      </>
+    )
+  }
+
+
+  const connect = (chattings: Chatting[]) => {
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
+    console.log("connect 호출, chattings: ", chattings);
+    chattings.length > 0 &&
+      chattings.map((chat: Chatting) => {
+        if (token) {
+          console.log("subscribe roomId : ", chat.roomId);
+          client.current = new StompJs.Client({
+            webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
+            connectHeaders: {
+              'Authorization': token,
+            },
+            debug: function (str) {
+              console.log(str);
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+
+            onConnect: (frame: any) => {
+              console.log("frame", frame);
+              client.current.subscribe('/sub/room/' + chat.roomId, function (result: any) {
+                console.log("알람 res", JSON.parse(result.body));
+                setChatMessage(JSON.parse(result.body));
+              });
+            },
+            onStompError: (frame) => {
+              console.error(frame);
+            },
+          });
+        }
+
+        client.current.activate();
+      })
+
+  };
+
+
+
   return (
     <>
+      {isAlert && chatMessage ?
+        <Link
+          href={{
+            pathname: "/chatting",
+            query: {
+              id: chatMessage?.roomId,
+              state: "old",
+            },
+          }}
+          // as="/chatting"
+          key={chatMessage?.roomId}
+        >
+          <Alert />
+        </Link>
+        : null}
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
         <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>

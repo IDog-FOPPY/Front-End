@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Typo from '@components/core/Typo';
 import logo from '@assets/Logo.png';
@@ -48,6 +48,7 @@ export default function LoginPage() {
   }
 
 
+
   const onComplete = async () => {
     if (id && pw) {
       const res = await login({
@@ -64,8 +65,10 @@ export default function LoginPage() {
         console.log('error!');
         setIsPopupOpen(true);
       }
+
     }
   }
+
 
   return (
     <>
