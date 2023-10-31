@@ -18,6 +18,8 @@ const nextConfig = {
     additionalData: `@import "variables.scss";`,
     additionalData: `@import "mixin.scss";`,
   },
+  output: 'export'
+  
 };
 
 module.exports = nextConfig
