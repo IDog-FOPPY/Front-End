@@ -18,20 +18,18 @@ import { DogInfo } from "@src/types/dogInfo";
 import styles from "./styles.module.scss";
 import { getDogs, getUser } from "@src/logics/axios";
 import Image from "next/image";
-import ArrowLeft from '@assets/svg/register/arrow-left.svg';
+import ArrowLeft from "@assets/svg/register/arrow-left.svg";
 import Paw from "@assets/svg/main/paw.svg";
 
-import { getChattingList } from '@src/logics/axios';
+import { getChattingList } from "@src/logics/axios";
 import * as StompJs from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-
-
 
 // 현재 모바일 화면 기준
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
+  const token = typeof window !== "undefined" ? localStorage.getItem("foppy_auth_token") : null;
   const [dogs, setDogs] = useState([]);
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
@@ -55,8 +53,8 @@ export default function PageHeader() {
         id: number;
         nickName: string;
         profileImgUrl: string;
-      },
-    ]
+      }
+    ];
   }
 
   interface ShowChatEl {
@@ -64,7 +62,6 @@ export default function PageHeader() {
     content?: string;
     roomId?: number;
   }
-
 
   useEffect(() => {
     const getData = async () => {
@@ -79,18 +76,16 @@ export default function PageHeader() {
     else document.body.style.overflow = "auto";
   }, [open]);
 
-
-
   useEffect(() => {
     console.log("chattingList : ", chattings);
     connect(chattings); // 모든 채팅방 subscribe 시작
-  }, [chattings])
+  }, [chattings]);
 
   useEffect(() => {
     setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
     console.log("ChatMessage", chatMessage);
     const getData = async () => {
-      let res = await getUser({ id: chatMessage?.senderId })
+      let res = await getUser({ id: chatMessage?.senderId });
       setSenderNickname(res.nickName);
     };
     if (chatMessage) getData();
@@ -102,16 +97,12 @@ export default function PageHeader() {
     let timer = setTimeout(() => {
       setIsAlert(false);
     }, 5000);
-    return () => { clearTimeout(timer) }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [chatMessage]);
 
-
-
-
-
-
   const Alert = () => {
-
     return (
       <>
         <div className={styles.alertBox}>
@@ -119,37 +110,31 @@ export default function PageHeader() {
           {chatMessage?.content} */}
           <div className={styles.sender}>
             <Paw viewBox="0 0 24 24" className={styles.icon} />
-            <Typo variant='t3' bold color="#000000" className={styles.footprint}>
+            <Typo variant="t3" bold color="#000000" className={styles.footprint}>
               {senderNickname}
             </Typo>
             <Paw viewBox="0 0 24 24" className={styles.icon} />
-
           </div>
 
-          <Typo variant='t3' color="#000000" className={styles.footprint}>
+          <Typo variant="t3" color="#000000" className={styles.footprint}>
             {chatMessage?.content}
           </Typo>
-
-
         </div>
-
       </>
-    )
-  }
-
+    );
+  };
 
   const connect = (chattings: Chatting[]) => {
-
-    const token = typeof window !== 'undefined' ? localStorage.getItem("foppy_auth_token") : null;
+    const token = typeof window !== "undefined" ? localStorage.getItem("foppy_auth_token") : null;
     console.log("connect 호출, chattings: ", chattings);
     chattings.length > 0 &&
       chattings.map((chat: Chatting) => {
         if (token) {
           console.log("subscribe roomId : ", chat.roomId);
           client.current = new StompJs.Client({
-            webSocketFactory: () => new SockJS("http://3.36.63.57:8080/ws/chat"),
+            webSocketFactory: () => new SockJS("http://foppy.shop/ws/chat"),
             connectHeaders: {
-              'Authorization': token,
+              Authorization: token,
             },
             debug: function (str) {
               console.log(str);
@@ -160,7 +145,7 @@ export default function PageHeader() {
 
             onConnect: (frame: any) => {
               console.log("frame", frame);
-              client.current.subscribe('/sub/room/' + chat.roomId, function (result: any) {
+              client.current.subscribe("/sub/room/" + chat.roomId, function (result: any) {
                 console.log("알람 res", JSON.parse(result.body));
                 setChatMessage(JSON.parse(result.body));
               });
@@ -172,15 +157,12 @@ export default function PageHeader() {
         }
 
         client.current.activate();
-      })
-
+      });
   };
-
-
 
   return (
     <>
-      {isAlert && chatMessage ?
+      {isAlert && chatMessage ? (
         <Link
           href={{
             pathname: "/chatting",
@@ -194,17 +176,20 @@ export default function PageHeader() {
         >
           <Alert />
         </Link>
-        : null}
+      ) : null}
       <div className={styles.headerContainer}>
         {/* <Link href="/chatting-list"> */}
-        <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
-        {token &&
+        <div className={styles.backBtn} onClick={() => router.back()}>
+          <ArrowLeft />
+        </div>
+        {token && (
           <ChattingIcon
             className={styles.chattingIcon}
             width="36px"
             height="36px"
             onClick={() => router.push("/chatting-list")}
-          />}
+          />
+        )}
         {/* </Link> */}
 
         <DrawerIcon
@@ -228,11 +213,7 @@ export default function PageHeader() {
                 return (
                   <div className={styles.dogCard} key={dog?.id}>
                     <div className={styles.dogCircle}>
-                      <img
-                        alt="dog"
-                        src={dog?.imgUrl}
-                        className={styles.dogImg}
-                      />
+                      <img alt="dog" src={dog?.imgUrl} className={styles.dogImg} />
                       {/* <Image
                       alt="dog"
                       src={dog?.imgUrl}
