@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import PageFooter from "../PageFooter";
 import PageHeader from "../PageHeader";
 import styles from "./styles.module.scss";
@@ -14,9 +14,16 @@ export default function PageLayout(props: PageLayoutProps) {
 
   const pathname = usePathname();
   const isCommonLayout = () => {
-    if (pathname === '/' || pathname === '/add-my-dog' || pathname === '/edit-my-dog' || pathname === '/chatting-list' || pathname === '/chatting') return false
-    else return true
-  }
+    if (
+      pathname === "/" ||
+      pathname === "/add-my-dog" ||
+      pathname === "/edit-my-dog" ||
+      pathname === "/chatting-list" ||
+      pathname === "/chatting"
+    )
+      return false;
+    else return true;
+  };
 
   //공통레이아웃 적용
   if (isCommonLayout() === true)
@@ -26,10 +33,7 @@ export default function PageLayout(props: PageLayoutProps) {
         {children}
         <PageFooter />
       </div>
-    )
-
+    );
   //공통레이아웃 적용X
-  else return (
-    <div>{children}</div>
-  )
+  else return <div>{children}</div>;
 }

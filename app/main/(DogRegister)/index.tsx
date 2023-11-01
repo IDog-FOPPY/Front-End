@@ -118,7 +118,6 @@ const DogCard = (props: DogCardProps) => {
 };
 
 export default function DogRegister() {
-
   const [dogs, setDogs] = useState([]);
 
   useEffect(() => {

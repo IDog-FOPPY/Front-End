@@ -29,7 +29,10 @@ import SockJS from "sockjs-client";
 export default function PageHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const token = typeof window !== "undefined" ? localStorage.getItem("foppy_auth_token") : null;
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem("foppy_auth_token")
+      : null;
   const [dogs, setDogs] = useState([]);
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
@@ -53,7 +56,7 @@ export default function PageHeader() {
         id: number;
         nickName: string;
         profileImgUrl: string;
-      }
+      },
     ];
   }
 
@@ -110,7 +113,12 @@ export default function PageHeader() {
           {chatMessage?.content} */}
           <div className={styles.sender}>
             <Paw viewBox="0 0 24 24" className={styles.icon} />
-            <Typo variant="t3" bold color="#000000" className={styles.footprint}>
+            <Typo
+              variant="t3"
+              bold
+              color="#000000"
+              className={styles.footprint}
+            >
               {senderNickname}
             </Typo>
             <Paw viewBox="0 0 24 24" className={styles.icon} />
@@ -125,7 +133,10 @@ export default function PageHeader() {
   };
 
   const connect = (chattings: Chatting[]) => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("foppy_auth_token") : null;
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("foppy_auth_token")
+        : null;
     console.log("connect 호출, chattings: ", chattings);
     chattings.length > 0 &&
       chattings.map((chat: Chatting) => {
@@ -145,10 +156,13 @@ export default function PageHeader() {
 
             onConnect: (frame: any) => {
               console.log("frame", frame);
-              client.current.subscribe("/sub/room/" + chat.roomId, function (result: any) {
-                console.log("알람 res", JSON.parse(result.body));
-                setChatMessage(JSON.parse(result.body));
-              });
+              client.current.subscribe(
+                "/sub/room/" + chat.roomId,
+                function (result: any) {
+                  console.log("알람 res", JSON.parse(result.body));
+                  setChatMessage(JSON.parse(result.body));
+                },
+              );
             },
             onStompError: (frame) => {
               console.error(frame);
@@ -213,7 +227,11 @@ export default function PageHeader() {
                 return (
                   <div className={styles.dogCard} key={dog?.id}>
                     <div className={styles.dogCircle}>
-                      <img alt="dog" src={dog?.imgUrl} className={styles.dogImg} />
+                      <img
+                        alt="dog"
+                        src={dog?.imgUrl}
+                        className={styles.dogImg}
+                      />
                       {/* <Image
                       alt="dog"
                       src={dog?.imgUrl}

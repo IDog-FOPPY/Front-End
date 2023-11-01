@@ -30,7 +30,7 @@ export default function LoginPage() {
       return Promise.all(
         keyList.map(function (key) {
           return caches.delete(key);
-        })
+        }),
       );
     });
     localStorage.removeItem("foppy_auth_token");
@@ -38,13 +38,16 @@ export default function LoginPage() {
   }, []);
 
   function deleteAllCookies() {
-    const cookies = typeof window !== "undefined" ? document.cookie.split(";") : null;
+    const cookies =
+      typeof window !== "undefined" ? document.cookie.split(";") : null;
     if (cookies !== null) {
       for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i];
         const eqPos = cookie.indexOf("=");
         const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        typeof window !== "undefined" ? (document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT") : null;
+        typeof window !== "undefined"
+          ? (document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT")
+          : null;
       }
     }
   }
@@ -58,8 +61,12 @@ export default function LoginPage() {
       console.log("res", res);
       console.log("res.data.token", res.data.accessToken);
       if (res?.data.accessToken) {
-        typeof window !== "undefined" ? localStorage.setItem("foppy_auth_token", res.data?.accessToken) : null;
-        typeof window !== "undefined" ? localStorage.setItem("foppy_user_uid", res.data?.userId) : null;
+        typeof window !== "undefined"
+          ? localStorage.setItem("foppy_auth_token", res.data?.accessToken)
+          : null;
+        typeof window !== "undefined"
+          ? localStorage.setItem("foppy_user_uid", res.data?.userId)
+          : null;
         router.push("/main");
       } else {
         console.log("error!");
@@ -72,10 +79,16 @@ export default function LoginPage() {
     <>
       <div className={styles.pageLayout}>
         {isSplash ? (
-          <div className={styles.splashLogo} style={{ backgroundImage: `url(${logo.src})` }} />
+          <div
+            className={styles.splashLogo}
+            style={{ backgroundImage: `url(${logo.src})` }}
+          />
         ) : (
           <>
-            <div className={styles.logo} style={{ backgroundImage: `url(${logo.src})` }} />
+            <div
+              className={styles.logo}
+              style={{ backgroundImage: `url(${logo.src})` }}
+            />
 
             <input
               type="text"
@@ -91,7 +104,11 @@ export default function LoginPage() {
               onChange={(e) => setPw(e.target.value)}
               className={styles.loginBox}
             />
-            <Typo color="#606060" variant="caption" style={{ marginLeft: "auto" }}>
+            <Typo
+              color="#606060"
+              variant="caption"
+              style={{ marginLeft: "auto" }}
+            >
               비회원으로 포마이펫 이용하기
             </Typo>
 
@@ -101,14 +118,21 @@ export default function LoginPage() {
               </Typo>
             </div>
 
-            <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }} onClick={() => router.push("/signup")}>
+            <Typo
+              color="#606060"
+              variant="t3"
+              style={{ marginRight: "auto" }}
+              onClick={() => router.push("/signup")}
+            >
               회원가입
             </Typo>
             <Typo color="#606060" variant="t3" style={{ marginRight: "auto" }}>
               아이디 찾기 / 비밀번호 찾기
             </Typo>
 
-            {isPopupOpen && <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />}
+            {isPopupOpen && (
+              <LoginFailedPopup onClick={() => setIsPopupOpen(false)} />
+            )}
           </>
         )}
       </div>

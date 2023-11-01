@@ -11,7 +11,10 @@ import ArrowLeft from "@assets/svg/register/arrow-left.svg";
 import Send from "@assets/svg/messageSend.svg";
 import { useRouter } from "next/navigation";
 
-const token = typeof window !== "undefined" ? "Bearer " + localStorage.getItem("foppy_auth_token") : null;
+const token =
+  typeof window !== "undefined"
+    ? "Bearer " + localStorage.getItem("foppy_auth_token")
+    : null;
 
 interface Chatting {
   roomId: number;
@@ -44,8 +47,18 @@ export interface ShowChatEl {
 }
 
 const ShowChatting = (props: ShowChattingProps) => {
-  const { content, receiverProfileImg, receiverNickname, senderId, createdAt, showImg } = props;
-  const myId = typeof window !== "undefined" ? localStorage.getItem("foppy_user_uid") : null;
+  const {
+    content,
+    receiverProfileImg,
+    receiverNickname,
+    senderId,
+    createdAt,
+    showImg,
+  } = props;
+  const myId =
+    typeof window !== "undefined"
+      ? localStorage.getItem("foppy_user_uid")
+      : null;
 
   return (
     <div className={styles.chattingList}>
@@ -64,7 +77,11 @@ const ShowChatting = (props: ShowChattingProps) => {
             <img
               className={styles.profileImg}
               alt="dog-image"
-              src={receiverProfileImg !== "https://기본프사" ? receiverProfileImg : PFImg.src}
+              src={
+                receiverProfileImg !== "https://기본프사"
+                  ? receiverProfileImg
+                  : PFImg.src
+              }
             />
           ) : (
             <div className={styles.blank} />
@@ -83,7 +100,10 @@ const ShowChatting = (props: ShowChattingProps) => {
 
 export default function ChattingPage(props: Chatting) {
   const { roomId, receiverProfileImg, receiverNickname, existingChat } = props;
-  const myId = typeof window !== "undefined" ? localStorage.getItem("foppy_user_uid") : null;
+  const myId =
+    typeof window !== "undefined"
+      ? localStorage.getItem("foppy_user_uid")
+      : null;
   const router = useRouter();
 
   // ------------------------------------------------------------
@@ -94,7 +114,11 @@ export default function ChattingPage(props: Chatting) {
   const [message, setMessage] = useState("");
 
   //res로 오는 메세지 받는 변수
-  const [chatMessage, setChatMessage] = useState<ShowChatEl>({ content: "", roomId: 0, senderId: 0 });
+  const [chatMessage, setChatMessage] = useState<ShowChatEl>({
+    content: "",
+    roomId: 0,
+    senderId: 0,
+  });
   const [chatMessageList, setChatMessageList] = useState<ShowChatEl[]>([]);
 
   const sendSectionRef = useRef<HTMLDivElement>(null);
@@ -106,7 +130,9 @@ export default function ChattingPage(props: Chatting) {
 
   useEffect(() => {
     console.log("ChatMEssage", chatMessage);
-    chatMessage.roomId === 0 ? null : setChatMessageList([...chatMessageList, chatMessage]);
+    chatMessage.roomId === 0
+      ? null
+      : setChatMessageList([...chatMessageList, chatMessage]);
   }, [chatMessage]);
 
   useEffect(() => {
@@ -135,10 +161,13 @@ export default function ChattingPage(props: Chatting) {
         heartbeatOutgoing: 4000,
         onConnect: (frame: any) => {
           console.log("frame", frame);
-          client.current.subscribe("/sub/room/" + roomId, function (result: any) {
-            console.log("채팅 res", JSON.parse(result.body));
-            setChatMessage(JSON.parse(result.body));
-          });
+          client.current.subscribe(
+            "/sub/room/" + roomId,
+            function (result: any) {
+              console.log("채팅 res", JSON.parse(result.body));
+              setChatMessage(JSON.parse(result.body));
+            },
+          );
         },
         onStompError: (frame) => {
           console.error(frame);
@@ -158,7 +187,11 @@ export default function ChattingPage(props: Chatting) {
 
     client.current.publish({
       destination: "/pub/send",
-      body: JSON.stringify({ roomId: roomId, content: message, senderId: myId }),
+      body: JSON.stringify({
+        roomId: roomId,
+        content: message,
+        senderId: myId,
+      }),
     });
   };
 
@@ -188,7 +221,11 @@ export default function ChattingPage(props: Chatting) {
                   key={el.messageId}
                   senderId={el.senderId}
                   createdAt={dayjs(el.createdAt).format("HH:mm")}
-                  showImg={index === 0 || (index > 0 && el.senderId !== existingChat[index - 1].senderId)}
+                  showImg={
+                    index === 0 ||
+                    (index > 0 &&
+                      el.senderId !== existingChat[index - 1].senderId)
+                  }
                 />
               );
             })}
@@ -203,7 +240,11 @@ export default function ChattingPage(props: Chatting) {
                     key={el.content}
                     senderId={el.senderId}
                     createdAt={dayjs().format("HH:mm")}
-                    showImg={index === 0 || (index > 0 && el.senderId !== chatMessageList[index - 1].senderId)}
+                    showImg={
+                      index === 0 ||
+                      (index > 0 &&
+                        el.senderId !== chatMessageList[index - 1].senderId)
+                    }
                   />
                 </>
               );

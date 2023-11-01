@@ -1,22 +1,22 @@
 // 유기견 게시판 페이지
 "use client";
 
-import { useEffect, useState } from 'react';
-import Typo from '@components/core/Typo';
-import Link from 'next/link'
-import { getStrayDogs } from '@src/logics/axios';
-import { DogInfo } from '@src/types/dogInfo';
-import styles from './styles.module.scss';
-import Image, { StaticImageData } from 'next/image';
-import AddressDropdown from '@src/components/modules/AddressDropdown';
-import DropdownIcon from '@assets/svg/register/dropdown.svg';
+import { useEffect, useState } from "react";
+import Typo from "@components/core/Typo";
+import Link from "next/link";
+import { getStrayDogs } from "@src/logics/axios";
+import { DogInfo } from "@src/types/dogInfo";
+import styles from "./styles.module.scss";
+import Image, { StaticImageData } from "next/image";
+import AddressDropdown from "@src/components/modules/AddressDropdown";
+import DropdownIcon from "@assets/svg/register/dropdown.svg";
 
 import "dayjs/locale/ko";
 import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import locale from "antd/es/date-picker/locale/ko_KR";
 import { DatePicker } from "antd";
-import DogCard from './DogCard';
+import DogCard from "./DogCard";
 const dateFormat = "MM/DD";
 
 export default function LostDogList() {
@@ -27,37 +27,36 @@ export default function LostDogList() {
   const [dateFormat, setDateFormat] = useState("");
   const [dogs, setDogs] = useState([]);
 
-
   const onComplete = async () => {
     if (missDate === undefined) {
-      setDogs(await getStrayDogs({
-        breed: breed,
-        missingGu: addr2,
-        startDate: undefined
-      }))
+      setDogs(
+        await getStrayDogs({
+          breed: breed,
+          missingGu: addr2,
+          startDate: undefined,
+        }),
+      );
+    } else {
+      setDogs(
+        await getStrayDogs({
+          breed: breed,
+          missingGu: addr2,
+          startDate: missDate.format("YYYY-MM-DD"),
+        }),
+      );
     }
-    else {
-
-      setDogs(await getStrayDogs({
-        breed: breed,
-        missingGu: addr2,
-        startDate: missDate.format("YYYY-MM-DD")
-      }))
-
-    }
-  }
+  };
 
   useEffect(() => {
     const getData = async () => {
-
       setDogs(await getStrayDogs({}));
     };
     getData();
   }, []);
 
   useEffect(() => {
-    console.log('dogs', dogs)
-  }, [dogs])
+    console.log("dogs", dogs);
+  }, [dogs]);
 
   const [isAddrOpen, setIsAddrOpen] = useState(false);
   const [isBreedOpen, setIsBreedOpen] = useState(false);
@@ -144,18 +143,24 @@ export default function LostDogList() {
 
   return (
     <div className={styles.pageLayout}>
-      <Typo variant="t2" bold color="black">가족을 찾고있어요</Typo>
+      <Typo variant="t2" bold color="black">
+        가족을 찾고있어요
+      </Typo>
       <div>
         <div className={styles.sortDogWrapper}>
-
-          <div className={styles.sortDog} onClick={() => { setIsAddrOpen(true); }}>
-            <Typo variant="caption" color="#606060" className={styles.content} >
-              {addr2 === '' ? '전체 지역' : addr2}
+          <div
+            className={styles.sortDog}
+            onClick={() => {
+              setIsAddrOpen(true);
+            }}
+          >
+            <Typo variant="caption" color="#606060" className={styles.content}>
+              {addr2 === "" ? "전체 지역" : addr2}
             </Typo>
             <DropdownIcon className={styles.dropdownIcon} />
           </div>
 
-          <div >
+          <div>
             <DatePicker
               locale={locale}
               placeholder="전체 날짜"
@@ -166,9 +171,16 @@ export default function LostDogList() {
           </div>
 
           <div>
-            <div className={styles.sortDog} onClick={() => setIsBreedOpen(true)}>
-              <Typo variant="caption" color="#606060" className={styles.content}>
-                {breed === '' ? '전체 견종' : breed}
+            <div
+              className={styles.sortDog}
+              onClick={() => setIsBreedOpen(true)}
+            >
+              <Typo
+                variant="caption"
+                color="#606060"
+                className={styles.content}
+              >
+                {breed === "" ? "전체 견종" : breed}
               </Typo>
               <DropdownIcon className={styles.dropdownIcon} />
             </div>
@@ -176,17 +188,22 @@ export default function LostDogList() {
           </div>
 
           <div>
-            <Typo variant="caption" color="white" className={styles.searchBox} onClick={() => onComplete()} >
+            <Typo
+              variant="caption"
+              color="white"
+              className={styles.searchBox}
+              onClick={() => onComplete()}
+            >
               조회
             </Typo>
           </div>
-
         </div>
-        {
-          isAddrOpen ?
-            <AddressDropdown pageTitle="lostDogPage" addrTextReturnTwo={addrTextReturnTwo} />
-            : null
-        }
+        {isAddrOpen ? (
+          <AddressDropdown
+            pageTitle="lostDogPage"
+            addrTextReturnTwo={addrTextReturnTwo}
+          />
+        ) : null}
       </div>
       <div className={styles.dogList}>
         {dogs &&
@@ -205,10 +222,9 @@ export default function LostDogList() {
               >
                 <DogCard dog={dog} key={dog.id} />
               </Link>
-
-            )
+            );
           })}
       </div>
     </div>
-  )
+  );
 }
