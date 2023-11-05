@@ -91,7 +91,7 @@ export default function Lost() {
 
       <div className={styles.dogContainer}>
         <div className={styles.dogList}>
-          {dogs.length > 0 && 
+          {dogs.length > 0 &&
             dogs.map((dog: DogInfo) => {
               return (
                 <Link
@@ -107,10 +107,8 @@ export default function Lost() {
                 >
                   <DogCard dog={dog} key={dog.id} />
                 </Link>
-
               );
-            })
-          }
+            })}
         </div>
       </div>
     </div>

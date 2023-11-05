@@ -1,16 +1,19 @@
 import Axios from "axios";
 
-export const axios = typeof window !== 'undefined' ? Axios.create({
-  baseURL: "http://3.36.63.57:8080/api",
-  // timeout: 30000,
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
-    // chat1
-    // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzE1MjQwLCJleHAiOjE2OTI3MTg4NDB9.4SJpIOpfU7dMUINpMm-Pi1bFTTdjuVctlQeVtAxga0Y"
-    // chat2
-    // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImppaHl1biIsImlhdCI6MTY5Mjk0NzU2MiwiZXhwIjoxNjkyOTUxMTYyfQ.n4AYGOUMg5KYpnNzY8bPiQpKfTT1ajej7HiHCi35yns"
-  },
-}) : null;
+export const axios =
+  typeof window !== "undefined"
+    ? Axios.create({
+        baseURL: "http://foppy.shop/api",
+        // timeout: 30000,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("foppy_auth_token"),
+          // chat1
+          // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNoYXQxIiwiaWF0IjoxNjkyNzE1MjQwLCJleHAiOjE2OTI3MTg4NDB9.4SJpIOpfU7dMUINpMm-Pi1bFTTdjuVctlQeVtAxga0Y"
+          // chat2
+          // Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImppaHl1biIsImlhdCI6MTY5Mjk0NzU2MiwiZXhwIjoxNjkyOTUxMTYyfQ.n4AYGOUMg5KYpnNzY8bPiQpKfTT1ajej7HiHCi35yns"
+        },
+      })
+    : null;
 
 // import Axios from "axios";
 
@@ -41,8 +44,6 @@ export const axios = typeof window !== 'undefined' ? Axios.create({
 //   headers: authWithFormData,
 // });
 
-
-
 // 유저 정보 조회
 interface getUserProps {
   id?: number;
@@ -58,8 +59,6 @@ export async function getUser({ id }: getUserProps) {
     return {};
   }
 }
-
-
 
 // 로그인
 interface loginProps {
@@ -129,10 +128,7 @@ export async function createDog(props: createDogProps) {
   const requestString = JSON.stringify(request);
   const formRequest = new FormData();
 
-  formRequest.append(
-    "request",
-    new Blob([requestString], { type: "application/json" })
-  );
+  formRequest.append("request", new Blob([requestString], { type: "application/json" }));
   for (let i = 0; i < props.file.length; i++) {
     formRequest.append("file", props.file[i]);
   }
@@ -165,10 +161,7 @@ interface updateDogProps {
   missTime?: string;
   etc?: string;
 }
-export async function updateDog(
-  petId: string | null | undefined,
-  props: updateDogProps
-) {
+export async function updateDog(petId: string | null | undefined, props: updateDogProps) {
   try {
     const res = await axios?.patch(`/dog/${petId}`, props);
     console.log("수정성공", res);
@@ -209,47 +202,46 @@ export async function getStrayDogs(props: getStrayDogsProps) {
   try {
     if (missingGu !== undefined) {
       if (startDate !== undefined) {
-        if (breed !== undefined) {  // missingGu & startDate & breed
-          const res = await axios?.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&startDate=${startDate}&breed=${breed}`);
+        if (breed !== undefined) {
+          // missingGu & startDate & breed
+          const res = await axios?.get(
+            `/dog/missing?page=0&size=10&missingGu=${missingGu}&startDate=${startDate}&breed=${breed}`
+          );
           return res?.data.data.content;
-        }
-        else { //missingGu & startDate
+        } else {
+          //missingGu & startDate
           const res = await axios?.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&startDate=${startDate}`);
           return res?.data.data.content;
         }
-      }
-      else {
-        if (breed !== undefined) {  //missingGu & breed
+      } else {
+        if (breed !== undefined) {
+          //missingGu & breed
           const res = await axios?.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}&breed=${breed}`);
           return res?.data.data.content;
-        }
-        else { //missingGu
+        } else {
+          //missingGu
           const res = await axios?.get(`/dog/missing?page=0&size=10&missingGu=${missingGu}`);
           return res?.data.data.content;
         }
       }
-    }
-
-    else if (startDate !== undefined) {
-      if (breed !== undefined) { //startDate & breed
+    } else if (startDate !== undefined) {
+      if (breed !== undefined) {
+        //startDate & breed
         const res = await axios?.get(`/dog/missing?page=0&size=10&startDate=${startDate}&breed=${breed}`);
         return res?.data.data.content;
-      }
-      else { //startDate
+      } else {
+        //startDate
         const res = await axios?.get(`/dog/missing?page=0&size=10&startDate=${startDate}`);
         return res?.data.data.content;
       }
-    }
-
-    else if (breed !== undefined) {  //breed
+    } else if (breed !== undefined) {
+      //breed
       const res = await axios?.get(`/dog/missing?page=0&size=10&breed=${breed}`);
       return res?.data.data.content;
-    }
-    else {
+    } else {
       const res = await axios?.get(`/dog/missing?page=0&size=10`);
       return res?.data.data.content;
     }
-
   } catch (err) {
     console.log(err);
     return {};
@@ -308,6 +300,3 @@ export async function postNewChatting(props: newChattingProps) {
     return {};
   }
 }
-
-
-

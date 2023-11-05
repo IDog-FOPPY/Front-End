@@ -1,24 +1,24 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from "react";
 import "dayjs/locale/ko";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
 import locale from "antd/es/date-picker/locale/ko_KR";
 import { TimePicker } from "antd";
 import { DatePicker } from "antd";
-import Typo from '@components/core/Typo';
-import { DogInfo } from '@src/types/dogInfo';
-import ArrowLeft from '@assets/svg/register/arrow-left.svg';
-import Album from '@assets/svg/register/album.svg';
-import DropdownIcon from '@assets/svg/register/dropdown.svg';
-import PawIcon from '@assets/svg/register/paw.svg';
-import Image, { StaticImageData } from 'next/image';
+import Typo from "@components/core/Typo";
+import { DogInfo } from "@src/types/dogInfo";
+import ArrowLeft from "@assets/svg/register/arrow-left.svg";
+import Album from "@assets/svg/register/album.svg";
+import DropdownIcon from "@assets/svg/register/dropdown.svg";
+import PawIcon from "@assets/svg/register/paw.svg";
+import Image, { StaticImageData } from "next/image";
 import AddressDropdown from "@src/components/modules/AddressDropdown";
 // import { postDogs } from '@src/logics/axios';
-import { createDog, updateDog } from '@src/logics/axios';
-import styles from './styles.module.scss';
-import { useRouter } from 'next/navigation';
+import { createDog, updateDog } from "@src/logics/axios";
+import styles from "./styles.module.scss";
+import { useRouter } from "next/navigation";
 
 const timeFormat = "HH:mm";
 const dateFormat = "YYYY-MM-DD";
@@ -104,7 +104,7 @@ export default function InputDog(props: InputDogdogInfo) {
   }, [imgUrlList]);
 
   useEffect(() => {
-    setSex(dogInfo?.sex === 'FEMALE' ? '여아' : '남아');
+    setSex(dogInfo?.sex === "FEMALE" ? "여아" : "남아");
     setName(dogInfo?.name);
     setBreed(dogInfo?.breed);
     setBirth(dogInfo?.birth);
@@ -116,11 +116,8 @@ export default function InputDog(props: InputDogdogInfo) {
     setAddr3(dogInfo?.missingDong);
     setAddr4(dogInfo?.missingDetailedLocation);
 
-
     // setImgUrlList(dogInfo?.imgUrlList);
-
-  }, [dogInfo])
-
+  }, [dogInfo]);
 
   const onLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (imgNum < 10) {
@@ -139,20 +136,20 @@ export default function InputDog(props: InputDogdogInfo) {
         request: {
           name: name,
           birth: birth,
-          sex: sex === '여아' ? 'FEMALE' : 'MALE',
+          sex: sex === "여아" ? "FEMALE" : "MALE",
           breed: breed,
-          note: note || '',
-          disease: disease || '',
+          note: note || "",
+          disease: disease || "",
           neutered: neutered === true ? true : false,
-        }, file: imgUrlList
+        },
+        file: imgUrlList,
       });
-      router.push('/main');
-    }
-    else if (pageTitle === "반려견 수정하기") {
+      router.push("/main");
+    } else if (pageTitle === "반려견 수정하기") {
       const res = await updateDog(petId, {
         name: name,
         birth: birth,
-        sex: sex === '여아' ? 'FEMALE' : 'MALE',
+        sex: sex === "여아" ? "FEMALE" : "MALE",
         breed: breed,
         note: note,
         disease: disease,
@@ -165,41 +162,40 @@ export default function InputDog(props: InputDogdogInfo) {
         missingDetailedLocation: addr4,
         missDate: missDate,
         missTime: missTime,
-        etc: etc
-
-
+        etc: etc,
       });
-      router.push('/main');
+      router.push("/main");
 
-      console.log("반려견 수정 성공", {
-        name: name,
-        birth: birth,
-        sex: sex === '여아' ? 'FEMALE' : 'MALE',
-        breed: breed,
-        note: note,
-        disease: disease,
-        neutered: neutered,
+      console.log(
+        "반려견 수정 성공",
+        {
+          name: name,
+          birth: birth,
+          sex: sex === "여아" ? "FEMALE" : "MALE",
+          breed: breed,
+          note: note,
+          disease: disease,
+          neutered: neutered,
 
-        isMissing: isMissing,
-        missingCity: addr1,
-        missingGu: addr2,
-        missingDong: addr3,
-        missingDetailedLocation: addr4,
-        missDate: missDate,
-        missTime: missTime,
-        etc: etc
-
-      }, res);
-
-    }
-    else console.log("error");
-  }
+          isMissing: isMissing,
+          missingCity: addr1,
+          missingGu: addr2,
+          missingDong: addr3,
+          missingDetailedLocation: addr4,
+          missDate: missDate,
+          missTime: missTime,
+          etc: etc,
+        },
+        res,
+      );
+    } else console.log("error");
+  };
 
   const addrTextReturnThree = (str1: string, str2: string, str3: string) => {
     setAddr1(str1);
     setAddr2(str2);
     setAddr3(str3);
-  }
+  };
 
   const removeImage = (index: number) => {
     const temp = imgUrlList.filter((v, i) => i != index);
@@ -210,32 +206,28 @@ export default function InputDog(props: InputDogdogInfo) {
     const parseDate = (value: number) => {
       if (value >= 10) {
         return value;
-      }
-      else return `0${value}`;
-    }
+      } else return `0${value}`;
+    };
     const year = e.year();
     const month = parseDate(e.month() + 1);
     const day = parseDate(e.date());
-    const date = year + '-' + month + '-' + day;
+    const date = year + "-" + month + "-" + day;
     console.log(date);
     //console.log('birth', birth)
     return date;
-  }
+  };
 
   const onParseTime = (e: any) => {
     const parseDate = (value: number) => {
       if (value >= 10) {
         return value;
-      }
-      else return `0${value}`;
-    }
+      } else return `0${value}`;
+    };
     const hour = parseDate(e.hour());
     const minute = parseDate(e.minute());
-    const time = hour + ':' + minute;
+    const time = hour + ":" + minute;
     return time;
-  }
-
-
+  };
 
   const SexDropdown = () => {
     if (isSexOpen === true)
@@ -295,9 +287,20 @@ export default function InputDog(props: InputDogdogInfo) {
     <>
       <div className={styles.pageLayout}>
         <div className={styles.header}>
-          <div className={styles.backBtn} onClick={() => router.back()}><ArrowLeft /></div>
-          <Typo variant="t2" bold color="black">{pageTitle}</Typo>
-          <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={onComplete}>완료</Typo>
+          <div className={styles.backBtn} onClick={() => router.back()}>
+            <ArrowLeft />
+          </div>
+          <Typo variant="t2" bold color="black">
+            {pageTitle}
+          </Typo>
+          <Typo
+            variant="t2"
+            color="#0074DD"
+            className={styles.completeBtn}
+            onClick={onComplete}
+          >
+            완료
+          </Typo>
           {/* <Typo variant="t2" color="#0074DD" className={styles.completeBtn} onClick={() => { onComplete(); }}>완료</Typo> */}
         </div>
         <div className={styles.contentLayout}>
@@ -315,7 +318,7 @@ export default function InputDog(props: InputDogdogInfo) {
               </Typo>
             </div>
             <div className={styles.imageBoxSection}>
-              {pageTitle !== "반려견 수정하기" &&
+              {pageTitle !== "반려견 수정하기" && (
                 <div className={styles.addImageBox}>
                   <input
                     multiple
@@ -335,38 +338,35 @@ export default function InputDog(props: InputDogdogInfo) {
                     /10
                   </Typo>
                 </div>
-              }
+              )}
               <div className={styles.imageBoxWrapper}>
-
-                {pageTitle === "반려견 수정하기" ?
-                  dogInfo?.imgUrlList?.map((img: string) => {
-                    return (
-                      <div className={styles.imageBox} key={img}>
-                        <img src={img} className={styles.image} />
-                      </div>
-                    )
-                  })
-                  :
-                  imgUrlList?.map((imageItem, index) => {
-                    const url = URL.createObjectURL(imageItem);
-                    console.log('url', url);
-                    console.log('imgUrlList', imgUrlList);
-                    return (
-                      <div className={styles.imageBox} key={url}>
-                        <div
-                          style={{ backgroundImage: `url(${url})` }}
-                          className={styles.image}
-                        />
-                        <div
-                          className={styles.removeBtn}
-                          onClick={() => removeImage(index)}
-                        >
-                          X
+                {pageTitle === "반려견 수정하기"
+                  ? dogInfo?.imgUrlList?.map((img: string) => {
+                      return (
+                        <div className={styles.imageBox} key={img}>
+                          <img src={img} className={styles.image} />
                         </div>
-                      </div>
-                    );
-                  })
-                }
+                      );
+                    })
+                  : imgUrlList?.map((imageItem, index) => {
+                      const url = URL.createObjectURL(imageItem);
+                      console.log("url", url);
+                      console.log("imgUrlList", imgUrlList);
+                      return (
+                        <div className={styles.imageBox} key={url}>
+                          <div
+                            style={{ backgroundImage: `url(${url})` }}
+                            className={styles.image}
+                          />
+                          <div
+                            className={styles.removeBtn}
+                            onClick={() => removeImage(index)}
+                          >
+                            X
+                          </div>
+                        </div>
+                      );
+                    })}
 
                 {/* {imgList?.map((imageItem, index) => {
                   //const url = URL.createObjectURL(imageItem);
@@ -386,14 +386,25 @@ export default function InputDog(props: InputDogdogInfo) {
                     </div>
                   );
                 })} */}
-
-
               </div>
             </div>
           </div>
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" className={styles.contentTitle}>이름</Typo>
-            <input type="text" placeholder="반려견의 이름(별명)을 등록해주세요" defaultValue={dogInfo?.name} onChange={(e) => setName(e.target.value)} className={styles.nameBox} />
+            <Typo
+              variant="t3"
+              bold
+              color="black"
+              className={styles.contentTitle}
+            >
+              이름
+            </Typo>
+            <input
+              type="text"
+              placeholder="반려견의 이름(별명)을 등록해주세요"
+              defaultValue={dogInfo?.name}
+              onChange={(e) => setName(e.target.value)}
+              className={styles.nameBox}
+            />
           </div>
           <div className={styles.contentEl}>
             <Typo
@@ -410,9 +421,10 @@ export default function InputDog(props: InputDogdogInfo) {
               format={dateFormat}
               className={styles.antPickerStyle}
               // defaultValue={dayjs(dogInfo?.birth, dateFormat)}
-              onChange={(e) => { setBirth(onParseDate(e)) }}
+              onChange={(e) => {
+                setBirth(onParseDate(e));
+              }}
             />
-
           </div>
 
           <div className={styles.contentEl}>
@@ -439,8 +451,16 @@ export default function InputDog(props: InputDogdogInfo) {
                 <SexDropdown />
               </div>
               <label className={styles.neuteredCheck}>
-                <input type="checkbox" name="neutered" defaultChecked={dogInfo?.neutered} className={styles.customCheckBox} onChange={(e) => setNeutered(e.target.checked)} />
-                <Typo color="#9F9F9F" variant="caption" className={styles.text}>중성화</Typo>
+                <input
+                  type="checkbox"
+                  name="neutered"
+                  defaultChecked={dogInfo?.neutered}
+                  className={styles.customCheckBox}
+                  onChange={(e) => setNeutered(e.target.checked)}
+                />
+                <Typo color="#9F9F9F" variant="caption" className={styles.text}>
+                  중성화
+                </Typo>
               </label>
             </div>
           </div>
@@ -468,22 +488,51 @@ export default function InputDog(props: InputDogdogInfo) {
                 </div>
                 <BreedDropdown />
               </div>
-              {
-                breed === "직접 입력"
-                  ? <input type="text" placeholder="직접 입력" className={styles.breedInput} onChange={(e) => setBreed(e.target.value)} defaultValue={dogInfo?.disease} />
-                  : null
-              }
+              {breed === "직접 입력" ? (
+                <input
+                  type="text"
+                  placeholder="직접 입력"
+                  className={styles.breedInput}
+                  onChange={(e) => setBreed(e.target.value)}
+                  defaultValue={dogInfo?.disease}
+                />
+              ) : null}
             </div>
           </div>
 
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" className={styles.contentTitle}>메모</Typo>
-            <textarea rows={1} placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)" defaultValue={dogInfo?.note} className={styles.memoBox} onChange={(e) => setNote(e.target.value)} />
+            <Typo
+              variant="t3"
+              bold
+              color="black"
+              className={styles.contentTitle}
+            >
+              메모
+            </Typo>
+            <textarea
+              rows={1}
+              placeholder="반려견에 대한 기록을 남겨두세요 (03.08 심장사상충 접종완료 등)"
+              defaultValue={dogInfo?.note}
+              className={styles.memoBox}
+              onChange={(e) => setNote(e.target.value)}
+            />
           </div>
 
           <div className={styles.contentEl}>
-            <Typo variant="t3" bold color="black" className={styles.contentTitle}>질병</Typo>
-            <textarea placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)" defaultValue={dogInfo?.disease} className={styles.diseaseBox} onChange={(e) => setDisease(e.target.value)} />
+            <Typo
+              variant="t3"
+              bold
+              color="black"
+              className={styles.contentTitle}
+            >
+              질병
+            </Typo>
+            <textarea
+              placeholder="반려견에 대한 질병을 남겨두세요 (견과류 알레르기 등)"
+              defaultValue={dogInfo?.disease}
+              className={styles.diseaseBox}
+              onChange={(e) => setDisease(e.target.value)}
+            />
           </div>
 
           <div className={styles.contentEl}>
@@ -509,7 +558,13 @@ export default function InputDog(props: InputDogdogInfo) {
                         실종 장소
                       </Typo>
                     </div>
-                    <AddressDropdown pageTitle="inputDog" addrTextReturnThree={addrTextReturnThree} address1={addr1} address2={addr2} address3={addr3} />
+                    <AddressDropdown
+                      pageTitle="inputDog"
+                      addrTextReturnThree={addrTextReturnThree}
+                      address1={addr1}
+                      address2={addr2}
+                      address3={addr3}
+                    />
                   </div>
                   <div className={styles.reportedContentEl}>
                     <div className={styles.reportedContentTitle} />
@@ -535,7 +590,9 @@ export default function InputDog(props: InputDogdogInfo) {
                       format={dateFormat}
                       className={styles.antPickerStyle}
                       defaultValue={dayjs(dogInfo?.missDate, dateFormat)}
-                      onChange={(e) => { setMissDate(onParseDate(e)) }}
+                      onChange={(e) => {
+                        setMissDate(onParseDate(e));
+                      }}
                     />
                   </div>
 
@@ -551,7 +608,9 @@ export default function InputDog(props: InputDogdogInfo) {
                       format={timeFormat}
                       className={styles.antPickerStyle}
                       defaultValue={dayjs(dogInfo?.missTime, timeFormat)}
-                      onChange={(e) => { setMissTime(onParseTime(e)) }}
+                      onChange={(e) => {
+                        setMissTime(onParseTime(e));
+                      }}
                     />
                   </div>
                   <div className={styles.reportedContentEl}>

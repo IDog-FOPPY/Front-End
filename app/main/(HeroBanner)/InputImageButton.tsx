@@ -53,7 +53,12 @@ export default function InputImageButton() {
         <div className={styles.textContainer}>
           <Typo bold color="#606060" className={styles.text}>
             유기견을 발견했어요
-            <Typo variant="footnote" color="#0074DD" className={styles.textFootnote} bold>
+            <Typo
+              variant="footnote"
+              color="#0074DD"
+              className={styles.textFootnote}
+              bold
+            >
               비문 조회하러 가기 <ArrowRightBlue />
             </Typo>
           </Typo>
