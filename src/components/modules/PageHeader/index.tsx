@@ -43,7 +43,7 @@ export default function PageHeader() {
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
   const [chatMessage, setChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
-  const [newChatMessage, setNewChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
+  const [newChatAlertMessage, setNewChatAlertMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
 
   const [isAlert, setIsAlert] = useState(false);
   const [senderNickname, setSenderNickname] = useState("");
@@ -93,8 +93,43 @@ export default function PageHeader() {
   }, [chattings]);
 
   useEffect(() => {
+    if (token) {
+      console.log("subscribe newchat : ", myId);
+      client.current = new StompJs.Client({
+        webSocketFactory: () => new SockJS("https://foppy.shop/ws/chat"),
+        connectHeaders: {
+          Authorization: token,
+        },
+        debug: function (str) {
+          console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+
+        onConnect: (frame: any) => {
+          console.log("frame", frame);
+          client.current.subscribe(
+            "/sub/room/" + newChatAlertMessage?.roomId,
+            function (result: any) {
+              console.log("newChat", JSON.parse(result.body));
+              setChatMessage(JSON.parse(result.body));
+            },
+          );
+        },
+        onStompError: (frame) => {
+          console.error(frame);
+        },
+      });
+    }
+
+    client.current.activate();
+
+  }, [newChatAlertMessage])
+
+  useEffect(() => {
     setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
-    console.log("ChatMessage", chatMessage);
+    console.log("ChatMessage들어옴", chatMessage);
 
     const getData = async () => {
       let res = await getUser({ id: chatMessage?.senderId });
@@ -123,7 +158,7 @@ export default function PageHeader() {
     return () => {
       clearTimeout(timer);
     };
-  }, [chatMessage, newChatMessage]);
+  }, [chatMessage]);
 
   const Alert = () => {
     return (
@@ -212,8 +247,8 @@ export default function PageHeader() {
           client.current.subscribe(
             "/sub/newchat/" + myId,
             function (result: any) {
-              console.log("newChat 알람", JSON.parse(result.body));
-              setChatMessage(JSON.parse(result.body));
+              console.log("newChat 생성", JSON.parse(result.body));
+              setNewChatAlertMessage(JSON.parse(result.body));
             },
           );
         },
@@ -230,7 +265,7 @@ export default function PageHeader() {
 
   return (
     <>
-      {isAlert ? (
+      {isAlert && chatMessage ? (
         <Link
           href={{
             pathname: "/chatting",
