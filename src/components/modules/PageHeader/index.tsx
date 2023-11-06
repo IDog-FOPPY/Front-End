@@ -33,6 +33,12 @@ export default function PageHeader() {
     typeof window !== "undefined"
       ? "Bearer " + localStorage.getItem("foppy_auth_token")
       : null;
+
+  const myId =
+    typeof window !== "undefined"
+      ? localStorage.getItem("foppy_user_uid")
+      : null;
+
   const [dogs, setDogs] = useState([]);
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
@@ -135,7 +141,7 @@ export default function PageHeader() {
   const connect = (chattings: Chatting[]) => {
     const token =
       typeof window !== "undefined"
-        ? localStorage.getItem("foppy_auth_token")
+        ? "Bearer " + localStorage.getItem("foppy_auth_token")
         : null;
     console.log("connect 호출, chattings: ", chattings);
     chattings.length > 0 &&
@@ -172,6 +178,40 @@ export default function PageHeader() {
 
         client.current.activate();
       });
+
+    if (token) {
+      console.log("subscribe newchat : ", myId);
+      client.current = new StompJs.Client({
+        webSocketFactory: () => new SockJS("http://foppy.shop/ws/chat"),
+        connectHeaders: {
+          Authorization: token,
+        },
+        debug: function (str) {
+          console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+
+        onConnect: (frame: any) => {
+          console.log("frame", frame);
+          client.current.subscribe(
+            "/sub/newchat/" + myId,
+            function (result: any) {
+              console.log("알람 res", JSON.parse(result.body));
+              setChatMessage(JSON.parse(result.body));
+            },
+          );
+        },
+        onStompError: (frame) => {
+          console.error(frame);
+        },
+      });
+    }
+
+    client.current.activate();
+
+
   };
 
   return (
