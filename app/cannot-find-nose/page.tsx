@@ -16,7 +16,7 @@ export default function CannotFindNosePage() {
           style={{ backgroundImage: `url(${logo.src})` }}
         />
         <Typo variant="h6" color="black" bold className={styles.title}>
-          비문이 인식되지 않아요
+          개 사진이 아니에요
           <Sadface style={{ marginLeft: "3px" }} />
         </Typo>
         <Typo variant="t1" color="black" bold>

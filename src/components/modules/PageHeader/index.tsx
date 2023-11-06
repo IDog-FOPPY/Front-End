@@ -31,7 +31,7 @@ export default function PageHeader() {
   const router = useRouter();
   const token =
     typeof window !== "undefined"
-      ? localStorage.getItem("foppy_auth_token")
+      ? "Bearer " + localStorage.getItem("foppy_auth_token")
       : null;
   const [dogs, setDogs] = useState([]);
 
