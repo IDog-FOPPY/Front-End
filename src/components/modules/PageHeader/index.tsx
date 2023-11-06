@@ -43,6 +43,8 @@ export default function PageHeader() {
 
   const [chattings, setChattings] = useState([]); //기존 room 받아오는 변수
   const [chatMessage, setChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
+  const [newChatMessage, setNewChatMessage] = useState<ShowChatEl>(); //chatting 받아오는 변수
+
   const [isAlert, setIsAlert] = useState(false);
   const [senderNickname, setSenderNickname] = useState("");
   console.log(dogs);
@@ -93,12 +95,25 @@ export default function PageHeader() {
   useEffect(() => {
     setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
     console.log("ChatMessage", chatMessage);
+    console.log("newChatMessage", newChatMessage);
+
     const getData = async () => {
       let res = await getUser({ id: chatMessage?.senderId });
       setSenderNickname(res.nickName);
     };
     if (chatMessage) getData();
   }, [chatMessage]);
+
+  useEffect(() => {
+    setIsAlert(true); // newChatMessage받으면 alert:true && senderNickname 받아오기
+    console.log("newChatMessage", newChatMessage);
+
+    const getData = async () => {
+      let res = await getUser({ id: newChatMessage?.senderId });
+      setSenderNickname(res.nickName);
+    };
+    if (newChatMessage) getData();
+  }, [newChatMessage]);
 
   useEffect(() => {
     console.log("senderNickname", senderNickname);
@@ -109,7 +124,7 @@ export default function PageHeader() {
     return () => {
       clearTimeout(timer);
     };
-  }, [chatMessage]);
+  }, [chatMessage, newChatMessage]);
 
   const Alert = () => {
     return (
@@ -131,7 +146,9 @@ export default function PageHeader() {
           </div>
 
           <Typo variant="t3" color="#000000" className={styles.footprint}>
-            {chatMessage?.content}
+            {chatMessage
+              ? chatMessage.content
+              : newChatMessage?.content}
           </Typo>
         </div>
       </>
@@ -149,7 +166,7 @@ export default function PageHeader() {
         if (token) {
           console.log("subscribe roomId : ", chat.roomId);
           client.current = new StompJs.Client({
-            webSocketFactory: () => new SockJS("http://foppy.shop/ws/chat"),
+            webSocketFactory: () => new SockJS("https://foppy.shop/ws/chat"),
             connectHeaders: {
               Authorization: token,
             },
@@ -182,7 +199,7 @@ export default function PageHeader() {
     if (token) {
       console.log("subscribe newchat : ", myId);
       client.current = new StompJs.Client({
-        webSocketFactory: () => new SockJS("http://foppy.shop/ws/chat"),
+        webSocketFactory: () => new SockJS("https://foppy.shop/ws/chat"),
         connectHeaders: {
           Authorization: token,
         },
@@ -199,7 +216,7 @@ export default function PageHeader() {
             "/sub/newchat/" + myId,
             function (result: any) {
               console.log("알람 res", JSON.parse(result.body));
-              setChatMessage(JSON.parse(result.body));
+              setNewChatMessage(JSON.parse(result.body));
             },
           );
         },

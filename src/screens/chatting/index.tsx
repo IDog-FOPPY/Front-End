@@ -149,7 +149,7 @@ export default function ChattingPage(props: Chatting) {
     if (token) {
       //console.log(id);
       client.current = new StompJs.Client({
-        webSocketFactory: () => new SockJS("http://foppy.shop/ws/chat"),
+        webSocketFactory: () => new SockJS("https://foppy.shop/ws/chat"),
         connectHeaders: {
           Authorization: token,
         },
