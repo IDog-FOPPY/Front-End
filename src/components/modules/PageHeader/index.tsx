@@ -95,7 +95,6 @@ export default function PageHeader() {
   useEffect(() => {
     setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
     console.log("ChatMessage", chatMessage);
-    console.log("newChatMessage", newChatMessage);
 
     const getData = async () => {
       let res = await getUser({ id: chatMessage?.senderId });
@@ -104,16 +103,16 @@ export default function PageHeader() {
     if (chatMessage) getData();
   }, [chatMessage]);
 
-  useEffect(() => {
-    setIsAlert(true); // newChatMessage받으면 alert:true && senderNickname 받아오기
-    console.log("newChatMessage", newChatMessage);
+  // useEffect(() => {
+  //   setIsAlert(true); // newChatMessage받으면 alert:true && senderNickname 받아오기
+  //   console.log("newChatMessage", newChatMessage);
 
-    const getData = async () => {
-      let res = await getUser({ id: newChatMessage?.senderId });
-      setSenderNickname(res.nickName);
-    };
-    if (newChatMessage) getData();
-  }, [newChatMessage]);
+  //   const getData = async () => {
+  //     let res = await getUser({ id: newChatMessage?.senderId });
+  //     setSenderNickname(res.nickName);
+  //   };
+  //   if (newChatMessage) getData();
+  // }, [newChatMessage]);
 
   useEffect(() => {
     console.log("senderNickname", senderNickname);
@@ -146,9 +145,7 @@ export default function PageHeader() {
           </div>
 
           <Typo variant="t3" color="#000000" className={styles.footprint}>
-            {chatMessage
-              ? chatMessage.content
-              : newChatMessage?.content}
+            {chatMessage?.content}
           </Typo>
         </div>
       </>
@@ -182,7 +179,7 @@ export default function PageHeader() {
               client.current.subscribe(
                 "/sub/room/" + chat.roomId,
                 function (result: any) {
-                  console.log("알람 res", JSON.parse(result.body));
+                  console.log("chat알람", JSON.parse(result.body));
                   setChatMessage(JSON.parse(result.body));
                 },
               );
@@ -215,8 +212,8 @@ export default function PageHeader() {
           client.current.subscribe(
             "/sub/newchat/" + myId,
             function (result: any) {
-              console.log("알람 res", JSON.parse(result.body));
-              setNewChatMessage(JSON.parse(result.body));
+              console.log("newChat 알람", JSON.parse(result.body));
+              setChatMessage(JSON.parse(result.body));
             },
           );
         },
@@ -233,7 +230,7 @@ export default function PageHeader() {
 
   return (
     <>
-      {isAlert && chatMessage ? (
+      {isAlert ? (
         <Link
           href={{
             pathname: "/chatting",
