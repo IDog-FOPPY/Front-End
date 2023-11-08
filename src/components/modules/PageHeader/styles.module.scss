@@ -154,17 +154,14 @@
   position: fixed;
   align-items: center;
   top: 10px;
-  left: 80px;
+  left: calc(50vw - 125px);
   width: 250px;
-  //height: 60px;
   background-color: #BEE0FF;
   opacity: 0.9;
-  // border: 2px solid #0074dd;
   border-radius: 10px;
   padding: 5px 10px;
   z-index: 999;
   animation: fadeIn 800ms;
-  //animation-delay: 500ms;
 
   .sender {
     display: flex;

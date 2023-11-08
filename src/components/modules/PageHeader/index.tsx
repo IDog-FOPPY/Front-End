@@ -128,12 +128,12 @@ export default function PageHeader() {
   }, [newChatAlertMessage])
 
   useEffect(() => {
-    setIsAlert(true); // chatMessage받으면 alert:true && senderNickname 받아오기
     console.log("ChatMessage들어옴", chatMessage);
 
     const getData = async () => {
       let res = await getUser({ id: chatMessage?.senderId });
       setSenderNickname(res.nickName);
+      setIsAlert(true);
     };
     if (chatMessage) getData();
   }, [chatMessage]);
@@ -265,7 +265,7 @@ export default function PageHeader() {
 
   return (
     <>
-      {isAlert && chatMessage ? (
+      {isAlert && chatMessage && senderNickname ? (
         <Link
           href={{
             pathname: "/chatting",
