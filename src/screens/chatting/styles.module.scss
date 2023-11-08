@@ -10,7 +10,7 @@
     justify-content: space-between;
     align-items: center;
     z-index: 999;
-
+    background-color: white;
 
     .backBtn {
       margin-left: 10px;
@@ -28,7 +28,7 @@
     position: relative;
     top: 80px;
     width: 100%;
-    height: calc(100vh - 150px);
+    height: 100vh - 125px;
     overflow: auto;
 
     .chattingList {
